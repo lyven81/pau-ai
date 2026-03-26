@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pau AI — 为马来西亚中小企业主定制的 AI 系统</title>
+  <meta name="description" content="六套为马来西亚中小企业主打造的 AI 系统——预约管理、WhatsApp 自动化、数据分析仪表板等。全部实时可用。全部可定制。代码归您所有。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --gold: #C9A84C;
+      --dark: #1E1B18;
+      --bg: #F8F6F2;
+      --text: #3A3530;
+      --muted: #7A7268;
+      --alt: #F0EBE2;
+      --cta: #D4763A;
+      --border: #E0D9CF;
+      --white: #fff;
+      --wa: #25D366;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif; background: var(--bg); color: var(--text); }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+
+    /* ── Sticky bar ── */
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--dark);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 56px;
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+    }
+    .brand { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 900; color: #fff; }
+    .brand span { color: var(--gold); }
+    .wa-btn-sm {
+      display: flex; align-items: center; gap: 0.5rem;
+      background: var(--wa); color: #fff;
+      font-size: 0.82rem; font-weight: 700;
+      padding: 0.45rem 1rem; border-radius: 20px;
+      white-space: nowrap;
+    }
+    .wa-btn-sm svg { width: 16px; height: 16px; fill: #fff; flex-shrink: 0; }
+
+    /* ── Hero ── */
+    .hero {
+      background: var(--dark);
+      padding: 5rem 2rem 4rem;
+      text-align: center;
+    }
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--gold); border: 1px solid rgba(201,168,76,0.35);
+      padding: 0.3rem 0.9rem; border-radius: 20px; margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      color: #fff; font-weight: 800;
+      line-height: 1.3; max-width: 700px; margin: 0 auto 1.25rem;
+    }
+    .hero h1 span { color: var(--gold); }
+    .hero p {
+      font-size: 1rem; color: rgba(255,255,255,0.6);
+      max-width: 500px; margin: 0 auto 2.5rem; line-height: 1.8;
+    }
+    .wa-btn-hero {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: var(--wa); color: #fff;
+      font-size: 1rem; font-weight: 700;
+      padding: 0.9rem 2rem; border-radius: 6px;
+      transition: opacity 0.2s;
+    }
+    .wa-btn-hero:hover { opacity: 0.9; }
+    .wa-btn-hero svg { width: 20px; height: 20px; fill: #fff; }
+    .hero-note { font-size: 0.8rem; color: rgba(255,255,255,0.3); margin-top: 0.9rem; }
+
+    /* ── Section wrappers ── */
+    .section { padding: 4rem 2rem; }
+    .section-dark { background: #141210; }
+    .section-light { background: var(--bg); }
+    .section-alt { background: var(--alt); }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.6rem;
+    }
+
+    /* ── Demo grid ── */
+    .demos-intro { text-align: center; margin-bottom: 2.5rem; }
+    .demos-intro h2 {
+      font-size: clamp(1.3rem, 3vw, 1.9rem); color: #fff;
+      font-weight: 700; margin-bottom: 0.5rem;
+    }
+    .demos-intro p { font-size: 0.93rem; color: rgba(255,255,255,0.5); line-height: 1.7; }
+
+    .demos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+    .demo-card {
+      background: #1E1B18;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .demo-card:hover { border-color: rgba(201,168,76,0.4); transform: translateY(-2px); }
+    .demo-card-img {
+      width: 100%; aspect-ratio: 16/9; object-fit: cover;
+      background: #141210;
+    }
+    .demo-card-body { padding: 1rem 1.1rem 1.25rem; flex: 1; display: flex; flex-direction: column; }
+    .demo-card-num {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.3rem;
+    }
+    .demo-card-title { font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 0.4rem; }
+    .demo-card-desc { font-size: 0.82rem; color: rgba(255,255,255,0.5); line-height: 1.65; flex: 1; margin-bottom: 1rem; }
+    .demo-link {
+      display: inline-block;
+      font-size: 0.82rem; font-weight: 700; color: var(--gold);
+      border: 1px solid rgba(201,168,76,0.35); border-radius: 5px;
+      padding: 0.4rem 0.9rem; align-self: flex-start;
+      transition: background 0.2s;
+    }
+    .demo-link:hover { background: rgba(201,168,76,0.1); }
+
+    /* ── Reassurances ── */
+    .reassure-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    }
+    .reassure-card {
+      background: var(--white);
+      border: 1px solid var(--border); border-radius: 10px;
+      padding: 1.75rem 1.5rem;
+    }
+    .reassure-icon { font-size: 1.75rem; margin-bottom: 0.75rem; }
+    .reassure-card h3 { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; }
+    .reassure-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+
+    /* ── Price ── */
+    .price-block {
+      max-width: 620px; margin: 0 auto; text-align: center;
+    }
+    .price-block h2 {
+      font-size: clamp(1.3rem, 3vw, 1.8rem); color: var(--text);
+      font-weight: 700; margin-bottom: 0.75rem;
+    }
+    .price-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem; font-weight: 900; color: var(--gold);
+      line-height: 1; margin: 0.5rem 0;
+    }
+    .price-note { font-size: 0.9rem; color: var(--muted); line-height: 1.8; margin-bottom: 1.25rem; }
+    .price-link { font-size: 0.88rem; color: var(--cta); font-weight: 600; }
+    .price-link:hover { text-decoration: underline; }
+
+    /* ── Final CTA ── */
+    .final-cta {
+      background: var(--dark); padding: 5rem 2rem; text-align: center;
+    }
+    .final-cta h2 {
+      font-size: clamp(1.5rem, 4vw, 2.2rem); color: #fff;
+      font-weight: 700; margin-bottom: 0.75rem; line-height: 1.4;
+    }
+    .final-cta p { font-size: 1rem; color: rgba(255,255,255,0.55); margin-bottom: 2rem; max-width: 480px; margin-left: auto; margin-right: auto; line-height: 1.7; }
+    .wa-btn-final {
+      display: inline-flex; align-items: center; gap: 0.65rem;
+      background: var(--wa); color: #fff;
+      font-size: 1.05rem; font-weight: 700;
+      padding: 1rem 2.25rem; border-radius: 6px;
+      transition: opacity 0.2s;
+    }
+    .wa-btn-final:hover { opacity: 0.9; }
+    .wa-btn-final svg { width: 22px; height: 22px; fill: #fff; }
+    .final-tagline {
+      font-size: 0.82rem; color: rgba(255,255,255,0.25);
+      margin-top: 1.5rem; font-style: italic;
+    }
+
+    /* ── Minimal footer ── */
+    .foot {
+      background: #0e0d0b; padding: 1.25rem 2rem;
+      text-align: center; font-size: 0.78rem; color: rgba(255,255,255,0.2);
+    }
+    .foot a { color: rgba(255,255,255,0.35); }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .demos-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .demos-grid { grid-template-columns: 1fr; }
+      .reassure-grid { grid-template-columns: 1fr; }
+      .topbar { padding: 0 1rem; }
+      .hero { padding: 3.5rem 1.25rem 3rem; }
+      .section { padding: 3rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Sticky bar -->
+<div class="topbar">
+  <span class="brand">Pau <span>AI</span></span>
+  <a href="https://wa.me/60123456789" target="_blank" class="wa-btn-sm">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.534 5.857L0 24l6.335-1.513A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 01-5.032-1.384l-.361-.214-3.761.898.934-3.667-.235-.374A9.791 9.791 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+    WhatsApp 联系
+  </a>
+</div>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-tag">马来西亚 AI 系统定制商</div>
+  <h1>六套 AI 系统，全部实时可用，<br><span>全部可为您的业务定制。</span></h1>
+  <p>我们为马来西亚中小企业主建立并交付定制 AI 工具。<br>代码归您所有，无需向我们支付月费。</p>
+  <a href="https://wa.me/60123456789" target="_blank" class="wa-btn-hero">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.534 5.857L0 24l6.335-1.513A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 01-5.032-1.384l-.361-.214-3.761.898.934-3.667-.235-.374A9.791 9.791 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+    WhatsApp 咨询
+  </a>
+  <div class="hero-note">无需填表，无需注册，直接对话。</div>
+</section>
+
+<!-- Demo grid -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="demos-intro">
+      <div class="section-label">实时演示</div>
+      <h2>点击任意系统，每个演示都是真实可用的。</h2>
+      <p>不是效果图，不是别人产品的截图。<br>全部是可以立即体验的参考应用。</p>
+    </div>
+    <div class="demos-grid">
+
+      <div class="demo-card">
+        <img class="demo-card-img" src="img/booking%20system.png" alt="预约与订位系统" />
+        <div class="demo-card-body">
+          <div class="demo-card-num">系统 01</div>
+          <div class="demo-card-title">预约与订位系统</div>
+          <div class="demo-card-desc">顾客自助预约，系统自动处理时间冲突、定价层级与收入追踪，全天候运作，无需人工介入。</div>
+          <a href="https://lyven81.github.io/ai-project/projects/badminton-booking-agent/demo.html" target="_blank" class="demo-link">立即体验 →</a>
+        </div>
+      </div>
+
+      <div class="demo-card">
+        <img class="demo-card-img" src="img/Whatsapp%20Service%20Agent.png" alt="WhatsApp 客服代理" />
+        <div class="demo-card-body">
+          <div class="demo-card-num">系统 02</div>
+          <div class="demo-card-title">WhatsApp 客服代理</div>
+          <div class="demo-card-desc">代您处理 WhatsApp 上的顾客询问、报价、预约与跟进——以中文或马来文沟通，全天候响应。</div>
+          <a href="https://lyven81.github.io/ai-project/projects/hire-gardener/demo.html" target="_blank" class="demo-link">立即体验 →</a>
+        </div>
+      </div>
+
+      <div class="demo-card">
+        <img class="demo-card-img" src="img/expert%20chatbot.png" alt="专业知识聊天机器人" />
+        <div class="demo-card-body">
+          <div class="demo-card-num">系统 03</div>
+          <div class="demo-card-title">专业知识聊天机器人</div>
+          <div class="demo-card-desc">即时回答行业专业问题，附带引文来源，专为您的领域配置，而非通用助手。</div>
+          <a href="https://lyven81.github.io/ai-project/projects/myproplex/demo.html" target="_blank" class="demo-link">立即体验 →</a>
+        </div>
+      </div>
+
+      <div class="demo-card">
+        <img class="demo-card-img" src="img/business%20intelligent%20agent.png" alt="商业数据分析助手" />
+        <div class="demo-card-body">
+          <div class="demo-card-num">系统 04</div>
+          <div class="demo-card-title">商业数据分析助手</div>
+          <div class="demo-card-desc">用日常语言向数据提问，系统自动生成图表与洞察，无需掌握 Excel 或任何技术工具。</div>
+          <a href="analytics-demo.html" target="_blank" class="demo-link">立即体验 →</a>
+        </div>
+      </div>
+
+      <div class="demo-card">
+        <img class="demo-card-img" src="img/multi%20agent%20research%20system.png" alt="多代理调研系统" />
+        <div class="demo-card-body">
+          <div class="demo-card-num">系统 05</div>
+          <div class="demo-card-title">多代理调研系统</div>
+          <div class="demo-card-desc">多个专业 AI 代理同步调研您的市场或竞争对手，汇总成一份附图表的结构化报告。</div>
+          <a href="research-demo.html" target="_blank" class="demo-link">立即体验 →</a>
+        </div>
+      </div>
+
+      <div class="demo-card">
+        <img class="demo-card-img" src="img/operation%20tracker.png" alt="AI 运营追踪系统" />
+        <div class="demo-card-body">
+          <div class="demo-card-num">系统 06</div>
+          <div class="demo-card-title">AI 运营追踪系统</div>
+          <div class="demo-card-desc">每日交易记录，配合 AI 提示、繁忙时段分析与趋势追踪，彻底替代纸质记账本。</div>
+          <a href="https://kopitiam-digital-waiter-169218045868.us-west1.run.app/" target="_blank" class="demo-link">立即体验 →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Reassurances -->
+<section class="section section-light">
+  <div class="container">
+    <div class="reassure-grid">
+      <div class="reassure-card">
+        <div class="reassure-icon">🔑</div>
+        <h3>所有权归您</h3>
+        <p>代码归您所有，API 密钥归您所有，服务器归您所有。交付后无绑定，无平台依赖，无需向我们支付任何月费。</p>
+      </div>
+      <div class="reassure-card">
+        <div class="reassure-icon">🧑‍💻</div>
+        <h3>无需技术背景</h3>
+        <p>您不需要了解系统的运作原理。我们负责建立与配置，您收到的是一套可直接使用的系统，并附有操作说明。</p>
+      </div>
+      <div class="reassure-card">
+        <div class="reassure-icon">☎️</div>
+        <h3>一人负责，直接沟通</h3>
+        <p>没有中间层，没有初级开发员。出现问题时，您联系的就是当初建立系统的那个人，不是客服工单。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Price anchor -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="price-block">
+      <div class="section-label">定价</div>
+      <h2>一次性建设费，永久使用。</h2>
+      <div class="price-num">起价 RM3,500</div>
+      <p class="price-note">一次性建设费，包含针对您业务的系统配置、操作说明与交付说明。API 费用及服务器费用另计，直接支付给您所选择的服务商，不经过我们。</p>
+      <a href="pricing.html" class="price-link">查看完整定价说明 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section class="final-cta">
+  <h2>体验过演示了吗？<br>找到适合您业务的系统了吗？</h2>
+  <p>告诉我们您看中了哪套系统，以及您的业务是做什么的。我们会告诉您建立这套系统需要什么。</p>
+  <a href="https://wa.me/60123456789" target="_blank" class="wa-btn-final">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.534 5.857L0 24l6.335-1.513A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 01-5.032-1.384l-.361-.214-3.761.898.934-3.667-.235-.374A9.791 9.791 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+    立即 WhatsApp 联系
+  </a>
+  <div class="final-tagline">"我们建立系统，您掌握主权。"</div>
+</section>
+
+<!-- Footer -->
+<div class="foot">
+  © 2025 Pau AI — <a href="https://www.pauanalytics.com" target="_blank">Pau Analytics</a> 姐妹公司。&nbsp;|&nbsp; API 费用、服务器费用及域名费用不含于任何套餐。
+</div>
+
+</body>
+</html>

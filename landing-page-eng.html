@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pau AI — Custom AI Systems for Malaysian Business Owners</title>
+  <meta name="description" content="Six AI systems built for Malaysian SMEs — booking agents, WhatsApp automation, analytics dashboards, and more. All live. All configurable. You own everything." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --gold: #C9A84C;
+      --dark: #1E1B18;
+      --bg: #F8F6F2;
+      --text: #3A3530;
+      --muted: #7A7268;
+      --alt: #F0EBE2;
+      --cta: #D4763A;
+      --border: #E0D9CF;
+      --white: #fff;
+      --wa: #25D366;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+
+    /* ── Sticky bar ── */
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--dark);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 56px;
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+    }
+    .brand { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 900; color: #fff; }
+    .brand span { color: var(--gold); }
+    .wa-btn-sm {
+      display: flex; align-items: center; gap: 0.5rem;
+      background: var(--wa); color: #fff;
+      font-size: 0.82rem; font-weight: 700;
+      padding: 0.45rem 1rem; border-radius: 20px;
+      white-space: nowrap;
+    }
+    .wa-btn-sm svg { width: 16px; height: 16px; fill: #fff; flex-shrink: 0; }
+
+    /* ── Hero ── */
+    .hero {
+      background: var(--dark);
+      padding: 5rem 2rem 4rem;
+      text-align: center;
+    }
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold); border: 1px solid rgba(201,168,76,0.35);
+      padding: 0.3rem 0.9rem; border-radius: 20px; margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: #fff; font-weight: 900;
+      line-height: 1.2; max-width: 760px; margin: 0 auto 1.25rem;
+    }
+    .hero h1 span { color: var(--gold); }
+    .hero p {
+      font-size: 1.05rem; color: rgba(255,255,255,0.65);
+      max-width: 520px; margin: 0 auto 2.5rem; line-height: 1.65;
+    }
+    .wa-btn-hero {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: var(--wa); color: #fff;
+      font-size: 1rem; font-weight: 700;
+      padding: 0.9rem 2rem; border-radius: 6px;
+      transition: opacity 0.2s;
+    }
+    .wa-btn-hero:hover { opacity: 0.9; }
+    .wa-btn-hero svg { width: 20px; height: 20px; fill: #fff; }
+    .hero-note { font-size: 0.8rem; color: rgba(255,255,255,0.3); margin-top: 0.9rem; }
+
+    /* ── Section wrappers ── */
+    .section { padding: 4rem 2rem; }
+    .section-dark { background: #141210; }
+    .section-light { background: var(--bg); }
+    .section-alt { background: var(--alt); }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.6rem;
+    }
+
+    /* ── Demo grid ── */
+    .demos-intro { text-align: center; margin-bottom: 2.5rem; }
+    .demos-intro h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem); color: #fff; margin-bottom: 0.5rem;
+    }
+    .demos-intro p { font-size: 0.95rem; color: rgba(255,255,255,0.5); }
+
+    .demos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+    .demo-card {
+      background: #1E1B18;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .demo-card:hover { border-color: rgba(201,168,76,0.4); transform: translateY(-2px); }
+    .demo-card-img {
+      width: 100%; aspect-ratio: 16/9; object-fit: cover;
+      background: #141210;
+    }
+    .demo-card-body { padding: 1rem 1.1rem 1.25rem; flex: 1; display: flex; flex-direction: column; }
+    .demo-card-num {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.3rem;
+    }
+    .demo-card-title { font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 0.4rem; }
+    .demo-card-desc { font-size: 0.82rem; color: rgba(255,255,255,0.5); line-height: 1.5; flex: 1; margin-bottom: 1rem; }
+    .demo-link {
+      display: inline-block;
+      font-size: 0.82rem; font-weight: 700; color: var(--gold);
+      border: 1px solid rgba(201,168,76,0.35); border-radius: 5px;
+      padding: 0.4rem 0.9rem; align-self: flex-start;
+      transition: background 0.2s;
+    }
+    .demo-link:hover { background: rgba(201,168,76,0.1); }
+
+    /* ── Reassurances ── */
+    .reassure-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    }
+    .reassure-card {
+      background: var(--white);
+      border: 1px solid var(--border); border-radius: 10px;
+      padding: 1.75rem 1.5rem;
+    }
+    .reassure-icon { font-size: 1.75rem; margin-bottom: 0.75rem; }
+    .reassure-card h3 { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; }
+    .reassure-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.55; }
+
+    /* ── Price ── */
+    .price-block {
+      max-width: 620px; margin: 0 auto; text-align: center;
+    }
+    .price-block h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.4rem, 3vw, 1.9rem); color: var(--text); margin-bottom: 0.75rem;
+    }
+    .price-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem; font-weight: 900; color: var(--gold);
+      line-height: 1; margin: 0.5rem 0;
+    }
+    .price-note { font-size: 0.9rem; color: var(--muted); line-height: 1.6; margin-bottom: 1.25rem; }
+    .price-link { font-size: 0.88rem; color: var(--cta); font-weight: 600; }
+    .price-link:hover { text-decoration: underline; }
+
+    /* ── Final CTA ── */
+    .final-cta {
+      background: var(--dark); padding: 5rem 2rem; text-align: center;
+    }
+    .final-cta h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 4vw, 2.4rem); color: #fff; margin-bottom: 0.75rem;
+    }
+    .final-cta p { font-size: 1rem; color: rgba(255,255,255,0.55); margin-bottom: 2rem; max-width: 480px; margin-left: auto; margin-right: auto; }
+    .wa-btn-final {
+      display: inline-flex; align-items: center; gap: 0.65rem;
+      background: var(--wa); color: #fff;
+      font-size: 1.05rem; font-weight: 700;
+      padding: 1rem 2.25rem; border-radius: 6px;
+      transition: opacity 0.2s;
+    }
+    .wa-btn-final:hover { opacity: 0.9; }
+    .wa-btn-final svg { width: 22px; height: 22px; fill: #fff; }
+    .final-tagline {
+      font-size: 0.82rem; color: rgba(255,255,255,0.25);
+      margin-top: 1.5rem; font-style: italic;
+    }
+
+    /* ── Minimal footer ── */
+    .foot {
+      background: #0e0d0b; padding: 1.25rem 2rem;
+      text-align: center; font-size: 0.78rem; color: rgba(255,255,255,0.2);
+    }
+    .foot a { color: rgba(255,255,255,0.35); }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .demos-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .demos-grid { grid-template-columns: 1fr; }
+      .reassure-grid { grid-template-columns: 1fr; }
+      .topbar { padding: 0 1rem; }
+      .hero { padding: 3.5rem 1.25rem 3rem; }
+      .section { padding: 3rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Sticky bar -->
+<div class="topbar">
+  <span class="brand">Pau <span>AI</span></span>
+  <a href="https://wa.me/60123456789" target="_blank" class="wa-btn-sm">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.534 5.857L0 24l6.335-1.513A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 01-5.032-1.384l-.361-.214-3.761.898.934-3.667-.235-.374A9.791 9.791 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+    WhatsApp Us
+  </a>
+</div>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-tag">Malaysian AI Systems Builder</div>
+  <h1>Six AI Systems. All Live.<br><span>All Configurable for Your Business.</span></h1>
+  <p>We build and hand over custom AI tools for Malaysian business owners. You own the code. No monthly fee to us.</p>
+  <a href="https://wa.me/60123456789" target="_blank" class="wa-btn-hero">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.534 5.857L0 24l6.335-1.513A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 01-5.032-1.384l-.361-.214-3.761.898.934-3.667-.235-.374A9.791 9.791 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+    Chat With Us on WhatsApp
+  </a>
+  <div class="hero-note">No forms. No sign-up. Just a conversation.</div>
+</section>
+
+<!-- Demo grid -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="demos-intro">
+      <div class="section-label">Live Demos</div>
+      <h2>Click into any system. Every demo is real.</h2>
+      <p>Not mockups. Not screenshots of someone else's product. Working reference apps you can try right now.</p>
+    </div>
+    <div class="demos-grid">
+
+      <div class="demo-card">
+        <img class="demo-card-img" src="img/booking%20system.png" alt="Appointment & Booking System" />
+        <div class="demo-card-body">
+          <div class="demo-card-num">System 01</div>
+          <div class="demo-card-title">Appointment &amp; Booking System</div>
+          <div class="demo-card-desc">Customers book themselves. Handles conflict detection, pricing tiers, and revenue tracking — 24/7, no staff needed.</div>
+          <a href="https://lyven81.github.io/ai-project/projects/badminton-booking-agent/demo.html" target="_blank" class="demo-link">Try Demo →</a>
+        </div>
+      </div>
+
+      <div class="demo-card">
+        <img class="demo-card-img" src="img/Whatsapp%20Service%20Agent.png" alt="WhatsApp Service Agent" />
+        <div class="demo-card-body">
+          <div class="demo-card-num">System 02</div>
+          <div class="demo-card-title">WhatsApp Service Agent</div>
+          <div class="demo-card-desc">Handles inbound enquiries, quotes, scheduling, and follow-ups on your behalf — in BM or English, at any hour.</div>
+          <a href="https://lyven81.github.io/ai-project/projects/hire-gardener/demo.html" target="_blank" class="demo-link">Try Demo →</a>
+        </div>
+      </div>
+
+      <div class="demo-card">
+        <img class="demo-card-img" src="img/expert%20chatbot.png" alt="Niche Expert Chatbot" />
+        <div class="demo-card-body">
+          <div class="demo-card-num">System 03</div>
+          <div class="demo-card-title">Niche Expert Chatbot</div>
+          <div class="demo-card-desc">Answers domain-specific questions instantly with cited sources. Configured for your industry, not a generic assistant.</div>
+          <a href="https://lyven81.github.io/ai-project/projects/myproplex/demo.html" target="_blank" class="demo-link">Try Demo →</a>
+        </div>
+      </div>
+
+      <div class="demo-card">
+        <img class="demo-card-img" src="img/business%20intelligent%20agent.png" alt="Business Analytics Agent" />
+        <div class="demo-card-body">
+          <div class="demo-card-num">System 04</div>
+          <div class="demo-card-title">Business Analytics Agent</div>
+          <div class="demo-card-desc">Ask your data a question in plain language. Get a chart and insight back — no spreadsheet skills required.</div>
+          <a href="analytics-demo.html" target="_blank" class="demo-link">Try Demo →</a>
+        </div>
+      </div>
+
+      <div class="demo-card">
+        <img class="demo-card-img" src="img/multi%20agent%20research%20system.png" alt="Multi-Agent Research System" />
+        <div class="demo-card-body">
+          <div class="demo-card-num">System 05</div>
+          <div class="demo-card-title">Multi-Agent Research System</div>
+          <div class="demo-card-desc">Multiple specialist agents research your market or competitors in parallel. One structured report with charts and analysis.</div>
+          <a href="research-demo.html" target="_blank" class="demo-link">Try Demo →</a>
+        </div>
+      </div>
+
+      <div class="demo-card">
+        <img class="demo-card-img" src="img/operation%20tracker.png" alt="Operations Tracker" />
+        <div class="demo-card-body">
+          <div class="demo-card-num">System 06</div>
+          <div class="demo-card-title">Operations Tracker with AI</div>
+          <div class="demo-card-desc">Daily transaction log with AI-generated tips, busy hour analytics, and trend tracking. Replaces the notebook.</div>
+          <a href="https://kopitiam-digital-waiter-169218045868.us-west1.run.app/" target="_blank" class="demo-link">Try Demo →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Reassurances -->
+<section class="section section-light">
+  <div class="container">
+    <div class="reassure-grid">
+      <div class="reassure-card">
+        <div class="reassure-icon">🔑</div>
+        <h3>You own everything</h3>
+        <p>The code is yours. The API key is yours. The hosting is yours. No lock-in, no platform dependency, no monthly fee paid to us after handover.</p>
+      </div>
+      <div class="reassure-card">
+        <div class="reassure-icon">🧑‍💻</div>
+        <h3>No tech knowledge required</h3>
+        <p>You don't need to understand how it works to use it. We handle the build and configuration. You receive a working system with a walkthrough.</p>
+      </div>
+      <div class="reassure-card">
+        <div class="reassure-icon">☎️</div>
+        <h3>One person. Direct line.</h3>
+        <p>No agency layers. No junior developers. When something needs fixing, you reach the same person who built it — not a support ticket queue.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Price anchor -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="price-block">
+      <div class="section-label">Pricing</div>
+      <h2>One-off build. You keep it forever.</h2>
+      <div class="price-num">From RM3,500</div>
+      <p class="price-note">A one-time build fee. Includes configuration for your business, setup guide, and handover walkthrough. API costs and hosting are separate — they go directly to your chosen provider, not to us.</p>
+      <a href="pricing.html" class="price-link">See full pricing breakdown →</a>
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section class="final-cta">
+  <h2>Tried a demo?<br>Seen something that fits?</h2>
+  <p>Tell us which system caught your eye and what your business does. We'll tell you what it would take to build yours.</p>
+  <a href="https://wa.me/60123456789" target="_blank" class="wa-btn-final">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.534 5.857L0 24l6.335-1.513A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 01-5.032-1.384l-.361-.214-3.761.898.934-3.667-.235-.374A9.791 9.791 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+    WhatsApp Us Now
+  </a>
+  <div class="final-tagline">"We build the system. You hold the keys."</div>
+</section>
+
+<!-- Footer -->
+<div class="foot">
+  © 2025 Pau AI — Sister company of <a href="https://www.pauanalytics.com" target="_blank">Pau Analytics</a>. &nbsp;|&nbsp; API costs, hosting, and domain not included in any package.
+</div>
+
+</body>
+</html>
