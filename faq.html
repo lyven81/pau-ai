@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ — Pau AI</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav id="topnav">
+  <div class="nav-inner">
+    <span class="nav-brand">Pau <span>AI</span></span>
+    <ul class="nav-links">
+      <li><a href="solutions.html">Solutions</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html" class="nav-cta">Get a Quote</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Section 1: Hero -->
+<section class="hero-medium">
+  <div class="container">
+    <h1>Frequently Asked Questions</h1>
+    <p>If you're wondering, someone else already asked.</p>
+  </div>
+</section>
+
+<!-- Section 2: FAQ Content -->
+<section class="section section-light">
+  <div class="container">
+    <div style="max-width:780px;margin:0 auto;">
+
+      <!-- Category 1: About the Build -->
+      <div class="faq-category">
+        <div class="faq-category-title">About the Build</div>
+
+        <div class="faq-item">
+          <button class="faq-q">
+            How long does it take?
+            <span class="arrow">▾</span>
+          </button>
+          <div class="faq-a">
+            Starter packages typically take 2–3 weeks. Standard builds take 4–6 weeks. Custom systems are scoped individually — we give you a timeline before you commit to anything.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">
+            Do I need to know how to code?
+            <span class="arrow">▾</span>
+          </button>
+          <div class="faq-a">
+            No. You tell us how your business runs. We handle all technical work. After handover, day-to-day use requires no coding knowledge.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">
+            Can I see a working example before I decide?
+            <span class="arrow">▾</span>
+          </button>
+          <div class="faq-a">
+            Yes. Every solution has a live demo you can try right now. Links are on each solution page. What you see is the actual deployed app that your version would be based on.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">
+            Can you build something not in your six solutions?
+            <span class="arrow">▾</span>
+          </button>
+          <div class="faq-a">
+            Possibly. Get in touch and describe what you need. If it's adjacent to what we already build, we'll scope it. If it's too far outside our focus, we'll say so honestly.
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 2: Pricing & Payment -->
+      <div class="faq-category">
+        <div class="faq-category-title">Pricing &amp; Payment</div>
+
+        <div class="faq-item">
+          <button class="faq-q">
+            What exactly is not included in the price?
+            <span class="arrow">▾</span>
+          </button>
+          <div class="faq-a">
+            Three things — LLM API fees (the cost of using Claude, Gemini, OpenAI, or whichever AI model you choose), cloud hosting fees, and domain registration. These are operational costs billed directly to you by the respective providers. We help you set them up during onboarding, but you own and pay for them going forward.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">
+            Why don't you include hosting and API costs in the price?
+            <span class="arrow">▾</span>
+          </button>
+          <div class="faq-a">
+            Because we don't want to be the middleman for your infrastructure. You should own your system outright — not rent it through us. If we included those costs, you'd be dependent on us continuing to pay your bills. This way, you control everything.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">
+            How do I pay?
+            <span class="arrow">▾</span>
+          </button>
+          <div class="faq-a">
+            Invoice via bank transfer or DuitNow. 50% deposit before work begins. 50% balance on handover. Invoiced in MYR.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">
+            Is there a refund policy?
+            <span class="arrow">▾</span>
+          </button>
+          <div class="faq-a">
+            We scope the work clearly before we start and share progress checkpoints throughout. If something doesn't match the agreed scope, we fix it. We don't offer refunds on completed work, but we don't consider a project done until you've signed off on handover.
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 3: Technical Questions -->
+      <div class="faq-category">
+        <div class="faq-category-title">Technical Questions</div>
+
+        <div class="faq-item">
+          <button class="faq-q">
+            Which AI model does the system use?
+            <span class="arrow">▾</span>
+          </button>
+          <div class="faq-a">
+            Your choice entirely. We build the system to work with any major LLM provider — Anthropic (Claude), Google (Gemini), OpenAI, or others. We do not recommend or favour any specific provider. You pick based on your budget and preference.
+          </div>
+        </div>
+
+        <div class="faq-item" id="api-key">
+          <button class="faq-q">
+            Who controls my API key? Is it safe?
+            <span class="arrow">▾</span>
+          </button>
+          <div class="faq-a">
+            Your API key is yours entirely. When we set up your system, the key is stored in your own hosting environment — on your server, your cloud account, your .env file. Pau AI does not store, access, or retain your API key at any point, including during development and testing. All requests from your system go directly to your chosen LLM provider (Anthropic, Google, OpenAI, etc.). We are never in the data path. If you ever want to revoke or rotate your key, you do it directly with your provider — no action required from us.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">
+            Where is the system hosted?
+            <span class="arrow">▾</span>
+          </button>
+          <div class="faq-a">
+            On your own cloud account — Google Cloud, AWS, Vercel, or wherever you prefer. We assist with the initial setup. You own the infrastructure account and pay the hosting provider directly.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">
+            What if the AI provider has downtime?
+            <span class="arrow">▾</span>
+          </button>
+          <div class="faq-a">
+            The system depends on the LLM API being available. If your chosen provider has downtime, the AI features will be unavailable until they restore service. We build with standard API patterns so switching providers, if needed, is manageable.
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 4: Working with Pau AI -->
+      <div class="faq-category">
+        <div class="faq-category-title">Working with Pau AI</div>
+
+        <div class="faq-item">
+          <button class="faq-q">
+            What happens after handover?
+            <span class="arrow">▾</span>
+          </button>
+          <div class="faq-a">
+            You receive a setup guide and a live walkthrough session. If you need ongoing support, we offer a monthly maintenance retainer at RM300/month covering bug fixes and minor updates.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">
+            Who am I working with?
+            <span class="arrow">▾</span>
+          </button>
+          <div class="faq-a">
+            One person — the founder of Pau AI. Not a project manager, not a junior developer. The same person who built the reference apps is the one who builds yours.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">
+            Can you modify the system later?
+            <span class="arrow">▾</span>
+          </button>
+          <div class="faq-a">
+            Yes. Minor changes are covered under the maintenance retainer. Significant new features are scoped and quoted as a new build.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">
+            Is Pau AI related to Pau Analytics?
+            <span class="arrow">▾</span>
+          </button>
+          <div class="faq-a">
+            Yes — same owner, complementary services. Pau Analytics helps you understand your business data. Pau AI helps you automate your operations. Many clients use both.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA Strip -->
+<section class="section section-gold cta-strip">
+  <div class="container">
+    <h2>Still have a question?</h2>
+    <p>Reach us on WhatsApp. We respond within one business day.</p>
+    <a href="https://wa.me/60123456789" class="btn btn-dark">Chat on WhatsApp</a>
+  </div>
+</section>
+
+<footer id="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand-name">Pau <span>AI</span></div>
+        <p style="color:var(--gold);font-style:italic;font-size:0.9rem;">"We build the system. You hold the keys."</p>
+        <p>Custom AI systems for Malaysian SMEs. LLM-agnostic. You own everything.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Solutions</h5>
+        <ul>
+          <li><a href="booking-system.html">Booking System</a></li>
+          <li><a href="whatsapp-agent.html">WhatsApp Agent</a></li>
+          <li><a href="expert-chatbot.html">Expert Chatbot</a></li>
+          <li><a href="analytics-agent.html">Analytics Agent</a></li>
+          <li><a href="research-system.html">Research System</a></li>
+          <li><a href="operations-tracker.html">Operations Tracker</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="https://www.pauanalytics.com" target="_blank">Pau Analytics ↗</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Pau AI. Sister company of <a href="https://www.pauanalytics.com" target="_blank">Pau Analytics</a>.</span>
+      <span>API costs, hosting, and domain not included in any package.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    item.classList.toggle('open');
+  });
+});
+</script>
+
+</body>
+</html>
