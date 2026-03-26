@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Multi-Agent Research Demo — Pau AI</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --gold: #C9A84C;
+      --dark: #1E1B18;
+      --bg: #F8F6F2;
+      --panel: #FFFFFF;
+      --border: #E8E4DE;
+      --muted: #7A7068;
+      --cta: #D4763A;
+      --agent1: #2D6A4F;
+      --agent2: #1D3557;
+      --agent3: #7B2D8B;
+      --agent4: #B5451B;
+      --agent5: #C9A84C;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', -apple-system, sans-serif; background: var(--dark); color: #fff; }
+
+    /* Nav */
+    .demo-nav {
+      background: #141210;
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .demo-nav a { color: var(--gold); text-decoration: none; font-size: 0.85rem; }
+    .demo-nav a:hover { text-decoration: underline; }
+    .demo-nav .brand { font-size: 1.1rem; font-weight: 700; color: #fff; }
+    .demo-nav .brand span { color: var(--gold); }
+
+    /* Layout */
+    .demo-layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      min-height: calc(100vh - 56px);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: #141210;
+      border-right: 1px solid rgba(255,255,255,0.08);
+      padding: 1.5rem;
+      overflow-y: auto;
+    }
+    .sidebar-section { margin-bottom: 1.5rem; }
+    .sidebar-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+    .stock-badge {
+      background: rgba(201,168,76,0.1);
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .stock-badge .ticker { font-size: 1.4rem; font-weight: 800; color: var(--gold); }
+    .stock-badge .name { font-size: 0.8rem; color: rgba(255,255,255,0.6); margin-top: 0.2rem; }
+    .stock-badge .price { font-size: 1.1rem; font-weight: 600; color: #fff; margin-top: 0.5rem; }
+    .stock-badge .change { font-size: 0.8rem; color: #4CAF50; }
+
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.82rem;
+    }
+    .meta-row .key { color: var(--muted); }
+    .meta-row .val { color: rgba(255,255,255,0.85); font-weight: 500; }
+
+    .agent-list { margin-top: 0.5rem; }
+    .agent-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.5rem 0;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.7);
+    }
+    .agent-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .query-btn {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      padding: 0.65rem 0.85rem;
+      color: rgba(255,255,255,0.8);
+      font-size: 0.82rem;
+      text-align: left;
+      cursor: pointer;
+      margin-bottom: 0.5rem;
+      transition: all 0.2s;
+      line-height: 1.4;
+    }
+    .query-btn:hover, .query-btn.active {
+      background: rgba(201,168,76,0.12);
+      border-color: rgba(201,168,76,0.4);
+      color: #fff;
+    }
+    .query-btn.active { border-color: var(--gold); }
+
+    /* Main panel */
+    .main-panel {
+      padding: 2rem;
+      overflow-y: auto;
+    }
+
+    /* Intro screen */
+    .intro-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 400px;
+      text-align: center;
+      color: rgba(255,255,255,0.5);
+    }
+    .intro-screen h2 { color: rgba(255,255,255,0.8); margin-bottom: 0.5rem; }
+
+    /* Result panel */
+    .result-panel { display: none; }
+    .result-panel.visible { display: block; }
+
+    /* Pipeline bar */
+    .pipeline {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .pipeline-agent {
+      flex: 1;
+      min-width: 100px;
+      border-radius: 6px;
+      padding: 0.6rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .pipeline-agent .dot { width: 6px; height: 6px; border-radius: 50%; background: #fff; }
+    .pa1 { background: rgba(45,106,79,0.25); border: 1px solid rgba(45,106,79,0.5); color: #6fcf97; }
+    .pa2 { background: rgba(29,53,87,0.35); border: 1px solid rgba(29,53,87,0.6); color: #90bfff; }
+    .pa3 { background: rgba(123,45,139,0.25); border: 1px solid rgba(123,45,139,0.5); color: #c490d1; }
+    .pa4 { background: rgba(181,69,27,0.25); border: 1px solid rgba(181,69,27,0.5); color: #f4a67a; }
+    .pa5 { background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.35); color: var(--gold); }
+
+    /* Result sections */
+    .result-header {
+      margin-bottom: 1.5rem;
+    }
+    .result-header .question {
+      font-size: 0.8rem;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.4rem;
+    }
+    .result-header h2 { font-size: 1.4rem; color: #fff; margin-bottom: 0.5rem; }
+    .result-header .meta { font-size: 0.82rem; color: var(--muted); }
+
+    .chart-container {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .chart-container h4 {
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 1rem;
+    }
+    .chart-wrapper { position: relative; height: 220px; }
+
+    .two-charts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Insight card */
+    .insight-card {
+      background: rgba(201,168,76,0.08);
+      border: 1px solid rgba(201,168,76,0.25);
+      border-left: 3px solid var(--gold);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .insight-card .label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+    }
+    .insight-card p {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.65;
+      margin-bottom: 0.5rem;
+    }
+    .insight-card p:last-child { margin-bottom: 0; }
+
+    /* Score grid */
+    .score-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+    .score-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      padding: 1rem 0.75rem;
+      text-align: center;
+    }
+    .score-card .score-num {
+      font-size: 1.6rem;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .score-card .score-label { font-size: 0.72rem; color: var(--muted); line-height: 1.3; }
+    .score-high { color: #4CAF50; }
+    .score-mid { color: var(--gold); }
+    .score-low { color: #EF5350; }
+
+    /* Findings table */
+    .findings-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+    .findings-table th {
+      text-align: left;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--muted);
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .findings-table td {
+      padding: 0.6rem 0.75rem;
+      font-size: 0.84rem;
+      color: rgba(255,255,255,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      vertical-align: top;
+    }
+    .findings-table tr:last-child td { border-bottom: none; }
+    .tag {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+    .tag-green { background: rgba(76,175,80,0.15); color: #4CAF50; border: 1px solid rgba(76,175,80,0.3); }
+    .tag-amber { background: rgba(201,168,76,0.15); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
+    .tag-red { background: rgba(239,83,80,0.15); color: #EF5350; border: 1px solid rgba(239,83,80,0.3); }
+
+    /* Recommendation box */
+    .recommendation {
+      background: rgba(45,106,79,0.1);
+      border: 1px solid rgba(45,106,79,0.3);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+    }
+    .recommendation .rec-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #6fcf97;
+      margin-bottom: 0.5rem;
+    }
+    .recommendation p { font-size: 0.88rem; color: rgba(255,255,255,0.8); line-height: 1.6; }
+
+    /* Footer note */
+    .demo-footer {
+      text-align: center;
+      padding: 1.5rem;
+      color: rgba(255,255,255,0.25);
+      font-size: 0.78rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    @media (max-width: 768px) {
+      .demo-layout { grid-template-columns: 1fr; }
+      .sidebar { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .two-charts { grid-template-columns: 1fr; }
+      .score-grid { grid-template-columns: repeat(3, 1fr); }
+      .pipeline { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="demo-nav">
+  <span class="brand">Pau <span>AI</span></span>
+  <a href="research-system.html">← Back to Research System</a>
+</nav>
+
+<div class="demo-layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Target Stock</div>
+      <div class="stock-badge">
+        <div class="ticker">IHH MK</div>
+        <div class="name">IHH Healthcare Berhad</div>
+        <div class="price">RM 6.20</div>
+        <div class="change">+0.8% · Bursa Malaysia</div>
+      </div>
+      <div class="meta-row"><span class="key">Sector</span><span class="val">Healthcare</span></div>
+      <div class="meta-row"><span class="key">Market Cap</span><span class="val">RM 51.2B</span></div>
+      <div class="meta-row"><span class="key">P/E Ratio</span><span class="val">28.4x</span></div>
+      <div class="meta-row"><span class="key">Div. Yield</span><span class="val">0.48%</span></div>
+      <div class="meta-row"><span class="key">52W Range</span><span class="val">RM 5.41 – 6.58</span></div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Active Agents</div>
+      <div class="agent-list">
+        <div class="agent-item"><div class="agent-dot" style="background:#6fcf97;"></div>Fundamental Analyst</div>
+        <div class="agent-item"><div class="agent-dot" style="background:#90bfff;"></div>Technical Analyst</div>
+        <div class="agent-item"><div class="agent-dot" style="background:#c490d1;"></div>Sentiment Monitor</div>
+        <div class="agent-item"><div class="agent-dot" style="background:#f4a67a;"></div>Competitive Intel</div>
+        <div class="agent-item"><div class="agent-dot" style="background:var(--gold);"></div>Investment Scorer</div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Research Queries</div>
+      <button class="query-btn" onclick="showResult('fundamentals')">What do the fundamentals say about this stock?</button>
+      <button class="query-btn" onclick="showResult('sentiment')">What is the current market sentiment?</button>
+      <button class="query-btn" onclick="showResult('competitive')">How does it compare to competitors?</button>
+      <button class="query-btn" onclick="showResult('revenue')">What does the revenue trend look like?</button>
+      <button class="query-btn" onclick="showResult('score')">Give me the full investment score report.</button>
+    </div>
+  </aside>
+
+  <!-- Main panel -->
+  <main class="main-panel">
+
+    <div id="intro" class="intro-screen">
+      <div style="font-size:2.5rem;margin-bottom:1rem;opacity:0.3;">⬡</div>
+      <h2>Five Agents. One Report.</h2>
+      <p style="margin-top:0.5rem;max-width:380px;">Select a research query from the left panel to see the multi-agent system at work.</p>
+    </div>
+
+    <!-- Result: Fundamentals -->
+    <div id="res-fundamentals" class="result-panel">
+      <div class="result-header">
+        <div class="question">Fundamental Analysis · Agent 1 of 5</div>
+        <h2>IHH Healthcare — Fundamental Scorecard</h2>
+        <div class="meta">Research run completed · Data as at Q3 2024 · Sources: Bursa filings, Bloomberg, Reuters</div>
+      </div>
+
+      <div class="pipeline">
+        <div class="pipeline-agent pa1"><div class="dot"></div>Fundamental Agent</div>
+        <div class="pipeline-agent pa2"><div class="dot"></div>Technical Agent</div>
+        <div class="pipeline-agent pa3"><div class="dot"></div>Sentiment Agent</div>
+        <div class="pipeline-agent pa4"><div class="dot"></div>Competitive Agent</div>
+        <div class="pipeline-agent pa5"><div class="dot"></div>Scoring Agent</div>
+      </div>
+
+      <div class="two-charts">
+        <div class="chart-container">
+          <h4>Revenue (RM Billion) — 5 Years</h4>
+          <div class="chart-wrapper"><canvas id="chart-rev"></canvas></div>
+        </div>
+        <div class="chart-container">
+          <h4>Net Profit Margin (%)</h4>
+          <div class="chart-wrapper"><canvas id="chart-margin"></canvas></div>
+        </div>
+      </div>
+
+      <table class="findings-table">
+        <thead>
+          <tr><th>Metric</th><th>Value</th><th>vs Industry</th><th>Signal</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Revenue Growth (YoY)</td><td>+11.2%</td><td>Industry avg: +7.4%</td><td><span class="tag tag-green">Outperform</span></td></tr>
+          <tr><td>EBITDA Margin</td><td>18.6%</td><td>Industry avg: 16.1%</td><td><span class="tag tag-green">Above avg</span></td></tr>
+          <tr><td>Debt/Equity Ratio</td><td>0.74x</td><td>Industry avg: 0.61x</td><td><span class="tag tag-amber">Watch</span></td></tr>
+          <tr><td>Return on Equity</td><td>7.3%</td><td>Industry avg: 8.9%</td><td><span class="tag tag-amber">Below avg</span></td></tr>
+          <tr><td>Free Cash Flow</td><td>RM 1.1B</td><td>Positive 4 consecutive yrs</td><td><span class="tag tag-green">Healthy</span></td></tr>
+          <tr><td>P/E Ratio</td><td>28.4x</td><td>Sector avg: 24.1x</td><td><span class="tag tag-amber">Premium</span></td></tr>
+        </tbody>
+      </table>
+
+      <div class="insight-card">
+        <div class="label">Fundamental Agent — Finding</div>
+        <p>IHH Healthcare shows consistent revenue growth outpacing industry peers, driven by expanding capacity in Malaysia, India (Fortis), and Turkey (Acibadem). EBITDA margins are above sector average, indicating strong operational efficiency.</p>
+        <p>Key concern: D/E ratio has risen slightly as IHH funds new hospital developments. This is manageable given strong free cash flow generation, but warrants monitoring over the next 2 quarters. The premium P/E reflects market confidence in the long-term healthcare demand story in Southeast Asia.</p>
+      </div>
+    </div>
+
+    <!-- Result: Sentiment -->
+    <div id="res-sentiment" class="result-panel">
+      <div class="result-header">
+        <div class="question">Sentiment Analysis · Agent 3 of 5</div>
+        <h2>IHH Healthcare — Market Sentiment Monitor</h2>
+        <div class="meta">Research run completed · Last 90 days · Sources: News APIs, Bursa announcements, social media signals</div>
+      </div>
+
+      <div class="pipeline">
+        <div class="pipeline-agent pa1"><div class="dot"></div>Fundamental Agent</div>
+        <div class="pipeline-agent pa2"><div class="dot"></div>Technical Agent</div>
+        <div class="pipeline-agent pa3"><div class="dot"></div>Sentiment Agent</div>
+        <div class="pipeline-agent pa4"><div class="dot"></div>Competitive Agent</div>
+        <div class="pipeline-agent pa5"><div class="dot"></div>Scoring Agent</div>
+      </div>
+
+      <div class="two-charts">
+        <div class="chart-container">
+          <h4>Sentiment Score — Last 12 Weeks</h4>
+          <div class="chart-wrapper"><canvas id="chart-sentiment-trend"></canvas></div>
+        </div>
+        <div class="chart-container">
+          <h4>News Volume by Tone</h4>
+          <div class="chart-wrapper"><canvas id="chart-news-tone"></canvas></div>
+        </div>
+      </div>
+
+      <table class="findings-table">
+        <thead>
+          <tr><th>Source</th><th>Sentiment</th><th>Top Theme</th><th>Signal</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Bursa Announcements</td><td>Neutral-Positive</td><td>Capacity expansion, acquisitions</td><td><span class="tag tag-green">Positive</span></td></tr>
+          <tr><td>Financial News (EN)</td><td>Positive</td><td>Healthcare demand recovery</td><td><span class="tag tag-green">Positive</span></td></tr>
+          <tr><td>Analyst Reports</td><td>Cautious</td><td>Valuation premium, rate sensitivity</td><td><span class="tag tag-amber">Neutral</span></td></tr>
+          <tr><td>Social / Forums</td><td>Mixed</td><td>Dividend disappointment, long-term bull</td><td><span class="tag tag-amber">Mixed</span></td></tr>
+          <tr><td>Foreign News (Fortis/Acibadem)</td><td>Positive</td><td>India market growth, hospital margins</td><td><span class="tag tag-green">Positive</span></td></tr>
+        </tbody>
+      </table>
+
+      <div class="insight-card">
+        <div class="label">Sentiment Agent — Finding</div>
+        <p>Overall market sentiment for IHH Healthcare is moderately positive. Institutional and news sentiment is driven by the structural healthcare demand thesis in Asia, with IHH's geographic diversification seen as a strength.</p>
+        <p>Retail investor sentiment shows some frustration around the low dividend yield (0.48%), which contrasts with the premium valuation. This gap between institutional optimism and retail dividend expectations is a known dynamic for IHH and is unlikely to be resolved in the near term unless the company increases payout ratios. Monitoring a Fortis-related legal resolution in India remains a short-term catalyst to watch.</p>
+      </div>
+    </div>
+
+    <!-- Result: Competitive -->
+    <div id="res-competitive" class="result-panel">
+      <div class="result-header">
+        <div class="question">Competitive Intelligence · Agent 4 of 5</div>
+        <h2>IHH Healthcare — Competitive Landscape</h2>
+        <div class="meta">Research run completed · Peer set: Malaysian-listed healthcare operators · Sources: Annual reports, Bloomberg, Bursa</div>
+      </div>
+
+      <div class="pipeline">
+        <div class="pipeline-agent pa1"><div class="dot"></div>Fundamental Agent</div>
+        <div class="pipeline-agent pa2"><div class="dot"></div>Technical Agent</div>
+        <div class="pipeline-agent pa3"><div class="dot"></div>Sentiment Agent</div>
+        <div class="pipeline-agent pa4"><div class="dot"></div>Competitive Agent</div>
+        <div class="pipeline-agent pa5"><div class="dot"></div>Scoring Agent</div>
+      </div>
+
+      <div class="chart-container">
+        <h4>Revenue Comparison — Malaysian Healthcare Peers (RM Billion)</h4>
+        <div class="chart-wrapper"><canvas id="chart-peers"></canvas></div>
+      </div>
+
+      <div class="two-charts">
+        <div class="chart-container">
+          <h4>EBITDA Margin by Peer (%)</h4>
+          <div class="chart-wrapper"><canvas id="chart-ebitda-peer"></canvas></div>
+        </div>
+        <div class="chart-container">
+          <h4>P/E Ratio by Peer</h4>
+          <div class="chart-wrapper"><canvas id="chart-pe-peer"></canvas></div>
+        </div>
+      </div>
+
+      <div class="insight-card">
+        <div class="label">Competitive Agent — Finding</div>
+        <p>IHH Healthcare is the dominant player in Malaysian private healthcare by revenue and geographic reach. KPJ Healthcare is the closest domestic competitor but operates at a significantly smaller scale and lower margin profile. Sunway Medical and Columbia Asia serve more localized markets.</p>
+        <p>IHH's main competitive advantage is its international footprint — no Malaysian peer has comparable exposure to India and Turkey. This is a structural moat but also introduces currency and geopolitical risk that pure domestic operators don't carry. At 28.4x P/E vs KPJ's 22.1x, the market prices IHH at a premium that reflects this global positioning.</p>
+      </div>
+    </div>
+
+    <!-- Result: Revenue Trend -->
+    <div id="res-revenue" class="result-panel">
+      <div class="result-header">
+        <div class="question">Revenue Trend Analysis · Agents 1 + 2</div>
+        <h2>IHH Healthcare — Revenue & Growth Trajectory</h2>
+        <div class="meta">Research run completed · FY2019–FY2024E · Sources: Bursa filings, Reuters, Bloomberg estimates</div>
+      </div>
+
+      <div class="pipeline">
+        <div class="pipeline-agent pa1"><div class="dot"></div>Fundamental Agent</div>
+        <div class="pipeline-agent pa2"><div class="dot"></div>Technical Agent</div>
+        <div class="pipeline-agent pa3"><div class="dot"></div>Sentiment Agent</div>
+        <div class="pipeline-agent pa4"><div class="dot"></div>Competitive Agent</div>
+        <div class="pipeline-agent pa5"><div class="dot"></div>Scoring Agent</div>
+      </div>
+
+      <div class="chart-container">
+        <h4>Annual Revenue (RM Billion) + Net Profit (RM Billion)</h4>
+        <div class="chart-wrapper" style="height:260px;"><canvas id="chart-rev-profit"></canvas></div>
+      </div>
+
+      <div class="two-charts">
+        <div class="chart-container">
+          <h4>Revenue by Geography (FY2024E)</h4>
+          <div class="chart-wrapper"><canvas id="chart-geo"></canvas></div>
+        </div>
+        <div class="chart-container">
+          <h4>YoY Revenue Growth (%)</h4>
+          <div class="chart-wrapper"><canvas id="chart-growth"></canvas></div>
+        </div>
+      </div>
+
+      <div class="insight-card">
+        <div class="label">Combined Agent Finding (Fundamental + Technical)</div>
+        <p>IHH Healthcare has delivered consistent top-line growth since FY2021, recovering strongly from the COVID-19 disruption period. The FY2024 estimate projects RM 22.1B in group revenue, representing a 5-year CAGR of approximately 8.4%.</p>
+        <p>Geographic diversification is a key growth driver: Malaysia and Singapore remain profit contributors, while India (Fortis) is the fastest-growing segment by patient volume. Turkey (Acibadem) is revenue-significant but exposed to lira depreciation, partially offset by medical tourism income in hard currency. Consensus estimates point to continued mid-single-digit growth through FY2026.</p>
+      </div>
+    </div>
+
+    <!-- Result: Full Score -->
+    <div id="res-score" class="result-panel">
+      <div class="result-header">
+        <div class="question">Investment Score Report · All 5 Agents</div>
+        <h2>IHH Healthcare — Full Investment Score</h2>
+        <div class="meta">Research run completed · Composite report · Weighted scoring across 5 agent outputs</div>
+      </div>
+
+      <div class="pipeline">
+        <div class="pipeline-agent pa1"><div class="dot"></div>Fundamental Agent</div>
+        <div class="pipeline-agent pa2"><div class="dot"></div>Technical Agent</div>
+        <div class="pipeline-agent pa3"><div class="dot"></div>Sentiment Agent</div>
+        <div class="pipeline-agent pa4"><div class="dot"></div>Competitive Agent</div>
+        <div class="pipeline-agent pa5"><div class="dot"></div>Scoring Agent</div>
+      </div>
+
+      <div class="score-grid">
+        <div class="score-card">
+          <div class="score-num score-high">7.4</div>
+          <div class="score-label">Fundamental Score</div>
+        </div>
+        <div class="score-card">
+          <div class="score-num score-mid">6.1</div>
+          <div class="score-label">Technical Score</div>
+        </div>
+        <div class="score-card">
+          <div class="score-num score-high">7.0</div>
+          <div class="score-label">Sentiment Score</div>
+        </div>
+        <div class="score-card">
+          <div class="score-num score-high">8.2</div>
+          <div class="score-label">Competitive Moat</div>
+        </div>
+        <div class="score-card">
+          <div class="score-num score-high" style="color:var(--gold);">7.3</div>
+          <div class="score-label">Composite Score</div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <h4>Score Breakdown by Dimension</h4>
+        <div class="chart-wrapper"><canvas id="chart-radar"></canvas></div>
+      </div>
+
+      <table class="findings-table">
+        <thead>
+          <tr><th>Dimension</th><th>Score /10</th><th>Key Supporting Factor</th><th>Key Risk</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Fundamental Health</td><td>7.4</td><td>Revenue growth, FCF positive</td><td>Rising D/E, low ROE</td></tr>
+          <tr><td>Technical Trend</td><td>6.1</td><td>Above 200-day MA</td><td>RSI approaching overbought</td></tr>
+          <tr><td>Market Sentiment</td><td>7.0</td><td>Institutional conviction high</td><td>Retail dividend concern</td></tr>
+          <tr><td>Competitive Moat</td><td>8.2</td><td>Global footprint, brand</td><td>FX exposure (TRY, INR)</td></tr>
+          <tr><td>Valuation</td><td>5.8</td><td>Premium justified by growth</td><td>28.4x P/E limits upside</td></tr>
+        </tbody>
+      </table>
+
+      <div class="recommendation">
+        <div class="rec-label">Investment Scorer — Final Recommendation</div>
+        <p><strong style="color:#6fcf97;">ACCUMULATE on weakness.</strong> Composite score of 7.3/10 reflects a quality healthcare operator with durable competitive advantages and consistent growth. The primary constraint is valuation — the 28.4x P/E limits near-term upside at current prices. For long-term investors, IHH remains a core holding in Malaysian healthcare exposure. Entry at RM 5.80–6.00 would improve the risk/reward profile meaningfully. Monitor Fortis India resolution and Turkey lira stability as near-term catalysts.</p>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div class="demo-footer">
+  This is a hardcoded demo using sample stock research data for IHH Healthcare Berhad. Not financial advice. Your system is configured for your research domain and data sources.
+</div>
+
+<script>
+let activeBtn = null;
+let chartsRendered = {};
+
+function showResult(id) {
+  // Hide all
+  document.getElementById('intro').style.display = 'none';
+  document.querySelectorAll('.result-panel').forEach(p => p.classList.remove('visible'));
+
+  // Toggle active button
+  if (activeBtn) activeBtn.classList.remove('active');
+  const btns = document.querySelectorAll('.query-btn');
+  const map = { fundamentals: 0, sentiment: 1, competitive: 2, revenue: 3, score: 4 };
+  activeBtn = btns[map[id]];
+  if (activeBtn) activeBtn.classList.add('active');
+
+  // Show result
+  const panel = document.getElementById('res-' + id);
+  panel.classList.add('visible');
+
+  // Render chart if not yet rendered
+  if (!chartsRendered[id]) {
+    chartsRendered[id] = true;
+    setTimeout(() => renderCharts(id), 50);
+  }
+}
+
+function renderCharts(id) {
+  const gold = '#C9A84C';
+  const green = '#4CAF50';
+  const blue = '#90bfff';
+  const purple = '#c490d1';
+  const orange = '#f4a67a';
+  const gridColor = 'rgba(255,255,255,0.06)';
+  const labelColor = 'rgba(255,255,255,0.45)';
+
+  const baseOpts = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { color: gridColor }, ticks: { color: labelColor, font: { size: 11 } } },
+      y: { grid: { color: gridColor }, ticks: { color: labelColor, font: { size: 11 } } }
+    }
+  };
+
+  if (id === 'fundamentals') {
+    new Chart(document.getElementById('chart-rev'), {
+      type: 'bar',
+      data: {
+        labels: ['FY2020', 'FY2021', 'FY2022', 'FY2023', 'FY2024E'],
+        datasets: [{ data: [13.4, 14.2, 17.6, 19.9, 22.1], backgroundColor: gold, borderRadius: 4 }]
+      },
+      options: baseOpts
+    });
+    new Chart(document.getElementById('chart-margin'), {
+      type: 'line',
+      data: {
+        labels: ['FY2020', 'FY2021', 'FY2022', 'FY2023', 'FY2024E'],
+        datasets: [{ data: [4.1, 5.8, 7.2, 8.4, 8.9], borderColor: green, backgroundColor: 'rgba(76,175,80,0.1)', fill: true, tension: 0.4, pointBackgroundColor: green }]
+      },
+      options: baseOpts
+    });
+  }
+
+  if (id === 'sentiment') {
+    new Chart(document.getElementById('chart-sentiment-trend'), {
+      type: 'line',
+      data: {
+        labels: ['W1','W2','W3','W4','W5','W6','W7','W8','W9','W10','W11','W12'],
+        datasets: [{ data: [58, 62, 55, 67, 71, 68, 74, 70, 66, 72, 75, 73], borderColor: purple, backgroundColor: 'rgba(196,144,209,0.1)', fill: true, tension: 0.4, pointBackgroundColor: purple }]
+      },
+      options: { ...baseOpts, scales: { ...baseOpts.scales, y: { ...baseOpts.scales.y, min: 40, max: 100, ticks: { color: labelColor, font: { size: 11 } } } } }
+    });
+    new Chart(document.getElementById('chart-news-tone'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Positive', 'Neutral', 'Negative'],
+        datasets: [{ data: [54, 31, 15], backgroundColor: [green, gold, '#EF5350'], borderWidth: 0 }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: true, position: 'bottom', labels: { color: labelColor, font: { size: 11 }, boxWidth: 12 } } }
+      }
+    });
+  }
+
+  if (id === 'competitive') {
+    new Chart(document.getElementById('chart-peers'), {
+      type: 'bar',
+      data: {
+        labels: ['IHH Healthcare', 'KPJ Healthcare', 'Sunway Medical', 'Columbia Asia', 'TMC Life Sciences'],
+        datasets: [{ data: [19.9, 4.2, 1.8, 1.1, 0.6], backgroundColor: [gold, blue, blue, blue, blue], borderRadius: 4 }]
+      },
+      options: { ...baseOpts, indexAxis: 'y' }
+    });
+    new Chart(document.getElementById('chart-ebitda-peer'), {
+      type: 'bar',
+      data: {
+        labels: ['IHH', 'KPJ', 'Sunway', 'Columbia', 'TMC'],
+        datasets: [{ data: [18.6, 14.1, 15.3, 12.7, 11.4], backgroundColor: [gold, blue, blue, blue, blue], borderRadius: 4 }]
+      },
+      options: baseOpts
+    });
+    new Chart(document.getElementById('chart-pe-peer'), {
+      type: 'bar',
+      data: {
+        labels: ['IHH', 'KPJ', 'Sunway', 'Columbia', 'TMC'],
+        datasets: [{ data: [28.4, 22.1, 19.8, 17.4, 15.6], backgroundColor: [gold, blue, blue, blue, blue], borderRadius: 4 }]
+      },
+      options: baseOpts
+    });
+  }
+
+  if (id === 'revenue') {
+    new Chart(document.getElementById('chart-rev-profit'), {
+      type: 'bar',
+      data: {
+        labels: ['FY2019', 'FY2020', 'FY2021', 'FY2022', 'FY2023', 'FY2024E'],
+        datasets: [
+          { label: 'Revenue', data: [12.1, 13.4, 14.2, 17.6, 19.9, 22.1], backgroundColor: gold, borderRadius: 4 },
+          { label: 'Net Profit', data: [0.6, 0.55, 0.82, 1.27, 1.67, 1.97], backgroundColor: green, borderRadius: 4 }
+        ]
+      },
+      options: { ...baseOpts, plugins: { legend: { display: true, labels: { color: labelColor, font: { size: 11 }, boxWidth: 12 } } } }
+    });
+    new Chart(document.getElementById('chart-geo'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Malaysia', 'Singapore', 'India (Fortis)', 'Turkey (Acibadem)', 'Others'],
+        datasets: [{ data: [28, 22, 24, 21, 5], backgroundColor: [gold, blue, green, orange, purple], borderWidth: 0 }]
+      },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: true, position: 'bottom', labels: { color: labelColor, font: { size: 10 }, boxWidth: 12 } } } }
+    });
+    new Chart(document.getElementById('chart-growth'), {
+      type: 'bar',
+      data: {
+        labels: ['FY2020', 'FY2021', 'FY2022', 'FY2023', 'FY2024E'],
+        datasets: [{ data: [10.7, 5.9, 23.9, 13.1, 11.2], backgroundColor: [gold, gold, green, gold, gold], borderRadius: 4 }]
+      },
+      options: baseOpts
+    });
+  }
+
+  if (id === 'score') {
+    new Chart(document.getElementById('chart-radar'), {
+      type: 'radar',
+      data: {
+        labels: ['Fundamental', 'Technical', 'Sentiment', 'Competitive Moat', 'Valuation'],
+        datasets: [{
+          data: [7.4, 6.1, 7.0, 8.2, 5.8],
+          borderColor: gold,
+          backgroundColor: 'rgba(201,168,76,0.12)',
+          pointBackgroundColor: gold,
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          r: {
+            min: 0, max: 10,
+            grid: { color: gridColor },
+            angleLines: { color: gridColor },
+            pointLabels: { color: 'rgba(255,255,255,0.6)', font: { size: 11 } },
+            ticks: { display: false }
+          }
+        },
+        plugins: { legend: { display: false } }
+      }
+    });
+  }
+}
+</script>
+</body>
+</html>
