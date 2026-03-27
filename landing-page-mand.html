@@ -98,7 +98,7 @@
 
     .demos-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 1.25rem;
     }
     .demo-card {
@@ -191,9 +191,6 @@
     .foot a { color: rgba(255,255,255,0.35); }
 
     /* ── Responsive ── */
-    @media (max-width: 900px) {
-      .demos-grid { grid-template-columns: repeat(2, 1fr); }
-    }
     @media (max-width: 600px) {
       .demos-grid { grid-template-columns: 1fr; }
       .reassure-grid { grid-template-columns: 1fr; }
