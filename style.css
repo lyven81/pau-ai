@@ -852,8 +852,8 @@ p:last-child { margin-bottom: 0; }
   h2 { font-size: 1.3rem; }
   .hero-full { min-height: auto; padding: 4rem 0; }
   .hero-medium h1 { font-size: 1.5rem; }
-  .hero-medium p { font-size: 0.95rem; }
-  .section-header h2 { font-size: 1.15rem; }
+  .hero-medium p { font-size: 0.85rem; }
+  .section-header h2 { font-size: 1.05rem; }
   .cta-strip h2 { font-size: 1.2rem; }
   .cta-strip p { font-size: 0.9rem; }
 }
