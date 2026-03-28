@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WhatsApp Service Agent — Live Demo | Pau AI</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, sans-serif; background: #111b21; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+    /* ── Stage bar ── */
+    #stage-bar { background: #075E54; color: white; padding: 9px 20px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+    #stage-label { font-size: 0.82rem; font-weight: 500; }
+    .stage-steps { display: flex; gap: 5px; align-items: center; }
+    .step { width: 32px; height: 5px; border-radius: 3px; background: rgba(255,255,255,0.25); transition: background 0.4s; }
+    .step.done { background: rgba(255,255,255,0.6); }
+    .step.active { background: #25D366; }
+
+    /* ── Layout ── */
+    #app { display: flex; flex: 1; overflow: hidden; }
+
+    /* ── Sidebar ── */
+    #sidebar { width: 320px; min-width: 280px; background: #111b21; border-right: 1px solid #2a3942; display: flex; flex-direction: column; }
+    #sidebar-header { background: #202c33; padding: 14px 18px; display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .app-logo { font-size: 1.6rem; }
+    .app-title { color: #e9edef; font-size: 0.95rem; font-weight: 600; }
+    .app-sub { color: #8696a0; font-size: 0.72rem; margin-top: 1px; }
+
+    .info-section { padding: 14px 18px; }
+    .info-label { color: #25D366; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+    .info-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #1a2529; font-size: 0.8rem; }
+    .info-row:last-child { border-bottom: none; }
+    .info-key { color: #8696a0; }
+    .info-val { color: #e9edef; font-weight: 500; }
+
+    .service-item { background: #1a2529; border-radius: 8px; padding: 8px 12px; margin-bottom: 6px; }
+    .service-name { color: #e9edef; font-size: 0.82rem; font-weight: 600; }
+    .service-detail { color: #8696a0; font-size: 0.72rem; margin-top: 2px; }
+
+    .sidebar-divider { border: none; border-top: 1px solid #2a3942; margin: 10px 18px; }
+
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 0 18px 14px; }
+    .stat-card { background: #1a2529; border-radius: 8px; padding: 10px 12px; text-align: center; }
+    .stat-num { color: #25D366; font-size: 1.3rem; font-weight: 700; }
+    .stat-label { color: #8696a0; font-size: 0.68rem; margin-top: 2px; }
+
+    /* ── Chat area ── */
+    #chat-area { flex: 1; display: flex; flex-direction: column; background: #0b141a; overflow: hidden; }
+    #chat-header { background: #202c33; padding: 9px 18px; display: flex; align-items: center; gap: 12px; flex-shrink: 0; border-bottom: 1px solid #2a3942; }
+    #chat-av { width: 40px; height: 40px; border-radius: 50%; background: #2a3942; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; }
+    #chat-name { color: #e9edef; font-size: 0.9rem; font-weight: 500; }
+    #chat-status { color: #8696a0; font-size: 0.74rem; }
+    .ai-badge { background: #25D366; color: white; font-size: 0.58rem; font-weight: 700; padding: 1px 6px; border-radius: 3px; margin-left: 8px; letter-spacing: 0.05em; }
+
+    /* ── Messages ── */
+    #msg-box {
+      flex: 1; overflow-y: auto; padding: 14px 60px; display: flex; flex-direction: column; gap: 2px;
+      background-color: #0b141a;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23182229' fill-opacity='0.5'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+    }
+    .date-div { text-align: center; margin: 10px 0; }
+    .date-div span { background: #182229; color: #8696a0; font-size: 0.7rem; padding: 4px 10px; border-radius: 6px; }
+
+    .mw { display: flex; margin: 1px 0; }
+    .mw.sent { justify-content: flex-end; }
+    .mw.received { justify-content: flex-start; }
+
+    .bubble { max-width: 62%; padding: 6px 10px 4px; border-radius: 7.5px; word-wrap: break-word; }
+    .sent .bubble { background: #005c4b; border-top-right-radius: 0; color: #e9edef; }
+    .received .bubble { background: #202c33; border-top-left-radius: 0; color: #e9edef; }
+    .b-text { font-size: 0.855rem; line-height: 1.45; }
+    .b-meta { display: flex; align-items: center; gap: 3px; justify-content: flex-end; margin-top: 2px; }
+    .b-time { font-size: 0.66rem; color: #8696a0; }
+    .tick { font-size: 0.68rem; color: #53bdeb; }
+
+    .media-card { background: #1a2529; border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 9px; margin-top: 5px; }
+    .media-ico { font-size: 1.5rem; width: 40px; height: 40px; background: #2a3942; border-radius: 7px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .media-n { font-size: 0.78rem; color: #e9edef; }
+    .media-s { font-size: 0.69rem; color: #8696a0; }
+
+    .typing-w { display: flex; justify-content: flex-end; margin: 3px 0; }
+    .typing-b { background: #005c4b; border-radius: 7.5px; border-top-right-radius: 0; padding: 9px 13px; display: flex; gap: 4px; align-items: center; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.5); animation: bounce 1.2s infinite; }
+    .dot:nth-child(2) { animation-delay: 0.2s; }
+    .dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes bounce { 0%,60%,100% { transform:translateY(0); opacity:0.5; } 30% { transform:translateY(-5px); opacity:1; } }
+
+    .banner { text-align: center; margin: 10px 0; }
+    .banner span { background: #182229; color: #8696a0; font-size: 0.7rem; padding: 4px 12px; border-radius: 6px; }
+
+    /* ── Action bar ── */
+    #action-bar { background: #202c33; padding: 11px 18px; border-top: 1px solid #2a3942; flex-shrink: 0; }
+    .abtn { background: #25D366; color: white; border: none; padding: 10px 20px; border-radius: 22px; font-size: 0.855rem; font-weight: 600; cursor: pointer; width: 100%; transition: background 0.2s; }
+    .abtn:hover:not(:disabled) { background: #1ebe5d; }
+    .abtn:disabled { background: #2a3942; color: #8696a0; cursor: not-allowed; }
+
+    /* ── Quote card ── */
+    .quote-card { background: #0d2b22; border: 1px solid #25D366; border-radius: 10px; padding: 12px 14px; margin-top: 6px; }
+    .qc-title { color: #25D366; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+    .qc-row { display: flex; justify-content: space-between; font-size: 0.82rem; padding: 3px 0; }
+    .qc-label { color: #8696a0; }
+    .qc-val { color: #e9edef; font-weight: 600; }
+    .qc-total { border-top: 1px solid #1a4a3a; margin-top: 6px; padding-top: 6px; }
+    .qc-total .qc-val { color: #25D366; font-size: 1rem; }
+
+    /* ── Intro ── */
+    #intro { position: fixed; inset: 0; background: #111b21; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 200; gap: 18px; text-align: center; padding: 30px; }
+    .i-logo { font-size: 4rem; }
+    .i-title { color: #e9edef; font-size: 2rem; font-weight: 700; }
+    .i-sub { color: #8696a0; font-size: 0.95rem; max-width: 480px; line-height: 1.6; }
+    .i-features { display: flex; flex-direction: column; gap: 6px; margin: 4px 0; }
+    .i-feat { color: #8696a0; font-size: 0.82rem; }
+    .i-feat span { color: #25D366; margin-right: 6px; }
+    .start-btn { background: #25D366; color: white; border: none; padding: 13px 40px; border-radius: 30px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+    .start-btn:hover { background: #1ebe5d; }
+    .i-note { color: #8696a0; font-size: 0.74rem; }
+
+    /* ── Celebration ── */
+    #celebrate { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 300; align-items: center; justify-content: center; flex-direction: column; gap: 14px; text-align: center; padding: 20px; }
+    #celebrate.show { display: flex; }
+    .c-icon { font-size: 4rem; }
+    .c-title { color: #e9edef; font-size: 1.6rem; font-weight: 700; }
+    .c-sub { color: #8696a0; font-size: 0.9rem; line-height: 1.6; max-width: 460px; }
+    .c-detail { background: #202c33; border-radius: 10px; padding: 14px 24px; color: #e9edef; font-size: 0.875rem; }
+    .c-restart { background: #25D366; color: white; border: none; padding: 11px 28px; border-radius: 20px; font-size: 0.875rem; cursor: pointer; margin-top: 6px; }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #2a3942; border-radius: 3px; }
+
+    @media (max-width: 720px) { #sidebar { display: none; } #msg-box { padding: 14px 16px; } }
+  </style>
+</head>
+<body>
+
+<!-- Intro -->
+<div id="intro">
+  <div class="i-logo">🔧</div>
+  <div class="i-title">WhatsApp Service Agent</div>
+  <div class="i-sub">Watch your AI handle a real customer inquiry on WhatsApp — answering questions, quoting a price, scheduling the visit, and following up. You don't type a single message.</div>
+  <div class="i-features">
+    <div class="i-feat"><span>1</span> Customer sends inquiry — AI responds instantly</div>
+    <div class="i-feat"><span>2</span> AI asks the right questions and requests photos</div>
+    <div class="i-feat"><span>3</span> AI quotes the price based on job details</div>
+    <div class="i-feat"><span>4</span> AI schedules the appointment</div>
+    <div class="i-feat"><span>5</span> AI confirms booking and sends reminder</div>
+    <div class="i-feat"><span>6</span> AI follows up after job completion</div>
+  </div>
+  <button class="start-btn" onclick="startDemo()">Play Demo</button>
+  <div class="i-note">Simulated demo showing the provider's perspective. The AI agent runs on your WhatsApp Business number.</div>
+</div>
+
+<!-- Stage bar -->
+<div id="stage-bar">
+  <div id="stage-label">🔧 WhatsApp Service Agent — Provider Demo</div>
+  <div class="stage-steps">
+    <div class="step" id="s1"></div>
+    <div class="step" id="s2"></div>
+    <div class="step" id="s3"></div>
+    <div class="step" id="s4"></div>
+    <div class="step" id="s5"></div>
+    <div class="step" id="s6"></div>
+  </div>
+</div>
+
+<!-- Main layout -->
+<div id="app">
+
+  <!-- Sidebar: Business Dashboard -->
+  <div id="sidebar">
+    <div id="sidebar-header">
+      <div class="app-logo">🔧</div>
+      <div>
+        <div class="app-title">FixIt Plumbing</div>
+        <div class="app-sub">WhatsApp Agent Dashboard</div>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <div class="info-label">Business Info</div>
+      <div class="info-row"><span class="info-key">Service</span><span class="info-val">Plumbing Repair</span></div>
+      <div class="info-row"><span class="info-key">Areas</span><span class="info-val">PJ, Subang, Shah Alam</span></div>
+      <div class="info-row"><span class="info-key">Hours</span><span class="info-val">8am — 6pm, Mon–Sat</span></div>
+      <div class="info-row"><span class="info-key">Agent Mode</span><span class="info-val" style="color:#25D366;">Active</span></div>
+    </div>
+
+    <hr class="sidebar-divider">
+
+    <div class="info-section">
+      <div class="info-label">Services & Pricing</div>
+      <div class="service-item"><div class="service-name">Pipe Leak Repair</div><div class="service-detail">RM150 — RM250 · 1-2 hours</div></div>
+      <div class="service-item"><div class="service-name">Clogged Drain</div><div class="service-detail">RM100 — RM200 · 1 hour</div></div>
+      <div class="service-item"><div class="service-name">Tap Replacement</div><div class="service-detail">RM80 — RM150 · 30 min</div></div>
+      <div class="service-item"><div class="service-name">Water Heater Install</div><div class="service-detail">RM200 — RM400 · 1-2 hours</div></div>
+    </div>
+
+    <hr class="sidebar-divider">
+
+    <div class="info-section" style="padding-bottom:6px;">
+      <div class="info-label">Today's Stats</div>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-num" id="stat-inquiries">0</div><div class="stat-label">Inquiries</div></div>
+      <div class="stat-card"><div class="stat-num" id="stat-booked">0</div><div class="stat-label">Booked</div></div>
+      <div class="stat-card"><div class="stat-num" id="stat-revenue">0</div><div class="stat-label">Revenue (RM)</div></div>
+      <div class="stat-card"><div class="stat-num" id="stat-response">—</div><div class="stat-label">Avg Response</div></div>
+    </div>
+  </div>
+
+  <!-- Chat -->
+  <div id="chat-area">
+    <div id="chat-header">
+      <div id="chat-av">👤</div>
+      <div style="flex:1;">
+        <div id="chat-name">Ahmad · +6012-345 6789</div>
+        <div id="chat-status">Customer inquiry</div>
+      </div>
+      <span class="ai-badge">AI HANDLING</span>
+    </div>
+    <div id="msg-box">
+      <div class="date-div"><span>Today</span></div>
+    </div>
+    <div id="action-bar">
+      <button class="abtn" id="abtn" disabled>Waiting for demo to start...</button>
+    </div>
+  </div>
+</div>
+
+<!-- Celebration -->
+<div id="celebrate">
+  <div class="c-icon">🎉</div>
+  <div class="c-title">Customer Handled!</div>
+  <div class="c-sub">From inquiry to follow-up — 6 stages, zero typing from you. The AI agent handled the entire customer conversation on WhatsApp.</div>
+  <div class="c-detail" id="c-detail"></div>
+  <div class="c-sub" style="font-size:0.78rem; margin-top:4px;">The customer never knew they were talking to an AI.</div>
+  <button class="c-restart" onclick="location.reload()">Run Demo Again</button>
+</div>
+
+<script>
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+// ── Helpers ──
+function setStage(n, label) {
+  document.getElementById('stage-label').textContent = label;
+  for (let i = 1; i <= 6; i++) {
+    const el = document.getElementById(`s${i}`);
+    el.className = 'step' + (i < n ? ' done' : i === n ? ' active' : '');
+  }
+}
+
+function setBtn(label, fn, off = false) {
+  const b = document.getElementById('abtn');
+  b.textContent = label;
+  b.disabled = off;
+  b.onclick = fn || null;
+}
+
+function updateStats(inquiries, booked, revenue, response) {
+  document.getElementById('stat-inquiries').textContent = inquiries;
+  document.getElementById('stat-booked').textContent = booked;
+  document.getElementById('stat-revenue').textContent = revenue;
+  document.getElementById('stat-response').textContent = response;
+}
+
+function appendBubble(role, text, time, media) {
+  const box = document.getElementById('msg-box');
+  const w = document.createElement('div');
+  w.className = `mw ${role === 'agent' ? 'sent' : 'received'}`;
+
+  let mediaHtml = '';
+  if (media === 'photo') {
+    mediaHtml = `<div class="media-card"><div class="media-ico">📸</div><div><div class="media-n">kitchen-leak.jpg</div><div class="media-s">2.1 MB · Photo</div></div></div>`;
+  }
+
+  let quoteHtml = '';
+  if (media === 'quote') {
+    quoteHtml = `<div class="quote-card">
+      <div class="qc-title">Quotation</div>
+      <div class="qc-row"><span class="qc-label">Service</span><span class="qc-val">Pipe Leak Repair</span></div>
+      <div class="qc-row"><span class="qc-label">Estimated Time</span><span class="qc-val">1-2 hours</span></div>
+      <div class="qc-row"><span class="qc-label">Parts</span><span class="qc-val">Included</span></div>
+      <div class="qc-row qc-total"><span class="qc-label">Total</span><span class="qc-val">RM 180</span></div>
+    </div>`;
+  }
+
+  w.innerHTML = `<div class="bubble">
+    <div class="b-text">${text}</div>
+    ${mediaHtml}${quoteHtml}
+    <div class="b-meta">
+      <span class="b-time">${time}</span>
+      ${role === 'agent' ? '<span class="tick">✓✓</span>' : ''}
+    </div>
+  </div>`;
+  box.appendChild(w);
+  box.scrollTop = box.scrollHeight;
+}
+
+function appendBanner(text) {
+  const box = document.getElementById('msg-box');
+  const el = document.createElement('div');
+  el.className = 'banner';
+  el.innerHTML = `<span>${text}</span>`;
+  box.appendChild(el);
+  box.scrollTop = box.scrollHeight;
+}
+
+function showTyping() {
+  const box = document.getElementById('msg-box');
+  const el = document.createElement('div');
+  el.className = 'typing-w'; el.id = 'typing';
+  el.innerHTML = `<div class="typing-b"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;
+  box.appendChild(el);
+  box.scrollTop = box.scrollHeight;
+}
+function hideTyping() { const el = document.getElementById('typing'); if (el) el.remove(); }
+
+async function agentReply(text, time, media) {
+  showTyping();
+  await sleep(1800);
+  hideTyping();
+  appendBubble('agent', text, time, media);
+}
+
+async function customerMsg(text, time, media) {
+  await sleep(800);
+  appendBubble('customer', text, time, media);
+}
+
+// ── DEMO FLOW ──
+
+async function startDemo() {
+  document.getElementById('intro').style.display = 'none';
+
+  // Stage 1: Customer Inquiry
+  setStage(1, '📩 Stage 1 — Customer sends inquiry on WhatsApp');
+  setBtn('Incoming message...', null, true);
+  updateStats(1, 0, 0, '—');
+
+  await sleep(1000);
+  await customerMsg('Hi, do you do plumbing service in PJ area? I have a leaking pipe in my kitchen.', '9:14 AM');
+
+  await sleep(600);
+  setStage(1, '🤖 Stage 1 — AI agent responding to inquiry...');
+  await agentReply('Hi! Yes, we cover the Petaling Jaya area. Sorry to hear about the leak — how bad is it? Is the water dripping or spraying? And could you send a photo of the affected area? That\'ll help us give you an accurate quote.', '9:14 AM');
+
+  updateStats(1, 0, 0, '12s');
+  setStage(2, '✅ Stage 1 complete — Moving to scoping');
+  setBtn('Customer replies with details...', stage2);
+}
+
+async function stage2() {
+  setBtn('Processing...', null, true);
+  setStage(2, '🔍 Stage 2 — AI agent scoping the job...');
+
+  await customerMsg('It\'s dripping quite a lot from the pipe under the kitchen sink. Water collecting on the floor. Here\'s a photo:', '9:16 AM');
+  await sleep(300);
+  appendBubble('customer', '', '9:16 AM', 'photo');
+
+  await sleep(500);
+  await agentReply('Thanks for the photo! I can see the leak is at the joint under the sink — looks like a standard pipe repair. A few more questions:\n\n1. Is this a landed house or condo?\n2. How old is the piping?\n3. Is there access to the pipe from below?', '9:17 AM');
+
+  await sleep(400);
+  await customerMsg('It\'s a landed house in Damansara Jaya. The piping is maybe 15 years old. Yes, there\'s access from below.', '9:18 AM');
+
+  setStage(3, '✅ Stage 2 complete — AI has enough info to quote');
+  setBtn('AI generates quote...', stage3);
+}
+
+async function stage3() {
+  setBtn('Processing...', null, true);
+  setStage(3, '💰 Stage 3 — AI agent providing quote...');
+
+  await sleep(500);
+  appendBanner('— AI generating quote based on job details —');
+
+  await agentReply('Based on the photo and your description, this is a pipe joint repair — fairly standard for a 15-year-old system. Here\'s the quote:', '9:19 AM', 'quote');
+
+  await sleep(300);
+  await agentReply('The RM180 includes parts and labour. No hidden charges. The quote is valid for 7 days. Would you like to go ahead and book a time?', '9:19 AM');
+
+  setStage(4, '✅ Stage 3 complete — Quote sent. Waiting for customer...');
+  setBtn('Customer accepts quote...', stage4);
+}
+
+async function stage4() {
+  setBtn('Processing...', null, true);
+  setStage(4, '📅 Stage 4 — Customer scheduling...');
+
+  await customerMsg('Ok the price is reasonable. Can you come this Saturday morning?', '9:21 AM');
+
+  await sleep(500);
+  await agentReply('Saturday morning works! We have two slots available:\n\n1. Saturday 9:00 AM\n2. Saturday 11:00 AM\n\nWhich one suits you better? Also, could I get the full address?', '9:21 AM');
+
+  await sleep(400);
+  await customerMsg('9am please. Address: No. 23, Jalan SS 22/25, Damansara Jaya, 47400 PJ.', '9:22 AM');
+
+  setStage(5, '✅ Stage 4 complete — Time and address confirmed');
+  setBtn('AI confirms booking...', stage5);
+}
+
+async function stage5() {
+  setBtn('Processing...', null, true);
+  setStage(5, '✅ Stage 5 — AI agent confirming booking...');
+
+  await sleep(400);
+  appendBanner('— Booking confirmed —');
+
+  await agentReply('Booking confirmed! Here\'s your summary:\n\n🔧 Service: Pipe Leak Repair\n📅 Date: Saturday, 9:00 AM\n📍 Address: No. 23, Jln SS 22/25, Damansara Jaya\n💰 Price: RM 180 (parts included)\n\nOur technician will arrive between 9:00–9:30 AM. I\'ll send you a reminder tomorrow evening. Any questions before then?', '9:23 AM');
+
+  await sleep(400);
+  await customerMsg('No questions. Thanks for the quick response!', '9:24 AM');
+
+  await agentReply('You\'re welcome! See you Saturday. Have a great day! 🙏', '9:24 AM');
+
+  updateStats(1, 1, 180, '12s');
+
+  // Simulate reminder
+  await sleep(1500);
+  appendBanner('— Friday evening: AI sends automatic reminder —');
+
+  await agentReply('Hi Ahmad! Just a reminder about your plumbing appointment tomorrow (Saturday) at 9:00 AM. Our technician will arrive at No. 23, Jln SS 22/25. Please make sure there\'s access to the kitchen sink area. See you tomorrow!', 'Fri 6:00 PM');
+
+  await sleep(400);
+  await customerMsg('Ok thanks for the reminder! See you tomorrow.', 'Fri 6:12 PM');
+
+  setStage(6, '✅ Stage 5 complete — Booking confirmed + reminder sent');
+  setBtn('Simulate: Job completed — AI follows up', stage6);
+}
+
+async function stage6() {
+  setBtn('Processing...', null, true);
+  setStage(6, '⭐ Stage 6 — AI following up after job completion...');
+
+  await sleep(1000);
+  appendBanner('— Saturday afternoon: AI sends follow-up —');
+
+  await agentReply('Hi Ahmad! Our technician has completed the pipe repair at your home this morning. We hope everything looks good! 🔧\n\nA few things:\n- The joint has been replaced with new PVC fittings\n- We recommend checking for drips over the next 24 hours\n- If you notice any issues, WhatsApp us anytime\n\nIf you\'re happy with the work, we\'d really appreciate a Google review — it helps us a lot! Thank you for choosing FixIt Plumbing. 🙏', 'Sat 2:00 PM');
+
+  await sleep(500);
+  await customerMsg('All good, no more leaking! Great service, very professional. Will definitely recommend you. Thanks! 👍', 'Sat 2:15 PM');
+
+  await agentReply('Thank you so much, Ahmad! Really appreciate the kind words. We\'re here anytime you need us. Have a great weekend! 😊', 'Sat 2:16 PM');
+
+  updateStats(1, 1, 180, '12s');
+  setStage(6, '✅ All 6 stages complete — Full customer lifecycle handled by AI');
+
+  await sleep(1000);
+  document.getElementById('c-detail').innerHTML = 'Pipe Leak Repair · Saturday 9 AM · RM 180 · <strong>12-second average response time</strong>';
+  document.getElementById('celebrate').classList.add('show');
+}
+</script>
+</body>
+</html>
