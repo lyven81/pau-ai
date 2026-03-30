@@ -13,71 +13,99 @@ Pau AI is a service that designs and builds custom AI tools for Malaysian small 
 
 **Live site:** [https://lyven81.github.io/pau-ai/](https://lyven81.github.io/pau-ai/)
 
+## AI Architecture Classification
+
+Each solution is classified by its AI architecture — how it processes queries, uses tools, and makes decisions.
+
+| Category | Count | Solutions |
+|---|---|---|
+| Agentic AI | 4 | Business Analytics Agent, Multi-Agent Research System, Marketing Campaign Manager, AI Coach & Evaluation |
+| RPA | 3 | Appointment & Booking System, WhatsApp Service Agent, Operations Tracker |
+| RAG | 1 | Niche Expert Chatbot |
+
+- **Agentic AI** — Orchestrator with planning, tools, memory, and feedback loops. Autonomous decision-making.
+- **RAG** — Query → retrieve from knowledge base or external data → augment → LLM → output.
+- **RPA** — Uses tools (APIs, messaging) but follows a fixed pipeline. No autonomous planning.
+
 ## Solutions
 
-### 1. Appointment & Booking System
+### Agentic AI
 
-**Automated scheduling with conflict detection, pricing tiers, and revenue tracking — 24/7.**
-
-- **Reference Demo:** Badminton court booking agent
-- **Use Cases:** Clinics, dental, wellness, salons, tuition, workshops
-- **Page:** [booking-system.html](booking-system.html)
-
-### 2. WhatsApp Service Agent
-
-**Handles inbound inquiries, quotes, and follow-ups on your behalf. In BM or English.**
-
-- **Reference Demo:** Hire Gardener assistant
-- **Use Cases:** Plumbers, electricians, cleaners, contractors, gardeners
-- **Page:** [whatsapp-agent.html](whatsapp-agent.html)
-
-### 3. Niche Expert Chatbot
-
-**Answers domain-specific questions instantly, with cited sources from the web.**
-
-- **Reference Demo:** MyPropLex (Malaysian property law chatbot)
-- **Use Cases:** Property law, insurance, tax, HR, immigration
-- **Page:** [expert-chatbot.html](expert-chatbot.html)
-
-### 4. Business Analytics Agent
+### 1. Business Analytics Agent
 
 **Ask your data a question in plain language. Get a chart and insight — no spreadsheet needed.**
 
+- **Architecture:** Agentic AI — NL query → plans analysis → generates code → executes → returns results with charts
 - **Reference Demo:** CSV data query with auto-charting
 - **Use Cases:** F&B, retail, e-commerce, franchise, HR
 - **Page:** [analytics-agent.html](analytics-agent.html)
 
-### 5. Multi-Agent Research System
+### 2. Multi-Agent Research System
 
 **Deploys specialist agents to research your market or competitors. One structured report.**
 
+- **Architecture:** Agentic AI — Multiple specialist agents, task delegation, discovery of capabilities, structured intelligence output
 - **Reference Demo:** Market research with parallel agents
 - **Use Cases:** Marketing agencies, investors, consultants, PR firms
 - **Page:** [research-system.html](research-system.html)
 
-### 6. Operations Tracker with AI
-
-**Daily transaction log with AI-powered tips, busy hour analytics, and trend tracking.**
-
-- **Reference Demo:** Kopitiam Digital Waiter
-- **Use Cases:** F&B, retail, night markets, tuition centers
-- **Page:** [operations-tracker.html](operations-tracker.html)
-
-### 7. Marketing Campaign Manager
+### 3. Marketing Campaign Manager
 
 **Run the same campaign with multiple AI agents — each takes a different strategy under equal budget. Compare results, pick the winner.**
 
+- **Architecture:** Agentic AI — Multiple competing agents, independent strategy execution, comparative evaluation, recommendation loop
 - **Reference Demo:** [Social Media Marketer](https://lyven81.github.io/ai-project/projects/social-media-marketer/demo.html) — 5 channel-specialist agents compete for ROI under equal budget
 - **Use Cases:** Social media agencies, copywriting, lead generation, SEO, e-commerce campaigns
 - **Page:** [campaign-manager.html](campaign-manager.html)
 
-### 8. AI Coach & Evaluation System
+### 4. AI Coach & Evaluation System
 
 **AI evaluates performance across sessions with role-specific scoring. Recommends your best lineup and flags underperformers.**
 
+- **Architecture:** Agentic AI — Multi-session evaluation, scoring criteria, ranking, feedback loop, lineup recommendations
 - **Reference Demo:** [Football Assistant Coach](https://lyven81.github.io/ai-project/projects/football-assistant-coach/demo.html) — evaluates 22 players across 4 training sessions, recommends Starting XI
 - **Use Cases:** Sports teams, sales teams, tuition students, influencer/affiliate tracking, reseller performance, hiring candidates
 - **Page:** [coach-evaluation.html](coach-evaluation.html)
+
+### RAG
+
+### 5. Niche Expert Chatbot
+
+**Answers domain-specific questions instantly, with cited sources from the web.**
+
+- **Architecture:** RAG — Query → web search → retrieve sources → augment with citations → LLM response
+- **Reference Demo:** MyPropLex (Malaysian property law chatbot)
+- **Use Cases:** Property law, insurance, tax, HR, immigration
+- **Page:** [expert-chatbot.html](expert-chatbot.html)
+
+### RPA
+
+### 6. Appointment & Booking System
+
+**Automated scheduling with conflict detection, pricing tiers, and revenue tracking — 24/7.**
+
+- **Architecture:** RPA — Receive booking → check conflicts → apply pricing → confirm. Fixed pipeline, no autonomous planning
+- **Reference Demo:** Badminton court booking agent
+- **Use Cases:** Clinics, dental, wellness, salons, tuition, workshops
+- **Page:** [booking-system.html](booking-system.html)
+
+### 7. WhatsApp Service Agent
+
+**Handles inbound inquiries, quotes, and follow-ups on your behalf. In BM or English.**
+
+- **Architecture:** RPA — Inbound inquiry → quote → schedule → follow up → confirm. Scripted flow
+- **Reference Demo:** Hire Gardener assistant
+- **Use Cases:** Plumbers, electricians, cleaners, contractors, gardeners
+- **Page:** [whatsapp-agent.html](whatsapp-agent.html)
+
+### 8. Operations Tracker with AI
+
+**Daily transaction log with AI-powered tips, busy hour analytics, and trend tracking.**
+
+- **Architecture:** RPA — Log transaction → compute trends → generate AI tip. Fixed pipeline
+- **Reference Demo:** Kopitiam Digital Waiter
+- **Use Cases:** F&B, retail, night markets, tuition centers
+- **Page:** [operations-tracker.html](operations-tracker.html)
 
 ## File Structure
 
