@@ -830,6 +830,9 @@ p:last-child { margin-bottom: 0; }
   grid-template-columns: repeat(2, 1fr);
   gap: 1.25rem;
 }
+.solutions-grid-3x3 {
+  grid-template-columns: repeat(3, 1fr);
+}
 
 /* Responsive */
 @media (max-width: 900px) {
@@ -844,7 +847,7 @@ p:last-child { margin-bottom: 0; }
   .step::after { display: none; }
   .pricing-card.featured { transform: none; }
   .nav-links { display: none; }
-  .solutions-grid { grid-template-columns: 1fr; }
+  .solutions-grid, .solutions-grid-3x3 { grid-template-columns: 1fr; }
 }
 @media (max-width: 600px) {
   .section { padding: 3rem 0; }
