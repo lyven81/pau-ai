@@ -463,7 +463,7 @@ p:last-child { margin-bottom: 0; }
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
-  align-items: start;
+  align-items: stretch;
 }
 .pricing-card {
   background: var(--white);
@@ -472,10 +472,12 @@ p:last-child { margin-bottom: 0; }
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
   transition: all 0.25s;
+  display: flex;
+  flex-direction: column;
 }
+.pricing-card .pricing-features { flex: 1; }
 .pricing-card.featured {
   border: 2px solid var(--gold);
-  transform: translateY(-8px);
   box-shadow: 0 16px 40px rgba(201,168,76,0.2);
 }
 .pricing-card:hover { box-shadow: var(--shadow-hover); }
@@ -845,7 +847,7 @@ p:last-child { margin-bottom: 0; }
   .hero-visual { display: none; }
   .steps { flex-direction: column; gap: 1.5rem; }
   .step::after { display: none; }
-  .pricing-card.featured { transform: none; }
+  .pricing-card.featured { }
   .nav-links { display: none; }
   .solutions-grid, .solutions-grid-3x3 { grid-template-columns: 1fr; }
 }
