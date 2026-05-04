@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>多代理决策系统 — Pau AI</title>
+  <meta name="description" content="协调的 AI 代理团队(ADK / A2A),进行调研、评估并产出结论。Custom 层级 — 销售对接需要先做范围沟通。" />
+  <link rel="alternate" hreflang="en" href="multi-agent-systems.html" />
+  <link rel="alternate" hreflang="ms" href="multi-agent-systems-bm.html" />
+  <link rel="alternate" hreflang="zh-Hans" href="multi-agent-systems-mand.html" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav id="topnav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">Pau <span>AI</span></a>
+    <ul class="nav-links">
+      <li><a href="solutions.html">解决方案</a></li>
+      <li><a href="pricing.html">价格</a></li>
+      <li><a href="faq.html">常见问题</a></li>
+      <li><a href="about.html">关于</a></li>
+      <li><a href="https://wa.me/60149207099?text=%E4%BD%A0%E5%A5%BD%20Lee%EF%BC%8C%E6%88%91%E7%9C%8B%E4%BA%86%20Pau%20AI%20%E9%A6%96%E9%A1%B5%E3%80%82%E6%88%91%E5%81%9A%20%7B%E8%A1%8C%E4%B8%9A%20%E2%80%94%20%E6%B0%B4%E7%94%B5%E3%80%81%E7%A9%BA%E8%B0%83%E7%AD%89%7D%EF%BC%8C%E5%9C%A8%20%7B%E5%9C%B0%E5%8C%BA%7D%20%E7%BB%8F%E8%90%A5%E4%B8%80%E9%97%B4%E5%B0%8F%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%85%AC%E5%8F%B8%E3%80%82%E5%8F%AF%E4%BB%A5%E6%95%99%E6%88%91%E6%80%8E%E6%A0%B7%E7%94%A8%20AI%20%E6%9B%B4%E5%BF%AB%E5%9C%B0%E5%9B%9E%E5%A4%8D%E5%AE%A2%E6%88%B7%E5%90%97%3F" class="nav-cta" target="_blank" rel="noopener" data-page="nav">WhatsApp 联系 Lee</a></li>
+      <li class="nav-lang" aria-label="Language"><a href="multi-agent-systems.html" class="">EN</a><span class="sep">·</span><a href="multi-agent-systems-bm.html" class="">BM</a><span class="sep">·</span><a href="multi-agent-systems-mand.html" class="active">中文</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero (split 60/40) -->
+<section class="hero-medium hero-split">
+  <div class="container hero-split-grid">
+
+    <div class="hero-content">
+      <span class="section-tag">Multi-Agent Decision Systems · Custom 层级</span>
+      <h1 class="hero-headline">当一个 AI 不够用时 — 协调一个团队。</h1>
+      <p class="hero-sub">ADK / A2A 协调代理。各自独立运行。共同产出结论或方案。</p>
+      <p class="hero-description">多代理编排适合成熟运营:跨店铺库存再平衡、多组合投资分析、跨渠道营销优化。每个专家代理处理自己的部分;一个编排代理综合结论。基于 Google ADK + A2A 协议构建。</p>
+
+      <div class="hero-cta-group">
+        <a href="#scoping" target="_blank" class="btn btn-primary">安排范围对接通话 →</a>
+        <a href="https://wa.me/60149207099?text=%E4%BD%A0%E5%A5%BD%20Lee%EF%BC%8C%E6%88%91%E7%9C%8B%E4%BA%86%20Multi-Agent%20Decision%20Systems%20%E8%BF%99%E4%B8%80%E9%A1%B5%E3%80%82%E6%88%91%E7%BB%8F%E8%90%A5%20%7B%E4%B8%9A%E5%8A%A1%20%E2%80%94%20%E5%A4%9A%E5%BA%97%E9%A4%90%E9%A5%AE%E3%80%81%E6%88%BF%E5%9C%B0%E4%BA%A7%E7%BB%84%E5%90%88%E7%AD%89%7D%EF%BC%8C%E6%83%B3%E7%94%A8%E5%A4%9A%E4%B8%AA%20AI%20agent%20%E5%8D%8F%E8%B0%83%E4%B8%80%E4%B8%AA%E5%B7%A5%E4%BD%9C%E6%B5%81%E3%80%82%E5%8F%AF%E4%BB%A5%E5%AE%89%E6%8E%92%E4%B8%80%E4%B8%AA%E8%8C%83%E5%9B%B4%E5%AF%B9%E6%8E%A5%E5%90%97%3F"
+           class="wa-cta"
+           target="_blank"
+           rel="noopener"
+           data-page="multi-agent-systems">
+          <svg class="wa-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" fill="currentColor"/>
+          </svg>
+          <span class="wa-cta-label">直接 WhatsApp Lee</span>
+        </a>
+      </div>
+
+      <p class="hero-tag">即将推出参考案例:Business Advisor(开发中)</p>
+    </div>
+
+    <div class="hero-demo-card">
+      <div class="hero-demo-header">
+        <span class="hero-demo-dot"></span>
+        参考案例 · Business Advisor(开发中)
+      </div>
+      <div class="hero-demo-body">
+        <img src="img/multi%20agent%20research%20system.png" alt="Business Advisor 参考案例 — 为 SME 顾问设计的协调多代理团队,正在开发中。" loading="lazy" />
+      </div>
+      <a href="#scoping" target="_blank" class="hero-demo-launch">
+        即将推出 →
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- What It Does -->
+<section class="section section-light">
+  <div class="container">
+    <div class="two-col">
+      <div>
+        <span class="section-tag">它能做什么</span>
+        <h2>专家代理。一个结论。</h2>
+        <p>团队中每个代理都有聚焦的角色:Researcher 抓取最新数据;Evaluator 按标准打分;Orchestrator 决定下一步;Executor 执行;Reporter 综合结论。它们通过 A2A 协议沟通 — Google 开放的代理间协调标准。</p>
+        <p>这是为真正需要编排的问题保留的。不是每个业务都需要。我们在对接电话上做范围沟通 — 如果单代理(Conversational Data Analytics 层级)能解决,我们推荐那个。我们只在单代理不够时才搭建多代理。</p>
+      </div>
+      <div>
+        <div class="facts-card">
+          <h4>重点信息</h4>
+          <div class="fact-row"><span class="fact-label">框架</span><span class="fact-value">Google ADK + A2A</span></div>
+          <div class="fact-row"><span class="fact-label">语言</span><span class="fact-value">中文 · BM · EN</span></div>
+          <div class="fact-row"><span class="fact-label">典型代理数</span><span class="fact-value">3–7 个专家</span></div>
+          <div class="fact-row"><span class="fact-label">部署</span><span class="fact-value">每代理一个 Cloud Run</span></div>
+          <div class="fact-row"><span class="fact-label">起价</span><span class="fact-value">RM 15,000</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Who It's For -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">适合谁</span>
+      <h2>为准备好编排的成熟运营而打造</h2>
+    </div>
+    <div class="audience-grid">
+      <div class="audience-card"><h4>多店餐饮</h4><p>跨店铺库存再平衡、按门店营销、跨店表现。</p></div>
+      <div class="audience-card"><h4>房地产组合</h4><p>管理 20+ 房源的独立经纪或精品中介 — 用多代理董事会做每周房源审查。</p></div>
+      <div class="audience-card"><h4>中型 SME</h4><p>横跨销售、库存、营销、财务的运营 — 需要协调决策。</p></div>
+      <div class="audience-card"><h4>跨渠道营销</h4><p>5+ 渠道带预算分配 — 代理竞争并汇报。</p></div>
+      <div class="audience-card"><h4>投资研究</h4><p>多阶段股票分析:基本面 + 技术面 + 情绪 + 结论。</p></div>
+      <div class="audience-card"><h4>内容流水线</h4><p>课程制作、活动生成 — 研究 / 验证 / 撰写 / 发布,每阶段自己的代理。</p></div>
+    </div>
+    <div class="broadening-box">如果你的运营有多个需要协调的不同工作流,而单一 AI 代理不够,这就是你的方案。我们在对接电话上做范围沟通后再报价。</div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">工作流程</span>
+      <h2>三步搭建协调代理团队</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="step-number">1</div><h4>对接 & 范围沟通</h4><p>30–60 分钟通话。我们梳理你的决策工作流:输入什么数据,输出什么结论,需要哪些专家。</p></div>
+      <div class="step"><div class="step-number">2</div><h4>设计代理团队</h4><p>通常 3–7 个专家代理。每个有聚焦角色 + 工具集。我们设计它们之间的 A2A 协议契约。</p></div>
+      <div class="step"><div class="step-number">3</div><h4>部署到 Cloud Run</h4><p>每个代理作为独立的 Cloud Run 服务运行。Orchestrator 通过 A2A 协调。我们交付时配监控 + 运维仪表板。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Demo -->
+<section class="section section-dark" style="padding-top:0;">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">看它实战</span>
+    </div>
+    <div class="demo-box">
+      <img src="img/multi%20agent%20research%20system.png" alt="Business Advisor 参考案例 — 为 SME 顾问设计的多代理团队,开发中" style="width:100%;border-radius:8px;margin-bottom:1.5rem;display:block;" />
+      <h3>参考案例开发中</h3>
+      <p>Business Advisor 参考案例正在开发中 — 为 SME 顾问工作流设计的协调多代理团队。正在范围沟通并构建中;准备好后将作为该层级的公开参考。</p>
+      <a href="#scoping" target="_blank" class="btn btn-gold">参考案例开发中 — 安排范围对接通话了解更多</a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section section-light">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">常见问题 · Multi-Agent Systems</span>
+      <h2>决定前的常见疑问</h2>
+    </div>
+    <div style="max-width:780px;margin:0 auto;">
+      <div class="faq-category">
+        <div class="faq-item">
+          <button class="faq-q">
+            为什么不直接用一个大 LLM 加很多工具?
+            <span class="arrow">&#9662;</span>
+          </button>
+          <div class="faq-a">
+            <p>对于简单情况,这正是你应该用的 — 也就是我们的 Standard 层级(Conversational Data Analytics)。对于有多个不同工作流的复杂情况,一个代理会困惑,提示会变得笨重,质量会下降。</p><p>多代理拆分认知负载。每个代理有聚焦角色和清晰指令。质量和可靠性提升。</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">
+            什么是 A2A 协议?
+            <span class="arrow">&#9662;</span>
+          </button>
+          <div class="faq-a">
+            <p>Agent-to-Agent — Google 开放的协议,让 AI 代理彼此协调。每个代理暴露 typed 契约(它接受什么、返回什么),其他代理直接调用这些契约。它就像 AI 代理的微服务。</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">
+            为什么这是 Custom 层级而不是产品化?
+            <span class="arrow">&#9662;</span>
+          </button>
+          <div class="faq-a">
+            <p>多代理编排本质上是定制的。跨店铺餐饮库存所需的代理与房地产组合管理所需的不同。我们拒绝把这个产品化,因为结果要么太通用而无效,要么太狭窄而不适配。Custom 是正确的层级。</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">
+            我怎么知道我需要这个还是 Standard 层级?
+            <span class="arrow">&#9662;</span>
+          </button>
+          <div class="faq-a">
+            <p>如果你的问题是 '问我的数据一个问题' → Standard(Conversational Data Analytics)。如果是 '协调一个跨多个决策的工作流' → Custom。我们会在对接电话上诚实告诉你。许多以为自己需要 Custom 的客户实际上 Standard 就能满足,价格只有一半。</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">
+            典型项目时间是多久?
+            <span class="arrow">&#9662;</span>
+          </button>
+          <div class="faq-a">
+            <p>6–10 周,取决于代理数量与复杂度。对接 & 范围:1 周。构建 & 测试:4–8 周。交付 & 培训:1 周。我们收 50% 定金 + 50% 交付时付清。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">价格</span>
+      <h2>Custom 层级 — 销售对接范围沟通</h2>
+    </div>
+    <div style="display:flex;justify-content:center;">
+      <div class="card card-gold-top" style="max-width:380px;width:100%;">
+        <span class="pricing-badge">CUSTOM</span>
+        <h3>Multi-Agent Decision System</h3>
+        <div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--gold);margin:0.5rem 0;">RM 15,000 起</div>
+        <p>为你的决策工作流定制的协调代理团队。通常 3–7 个专家代理,部署在 Cloud Run + A2A 协议。报价前需对接电话 — 我们不会在没有范围沟通的情况下对复杂多代理项目固定报价。</p>
+      </div>
+    </div>
+    <p class="text-center" style="margin-top:1.5rem;color:var(--muted);font-size:0.9rem;">需要分析,而不是编排?查看 <a href="pricing.html" style="color:var(--cta);">Standard 套餐(RM 7,500)→</a></p>
+  </div>
+</section>
+
+<!-- CTA Strip -->
+<section class="section-gold cta-strip">
+  <div class="container">
+    <h2>有一个一个 AI 解决不了的协调问题?</h2>
+    <p>告诉我你想编排的工作流 — 我会在 30 分钟通话中做范围沟通。</p>
+    <a href="https://wa.me/60149207099?text=%E4%BD%A0%E5%A5%BD%20Lee%EF%BC%8C%E6%88%91%E7%9C%8B%E4%BA%86%20Multi-Agent%20Decision%20Systems%20%E8%BF%99%E4%B8%80%E9%A1%B5%E3%80%82%E6%88%91%E7%BB%8F%E8%90%A5%20%7B%E4%B8%9A%E5%8A%A1%20%E2%80%94%20%E5%A4%9A%E5%BA%97%E9%A4%90%E9%A5%AE%E3%80%81%E6%88%BF%E5%9C%B0%E4%BA%A7%E7%BB%84%E5%90%88%E7%AD%89%7D%EF%BC%8C%E6%83%B3%E7%94%A8%E5%A4%9A%E4%B8%AA%20AI%20agent%20%E5%8D%8F%E8%B0%83%E4%B8%80%E4%B8%AA%E5%B7%A5%E4%BD%9C%E6%B5%81%E3%80%82%E5%8F%AF%E4%BB%A5%E5%AE%89%E6%8E%92%E4%B8%80%E4%B8%AA%E8%8C%83%E5%9B%B4%E5%AF%B9%E6%8E%A5%E5%90%97%3F" class="btn btn-dark wa-cta-btn" target="_blank" rel="noopener" data-page="multi-agent-systems">安排范围对接通话 →</a>
+  </div>
+</section>
+
+<footer id="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand-name">Pau <span>AI</span></div>
+        <p style="color:var(--gold);font-style:italic;font-size:0.9rem;">"我们搭建系统,钥匙在你手上。"</p>
+        <p>为马来西亚 SME 定制 AI 系统。LLM 中立。一切由你拥有。</p>
+      </div>
+      <div class="footer-col">
+        <h5>解决方案</h5>
+        <ul>
+          <li><a href="whatsapp-agent.html">WhatsApp 代理</a></li>
+          <li><a href="agentic-commerce.html">Agentic Commerce</a></li>
+          <li><a href="data-analytics.html">对话式数据分析</a></li>
+          <li><a href="multi-agent-systems.html">多代理决策系统</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>公司</h5>
+        <ul>
+          <li><a href="pricing.html">价格</a></li>
+          <li><a href="faq.html">常见问题</a></li>
+          <li><a href="about.html">关于</a></li>
+          <li><a href="contact.html">联系</a></li>
+          <li><a href="https://www.pauanalytics.com" target="_blank">Pau Analytics ↗</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Pau AI.</span>
+      <span>API 费、托管、域名不包含在任何套餐中。</span>
+    </div>
+  </div>
+</footer>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "为什么不直接用一个大 LLM 加很多工具?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "对于简单情况,这正是你应该用的 — 也就是我们的 Standard 层级(Conversational Data Analytics)。对于有多个不同工作流的复杂情况,一个代理会困惑,提示会变得笨重,质量会下降。 多代理拆分认知负载。每个代理有聚焦角色和清晰指令。质量和可靠性提升。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "什么是 A2A 协议?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Agent-to-Agent — Google 开放的协议,让 AI 代理彼此协调。每个代理暴露 typed 契约(它接受什么、返回什么),其他代理直接调用这些契约。它就像 AI 代理的微服务。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "为什么这是 Custom 层级而不是产品化?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "多代理编排本质上是定制的。跨店铺餐饮库存所需的代理与房地产组合管理所需的不同。我们拒绝把这个产品化,因为结果要么太通用而无效,要么太狭窄而不适配。Custom 是正确的层级。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "我怎么知道我需要这个还是 Standard 层级?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "如果你的问题是 '问我的数据一个问题' → Standard(Conversational Data Analytics)。如果是 '协调一个跨多个决策的工作流' → Custom。我们会在对接电话上诚实告诉你。许多以为自己需要 Custom 的客户实际上 Standard 就能满足,价格只有一半。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "典型项目时间是多久?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "6–10 周,取决于代理数量与复杂度。对接 & 范围:1 周。构建 & 测试:4–8 周。交付 & 培训:1 周。我们收 50% 定金 + 50% 交付时付清。"
+      }
+    }
+  ]
+}
+</script>
+
+<script>
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    item.classList.toggle('open');
+    btn.setAttribute('aria-expanded', item.classList.contains('open'));
+  });
+});
+</script>
+
+</body>
+</html>

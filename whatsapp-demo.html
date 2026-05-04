@@ -147,7 +147,7 @@
     <div class="i-feat"><span>6</span> AI follows up after job completion</div>
   </div>
   <button class="start-btn" onclick="startDemo()">Play Demo</button>
-  <div class="i-note">Simulated demo showing the provider's perspective. The AI agent runs on your WhatsApp Business number.</div>
+  <div class="i-note">Demo starts automatically — or click Play if you'd like to wait. Simulated demo showing the provider's perspective. The AI agent runs on your WhatsApp Business number.</div>
 </div>
 
 <!-- Stage bar -->
@@ -328,8 +328,14 @@ async function customerMsg(text, time, media) {
 
 // ── DEMO FLOW ──
 
+// Auto-start the demo on page load (skip the intro overlay click)
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => { startDemo(); }, 400);
+});
+
 async function startDemo() {
-  document.getElementById('intro').style.display = 'none';
+  const intro = document.getElementById('intro');
+  if (intro) intro.style.display = 'none';
 
   // Stage 1: Customer Inquiry
   setStage(1, '📩 Stage 1 — Customer sends inquiry on WhatsApp');

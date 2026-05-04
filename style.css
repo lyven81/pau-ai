@@ -862,3 +862,197 @@ p:last-child { margin-bottom: 0; }
   .cta-strip h2 { font-size: 1.2rem; }
   .cta-strip p { font-size: 0.9rem; }
 }
+
+/* Language switcher — appears in nav on multilingual pages (file 03 step 3) */
+.nav-lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 0.6rem;
+  padding-left: 0.6rem;
+  border-left: 1px solid rgba(122,114,104,0.25);
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.nav-lang a {
+  color: var(--muted) !important;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-weight: 500 !important;
+  text-decoration: none;
+  transition: color 0.15s, background 0.15s;
+}
+.nav-lang a:hover { color: var(--gold) !important; }
+.nav-lang a.active {
+  color: var(--gold) !important;
+  font-weight: 700 !important;
+  background: rgba(201,168,76,0.08);
+}
+.nav-lang .sep { color: rgba(122,114,104,0.4); }
+@media (max-width: 900px) {
+  .nav-lang {
+    margin-left: 0;
+    padding-left: 0;
+    border-left: none;
+  }
+}
+
+/* Hero split (file 03) — demo above the fold on whatsapp-agent.html */
+.hero-split {
+  text-align: left;
+  padding: 4rem 0 3rem;
+}
+.hero-split-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+.hero-split .hero-headline {
+  color: var(--white);
+  font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+  line-height: 1.18;
+  margin-bottom: 0.75rem;
+}
+.hero-split .hero-sub {
+  color: rgba(255,255,255,0.85);
+  font-size: 1.05rem;
+  margin: 0 0 0.5rem 0;
+  max-width: none;
+}
+.hero-split .bm-secondary {
+  color: var(--gold);
+  font-style: italic;
+  font-size: 1rem;
+  margin: 0 0 1.25rem 0;
+  max-width: none;
+}
+.hero-split .hero-description {
+  color: rgba(255,255,255,0.75);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  margin: 0 0 1.5rem 0;
+  max-width: 540px;
+}
+.hero-cta-group {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+.hero-split .hero-tag {
+  color: rgba(255,255,255,0.55);
+  font-size: 0.82rem;
+  margin: 0;
+  max-width: none;
+}
+.hero-demo-card {
+  background: var(--dark-card);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+}
+.hero-demo-header {
+  background: #25D366;
+  color: #ffffff;
+  padding: 0.7rem 1rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.hero-demo-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.25);
+  animation: hero-demo-pulse 1.6s ease-in-out infinite;
+}
+@keyframes hero-demo-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.hero-demo-body {
+  padding: 0;
+  background: #efe7d7;
+}
+.hero-demo-body img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.hero-demo-launch {
+  display: block;
+  text-align: center;
+  background: var(--gold);
+  color: var(--dark);
+  font-weight: 700;
+  padding: 0.85rem 1rem;
+  font-size: 0.92rem;
+  transition: background 0.2s;
+}
+.hero-demo-launch:hover {
+  background: var(--gold-dark);
+}
+@media (max-width: 900px) {
+  .hero-split { padding: 3rem 0 2.5rem; }
+  .hero-split-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .hero-split .hero-headline { font-size: 1.7rem; }
+  .hero-cta-group { flex-direction: column; align-items: stretch; }
+  .hero-cta-group .btn,
+  .hero-cta-group .wa-cta { width: 100%; justify-content: center; }
+}
+
+/* WhatsApp CTA component (file 01) — site-wide click-to-chat */
+.wa-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #25D366;
+  color: #ffffff;
+  padding: 14px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 15px;
+  border: none;
+  transition: background 0.15s, transform 0.15s;
+}
+.wa-cta:hover {
+  background: #1DA851;
+  transform: translateY(-1px);
+}
+.wa-cta:active {
+  transform: translateY(0);
+}
+.wa-icon {
+  flex-shrink: 0;
+}
+.wa-cta-label {
+  font-size: 15px;
+}
+.wa-cta-footer {
+  background: transparent;
+  color: #25D366;
+  border: 2px solid #25D366;
+  padding: 10px 18px;
+  font-size: 14px;
+}
+.wa-cta-footer:hover {
+  background: #25D366;
+  color: #ffffff;
+}
+@media (max-width: 768px) {
+  .wa-cta {
+    width: 100%;
+    justify-content: center;
+    padding: 16px 20px;
+  }
+}

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>对话式数据分析 — Pau AI</title>
+  <meta name="description" content="住在你数据库里的 AI 分析师。LLM + MCP 工具,而不是静态仪表板。用日常语言提问;得到基于真实数据的答案。" />
+  <link rel="alternate" hreflang="en" href="data-analytics.html" />
+  <link rel="alternate" hreflang="ms" href="data-analytics-bm.html" />
+  <link rel="alternate" hreflang="zh-Hans" href="data-analytics-mand.html" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav id="topnav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">Pau <span>AI</span></a>
+    <ul class="nav-links">
+      <li><a href="solutions.html">解决方案</a></li>
+      <li><a href="pricing.html">价格</a></li>
+      <li><a href="faq.html">常见问题</a></li>
+      <li><a href="about.html">关于</a></li>
+      <li><a href="https://wa.me/60149207099?text=%E4%BD%A0%E5%A5%BD%20Lee%EF%BC%8C%E6%88%91%E7%9C%8B%E4%BA%86%20Pau%20AI%20%E9%A6%96%E9%A1%B5%E3%80%82%E6%88%91%E5%81%9A%20%7B%E8%A1%8C%E4%B8%9A%20%E2%80%94%20%E6%B0%B4%E7%94%B5%E3%80%81%E7%A9%BA%E8%B0%83%E7%AD%89%7D%EF%BC%8C%E5%9C%A8%20%7B%E5%9C%B0%E5%8C%BA%7D%20%E7%BB%8F%E8%90%A5%E4%B8%80%E9%97%B4%E5%B0%8F%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%85%AC%E5%8F%B8%E3%80%82%E5%8F%AF%E4%BB%A5%E6%95%99%E6%88%91%E6%80%8E%E6%A0%B7%E7%94%A8%20AI%20%E6%9B%B4%E5%BF%AB%E5%9C%B0%E5%9B%9E%E5%A4%8D%E5%AE%A2%E6%88%B7%E5%90%97%3F" class="nav-cta" target="_blank" rel="noopener" data-page="nav">WhatsApp 联系 Lee</a></li>
+      <li class="nav-lang" aria-label="Language"><a href="data-analytics.html" class="">EN</a><span class="sep">·</span><a href="data-analytics-bm.html" class="">BM</a><span class="sep">·</span><a href="data-analytics-mand.html" class="active">中文</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero (split 60/40) -->
+<section class="hero-medium hero-split">
+  <div class="container hero-split-grid">
+
+    <div class="hero-content">
+      <span class="section-tag">Conversational Data Analytics</span>
+      <h1 class="hero-headline">向你的数据提问。获得基于真实数字的答案。</h1>
+      <p class="hero-sub">住在你数据库里的 AI 分析师 — 不是静态仪表板。</p>
+      <p class="hero-description">你的数据散落在 POS、Shopify、Sheets、AlloyDB 中,或者全部都有。你没时间学 SQL 或等待分析师。我们搭建一个 AI 分析师,通过实时 MCP 工具调用你的真实数据 — 每个答案都基于实际数字,而不是上个月的报告。</p>
+
+      <div class="hero-cta-group">
+        <a href="https://lyven81.github.io/ai-project/projects/hoo-tim-analytics-agent/demo.html" target="_blank" class="btn btn-primary">试试实时 demo →</a>
+        <a href="https://wa.me/60149207099?text=%E4%BD%A0%E5%A5%BD%20Lee%EF%BC%8C%E6%88%91%E7%9C%8B%E4%BA%86%20Conversational%20Data%20Analytics%20%E8%BF%99%E4%B8%80%E9%A1%B5%E3%80%82%E6%88%91%E7%9A%84%E6%95%B0%E6%8D%AE%E6%95%A3%E8%90%BD%E5%9C%A8%20%7B%E6%9D%A5%E6%BA%90%20%E2%80%94%20POS%E3%80%81Shopify%E3%80%81Sheets%20%E7%AD%89%7D%EF%BC%8C%E6%83%B3%E7%94%A8%E6%97%A5%E5%B8%B8%E8%AF%AD%E8%A8%80%E5%8E%BB%E9%97%AE%E9%97%AE%E9%A2%98%E3%80%82%E5%8F%AF%E4%BB%A5%E8%81%8A%E8%81%8A%E5%90%97%3F"
+           class="wa-cta"
+           target="_blank"
+           rel="noopener"
+           data-page="data-analytics">
+          <svg class="wa-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" fill="currentColor"/>
+          </svg>
+          <span class="wa-cta-label">直接 WhatsApp Lee</span>
+        </a>
+      </div>
+
+      <p class="hero-tag">参考案例:Sundry Shop Assistant · Hoo Tim Analytics · Bright Path Tuition</p>
+    </div>
+
+    <div class="hero-demo-card">
+      <div class="hero-demo-header">
+        <span class="hero-demo-dot"></span>
+        实时 demo · Hoo Tim Analytics Agent
+      </div>
+      <div class="hero-demo-body">
+        <img src="img/data-analytics.png" alt="Hoo Tim Analytics Agent — 雪兰莪零食分销商的实时 AlloyDB 分析,配 MCP 工具" loading="lazy" />
+      </div>
+      <a href="https://lyven81.github.io/ai-project/projects/hoo-tim-analytics-agent/demo.html" target="_blank" class="hero-demo-launch">
+        打开实时 demo →
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- What It Does -->
+<section class="section section-light">
+  <div class="container">
+    <div class="two-col">
+      <div>
+        <span class="section-tag">它能做什么</span>
+        <h2>MCP 工具调用你真实的数据库。不是仪表板。</h2>
+        <p>我们用 Model Context Protocol 工具把 LLM(Claude / Gemini / 你的选择)连接到你的真实数据。Agent 调用如 getRevenueByDay、getTopSKUs、comparePeriods 这样的工具 — 在你真实的数据库上运行真实的 SQL — 并用日常语言综合回答。</p>
+        <p>不再有上个月的报告。不再有 '下周再答复你'。问 'Q4 哪 3 款产品毛利下降?' 8 秒内得到答案,附底层数字。</p>
+      </div>
+      <div>
+        <div class="facts-card">
+          <h4>重点信息</h4>
+          <div class="fact-row"><span class="fact-label">架构</span><span class="fact-value">LLM + MCP + DB</span></div>
+          <div class="fact-row"><span class="fact-label">语言</span><span class="fact-value">中文 · BM · EN</span></div>
+          <div class="fact-row"><span class="fact-label">MCP 工具数</span><span class="fact-value">8–15 个</span></div>
+          <div class="fact-row"><span class="fact-label">数据库</span><span class="fact-value">AlloyDB · Cloud SQL · Sheets</span></div>
+          <div class="fact-row"><span class="fact-label">起价</span><span class="fact-value">RM 7,500</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Who It's For -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">适合谁</span>
+      <h2>为有 6 个月以上运营数据的 SME 而打造</h2>
+    </div>
+    <div class="audience-grid">
+      <div class="audience-card"><h4>餐饮多店</h4><p>比较门店、高峰时段、热销 SKU — 无需 Tableau 许可证。</p></div>
+      <div class="audience-card"><h4>零售 / 杂货</h4><p>库存问题、供应商模式、滞销商品识别。</p></div>
+      <div class="audience-card"><h4>电商</h4><p>客户群体、渠道 ROI、弃单模式。</p></div>
+      <div class="audience-card"><h4>辅导中心</h4><p>学生进度、家长沟通、学费模式。</p></div>
+      <div class="audience-card"><h4>服务类业务</h4><p>服务组合、技师利用率、客户留存。</p></div>
+      <div class="audience-card"><h4>创始人主导的 SME</h4><p>想要数据答案但不想雇分析师的任何人。</p></div>
+    </div>
+    <div class="broadening-box">如果你有积累在多个系统中的数据,以及一个一直回避的问题 — 因为问起来要花一周 — 这个方案就是答案。</div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">工作流程</span>
+      <h2>三步开始向数据提问</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="step-number">1</div><h4>连接你的数据</h4><p>我们对接你的 AlloyDB、Cloud SQL、Google Sheets 或 POS 导出。默认只读。所有数据保留在你的环境中。</p></div>
+      <div class="step"><div class="step-number">2</div><h4>定义 MCP 工具</h4><p>我们设计 8–15 个 typed 工具,匹配你实际会问的问题:营收、库存、客户、时段对比。</p></div>
+      <div class="step"><div class="step-number">3</div><h4>用日常语言提问</h4><p>语音或文字。Agent 调用正确的工具,运行真实查询,以数字 + 简短洞察作答。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Demo -->
+<section class="section section-dark" style="padding-top:0;">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">看它实战</span>
+    </div>
+    <div class="demo-box">
+      <img src="img/data-analytics.png" alt="Sundry Shop Assistant — 杂货店老板的语音分析代理,10 个 MCP 工具" style="width:100%;border-radius:8px;margin-bottom:1.5rem;display:block;" />
+      <h3>一个实时参考案例</h3>
+      <p>Hoo Tim Analytics Agent — 雪兰莪零食分销商的实时 AlloyDB 分析参考案例。MCP 工具查询真实的销售、库存与客户数据。基于实际数字,而不是上个月的报告。</p>
+      <a href="https://lyven81.github.io/ai-project/projects/hoo-tim-analytics-agent/demo.html" target="_blank" class="btn btn-gold">打开 Hoo Tim Analytics Demo →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section section-light">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">常见问题 · Conversational Data Analytics</span>
+      <h2>决定前的常见疑问</h2>
+    </div>
+    <div style="max-width:780px;margin:0 auto;">
+      <div class="faq-category">
+        <div class="faq-item">
+          <button class="faq-q">
+            这与 Tableau / Power BI 有什么不同?
+            <span class="arrow">&#9662;</span>
+          </button>
+          <div class="faq-a">
+            <p>仪表板是静态的 — 显示某人在上个季度认为重要的内容。对话式数据分析是动态的 — 你问当下重要的任何问题,agent 在你的真实数据上运行实际查询。</p><p>你不必替换仪表板。你只是不再受它的限制。一些客户两者都保留。</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">
+            你存储我的数据吗?
+            <span class="arrow">&#9662;</span>
+          </button>
+          <div class="faq-a">
+            <p>不存。你的数据库留在原处 — 你的 AlloyDB、你的 Cloud SQL、你的 Google Sheets。Agent 作为服务运行,以只读凭证连接。我们从不把数据复制出去,交付时把完整访问权交给你。Agent 运行在你的托管账户上。</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">
+            如果我的数据很乱 / 分散在多个系统怎么办?
+            <span class="arrow">&#9662;</span>
+          </button>
+          <div class="faq-a">
+            <p>大多数 SME 的数据都很乱。我们花构建的第一周理解你的数据形状,然后要么(a)通过小型 ETL 整合到 AlloyDB,要么(b)构建分别查询各源的 MCP 工具并综合答案。两者都行。</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">
+            Agent 会给错误答案吗?
+            <span class="arrow">&#9662;</span>
+          </button>
+          <div class="faq-a">
+            <p>Agent 从 typed 工具结果回答,而不是从训练数据。所以 '谁是我们 LTV 最高的客户群?' 返回的是你真实数据库的数字 — 不是幻觉。我们在构建过程中做大量测试,agent 给出的每个答案都包含底层数字,你可以验证。</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">
+            在我决定之前,能看到端到端的运作吗?
+            <span class="arrow">&#9662;</span>
+          </button>
+          <div class="faq-a">
+            <p>能。打开上面链接的 Hoo Tim Analytics demo。真实数据库、真实 MCP 工具、真实答案。我们会在对接电话上带你走一遍你的版本会是什么样。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">价格</span>
+      <h2>让你的数据自己问问题</h2>
+    </div>
+    <div style="display:flex;justify-content:center;">
+      <div class="card card-gold-top" style="max-width:380px;width:100%;">
+        <span class="pricing-badge">推荐方案</span>
+        <h3>Standard</h3>
+        <div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--gold);margin:0.5rem 0;">RM 7,500</div>
+        <p>为你的数据定制的 AI 分析师。8–15 个 MCP 工具,根据你的问题定制。连接 AlloyDB / Cloud SQL / Sheets / POS 导出。4–6 周交付。部署在你的账户上。</p>
+      </div>
+    </div>
+    <p class="text-center" style="margin-top:1.5rem;color:var(--muted);font-size:0.9rem;">只需要 WhatsApp 前台?查看 <a href="pricing.html" style="color:var(--cta);">Starter 套餐(RM 3,500)→</a></p>
+  </div>
+</section>
+
+<!-- CTA Strip -->
+<section class="section-gold cta-strip">
+  <div class="container">
+    <h2>有一个一直在回避的问题,但你的数据本可以回答?</h2>
+    <p>告诉我你有什么数据和你一直回避的问题 — 我来对接需求。</p>
+    <a href="https://wa.me/60149207099?text=%E4%BD%A0%E5%A5%BD%20Lee%EF%BC%8C%E6%88%91%E7%9C%8B%E4%BA%86%20Conversational%20Data%20Analytics%20%E8%BF%99%E4%B8%80%E9%A1%B5%E3%80%82%E6%88%91%E7%9A%84%E6%95%B0%E6%8D%AE%E6%95%A3%E8%90%BD%E5%9C%A8%20%7B%E6%9D%A5%E6%BA%90%20%E2%80%94%20POS%E3%80%81Shopify%E3%80%81Sheets%20%E7%AD%89%7D%EF%BC%8C%E6%83%B3%E7%94%A8%E6%97%A5%E5%B8%B8%E8%AF%AD%E8%A8%80%E5%8E%BB%E9%97%AE%E9%97%AE%E9%A2%98%E3%80%82%E5%8F%AF%E4%BB%A5%E8%81%8A%E8%81%8A%E5%90%97%3F" class="btn btn-dark wa-cta-btn" target="_blank" rel="noopener" data-page="data-analytics">WhatsApp 联系 Lee →</a>
+  </div>
+</section>
+
+<footer id="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand-name">Pau <span>AI</span></div>
+        <p style="color:var(--gold);font-style:italic;font-size:0.9rem;">"我们搭建系统,钥匙在你手上。"</p>
+        <p>为马来西亚 SME 定制 AI 系统。LLM 中立。一切由你拥有。</p>
+      </div>
+      <div class="footer-col">
+        <h5>解决方案</h5>
+        <ul>
+          <li><a href="whatsapp-agent.html">WhatsApp 代理</a></li>
+          <li><a href="agentic-commerce.html">Agentic Commerce</a></li>
+          <li><a href="data-analytics.html">对话式数据分析</a></li>
+          <li><a href="multi-agent-systems.html">多代理决策系统</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>公司</h5>
+        <ul>
+          <li><a href="pricing.html">价格</a></li>
+          <li><a href="faq.html">常见问题</a></li>
+          <li><a href="about.html">关于</a></li>
+          <li><a href="contact.html">联系</a></li>
+          <li><a href="https://www.pauanalytics.com" target="_blank">Pau Analytics ↗</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Pau AI.</span>
+      <span>API 费、托管、域名不包含在任何套餐中。</span>
+    </div>
+  </div>
+</footer>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "这与 Tableau / Power BI 有什么不同?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "仪表板是静态的 — 显示某人在上个季度认为重要的内容。对话式数据分析是动态的 — 你问当下重要的任何问题,agent 在你的真实数据上运行实际查询。 你不必替换仪表板。你只是不再受它的限制。一些客户两者都保留。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "你存储我的数据吗?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "不存。你的数据库留在原处 — 你的 AlloyDB、你的 Cloud SQL、你的 Google Sheets。Agent 作为服务运行,以只读凭证连接。我们从不把数据复制出去,交付时把完整访问权交给你。Agent 运行在你的托管账户上。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "如果我的数据很乱 / 分散在多个系统怎么办?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "大多数 SME 的数据都很乱。我们花构建的第一周理解你的数据形状,然后要么(a)通过小型 ETL 整合到 AlloyDB,要么(b)构建分别查询各源的 MCP 工具并综合答案。两者都行。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Agent 会给错误答案吗?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Agent 从 typed 工具结果回答,而不是从训练数据。所以 '谁是我们 LTV 最高的客户群?' 返回的是你真实数据库的数字 — 不是幻觉。我们在构建过程中做大量测试,agent 给出的每个答案都包含底层数字,你可以验证。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "在我决定之前,能看到端到端的运作吗?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "能。打开上面链接的 Sundry Shop Assistant demo。真实数据库、真实 MCP 工具、真实答案。我们会在对接电话上带你走一遍你的版本会是什么样。"
+      }
+    }
+  ]
+}
+</script>
+
+<script>
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    item.classList.toggle('open');
+    btn.setAttribute('aria-expanded', item.classList.contains('open'));
+  });
+});
+</script>
+
+</body>
+</html>
