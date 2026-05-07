@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>WhatsApp 服务助手 — Pau AI</title>
+<meta name="description" content="AI 助手在您工作时自动回复 WhatsApp 询问。为马来西亚水管工、冷气技工和虫害防治团队打造。" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+:root {
+  --navy: #0F1F3A;
+  --navy-deep: #081428;
+  --navy-soft: #1B335A;
+  --gold: #C9A961;
+  --gold-deep: #A8884A;
+  --cream: #FAF7F2;
+  --cream-warm: #F2EBE0;
+  --paper: #FFFFFF;
+  --ink: #1A1A1A;
+  --muted: #5A5A5A;
+  --line: #E6DFD3;
+  --green-wa: #25D366;
+  --green-wa-deep: #128C7E;
+  --shadow-sm: 0 1px 2px rgba(15,31,58,0.06), 0 2px 8px rgba(15,31,58,0.04);
+  --shadow-md: 0 4px 12px rgba(15,31,58,0.08), 0 12px 32px rgba(15,31,58,0.06);
+  --shadow-lg: 0 12px 40px rgba(15,31,58,0.12), 0 24px 64px rgba(15,31,58,0.08);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--cream);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, .display {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  color: var(--navy);
+}
+
+h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 800; letter-spacing: -0.025em; }
+h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 700; }
+h3 { font-size: 1.3rem; font-weight: 600; }
+h4 { font-size: 1.05rem; font-weight: 600; }
+
+p { color: var(--ink); }
+.muted { color: var(--muted); }
+
+a { color: var(--navy); text-decoration: none; }
+a:hover { color: var(--gold-deep); }
+
+.container { width: 100%; max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+
+/* --- Top Nav --- */
+.topnav {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(250,247,242,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px; max-width: 1140px; margin: 0 auto; padding: 0 24px;
+}
+.brand {
+  font-family: 'Fraunces', serif; font-weight: 800; font-size: 1.4rem;
+  color: var(--navy); letter-spacing: -0.02em;
+}
+.brand span { color: var(--gold-deep); font-style: italic; }
+.nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+.nav-links a { font-size: 0.94rem; font-weight: 500; color: var(--ink); }
+.nav-links a:hover { color: var(--gold-deep); }
+.nav-cta {
+  background: var(--navy); color: var(--cream) !important;
+  padding: 9px 18px; border-radius: 999px; font-weight: 600; font-size: 0.9rem;
+}
+.nav-cta:hover { background: var(--navy-soft); color: var(--gold) !important; }
+.nav-lang { font-size: 0.82rem; color: var(--muted); }
+.nav-lang a { color: var(--muted); margin: 0 4px; }
+.nav-lang a.active { color: var(--navy); font-weight: 600; }
+.nav-mobile-toggle { display: none; background: none; border: none; cursor: pointer; }
+
+@media (max-width: 880px) {
+  .nav-links { display: none; }
+  .nav-mobile-toggle { display: block; padding: 6px; }
+  .nav-mobile-toggle svg { width: 24px; height: 24px; stroke: var(--navy); }
+  .nav-links.open {
+    display: flex; flex-direction: column; align-items: stretch;
+    position: absolute; top: 64px; left: 0; right: 0;
+    background: var(--cream); padding: 16px 24px;
+    border-bottom: 1px solid var(--line);
+    box-shadow: var(--shadow-md);
+    gap: 14px;
+  }
+  .nav-links.open li { width: 100%; }
+}
+
+/* --- Hero --- */
+.hero {
+  background:
+    radial-gradient(ellipse at top right, rgba(201,169,97,0.08), transparent 60%),
+    linear-gradient(180deg, var(--cream) 0%, var(--cream-warm) 100%);
+  padding: 64px 0 80px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: ""; position: absolute; top: -100px; left: -100px;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(15,31,58,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-grid {
+  display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px;
+  align-items: center;
+}
+@media (max-width: 880px) {
+  .hero { padding: 40px 0 48px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 32px; }
+}
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--paper); border: 1px solid var(--line);
+  padding: 6px 14px; border-radius: 999px;
+  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em;
+  color: var(--navy); text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.eyebrow .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green-wa); animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(37,211,102,0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(37,211,102,0); }
+}
+
+.hero h1 { margin-bottom: 18px; }
+.hero h1 em {
+  font-style: italic; color: var(--gold-deep);
+  font-family: 'Fraunces', serif; font-weight: 600;
+}
+.hero-sub {
+  font-size: 1.18rem; color: var(--muted); line-height: 1.55;
+  margin-bottom: 28px; max-width: 540px;
+}
+
+.cta-group {
+  display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
+  margin-bottom: 24px;
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 26px; border-radius: 999px;
+  font-weight: 600; font-size: 0.98rem; letter-spacing: -0.005em;
+  border: none; cursor: pointer; transition: all 0.2s ease;
+  text-decoration: none;
+}
+.btn-primary {
+  background: var(--navy); color: var(--cream);
+  box-shadow: var(--shadow-md);
+}
+.btn-primary:hover {
+  background: var(--navy-soft); color: var(--gold);
+  transform: translateY(-1px); box-shadow: var(--shadow-lg);
+}
+.btn-secondary {
+  background: transparent; color: var(--navy);
+  border: 1.5px solid var(--navy);
+}
+.btn-secondary:hover { background: var(--navy); color: var(--cream); }
+.btn-wa-text {
+  font-size: 0.92rem; font-weight: 500; color: var(--muted);
+  text-decoration: underline; text-underline-offset: 4px;
+  text-decoration-color: var(--line);
+}
+.btn-wa-text:hover { color: var(--green-wa-deep); text-decoration-color: var(--green-wa); }
+
+.hero-trust {
+  font-size: 0.88rem; color: var(--muted);
+  display: flex; align-items: center; gap: 8px;
+  margin-top: 8px;
+}
+.hero-trust svg { width: 16px; height: 16px; color: var(--gold-deep); }
+
+/* Phone mockup */
+.phone-frame {
+  background: var(--navy-deep);
+  border-radius: 32px;
+  padding: 12px;
+  box-shadow: var(--shadow-lg);
+  max-width: 360px; margin: 0 auto;
+  position: relative;
+}
+.phone-frame::before {
+  content: ""; position: absolute; top: 16px; left: 50%;
+  transform: translateX(-50%);
+  width: 60px; height: 5px;
+  background: rgba(255,255,255,0.1); border-radius: 999px;
+}
+.phone-screen {
+  background: #ECE5DD;
+  border-radius: 22px;
+  overflow: hidden;
+  padding-top: 28px;
+}
+.phone-header {
+  background: var(--green-wa-deep); color: white;
+  padding: 12px 16px; display: flex; align-items: center; gap: 10px;
+}
+.phone-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--gold); color: var(--navy);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.95rem;
+}
+.phone-name { font-size: 0.92rem; font-weight: 600; }
+.phone-status { font-size: 0.72rem; opacity: 0.85; }
+.phone-body {
+  padding: 16px 12px; min-height: 380px;
+  display: flex; flex-direction: column; gap: 8px;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(0,0,0,0.02) 0%, transparent 50%),
+    radial-gradient(circle at 80% 60%, rgba(0,0,0,0.02) 0%, transparent 50%),
+    #ECE5DD;
+}
+.bubble {
+  max-width: 78%; padding: 8px 12px; border-radius: 12px;
+  font-size: 0.86rem; line-height: 1.4; position: relative;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.06);
+  word-wrap: break-word;
+}
+.bubble-them {
+  align-self: flex-start; background: white;
+  border-top-left-radius: 4px;
+}
+.bubble-you {
+  align-self: flex-end; background: #DCF8C6;
+  border-top-right-radius: 4px;
+}
+.bubble .time {
+  display: block; font-size: 0.66rem; color: rgba(0,0,0,0.45);
+  margin-top: 2px; text-align: right;
+}
+.bubble .ai-tag {
+  display: inline-block; font-size: 0.62rem; font-weight: 700;
+  letter-spacing: 0.05em; color: var(--green-wa-deep);
+  background: rgba(37,211,102,0.12); padding: 1px 5px; border-radius: 3px;
+  margin-bottom: 3px;
+}
+
+/* --- Sections --- */
+section { padding: 72px 0; }
+@media (max-width: 880px) { section { padding: 48px 0; } }
+
+.section-tag {
+  display: inline-block; font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--gold-deep); margin-bottom: 12px;
+}
+.section-title { margin-bottom: 16px; max-width: 760px; }
+.section-lead {
+  font-size: 1.1rem; color: var(--muted); max-width: 720px;
+  margin-bottom: 40px;
+}
+
+.section-light { background: var(--paper); }
+.section-cream { background: var(--cream); }
+.section-warm { background: var(--cream-warm); }
+.section-dark {
+  background: var(--navy);
+  color: var(--cream);
+}
+.section-dark h2, .section-dark h3, .section-dark h4 { color: var(--cream); }
+.section-dark p { color: rgba(250,247,242,0.85); }
+.section-dark .section-tag { color: var(--gold); }
+.section-dark .muted { color: rgba(250,247,242,0.65); }
+
+/* --- ROI Strip --- */
+.roi-strip {
+  background: var(--navy);
+  color: var(--cream);
+  padding: 56px 0;
+  position: relative; overflow: hidden;
+}
+.roi-strip::before {
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 15% 50%, rgba(201,169,97,0.18) 0%, transparent 40%),
+    radial-gradient(circle at 85% 50%, rgba(201,169,97,0.10) 0%, transparent 40%);
+  pointer-events: none;
+}
+.roi-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
+  position: relative;
+}
+@media (max-width: 760px) {
+  .roi-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+}
+.roi-item h3 {
+  font-family: 'Fraunces', serif; font-size: 2.4rem; font-weight: 800;
+  color: var(--gold); margin-bottom: 4px; letter-spacing: -0.02em;
+}
+.roi-item p { font-size: 0.92rem; color: rgba(250,247,242,0.8); }
+.roi-note {
+  text-align: center; margin-top: 32px;
+  font-size: 0.88rem; color: rgba(250,247,242,0.7);
+  font-style: italic;
+}
+
+/* --- Pain & Solve --- */
+.pain-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+  align-items: start;
+}
+@media (max-width: 880px) { .pain-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+.pain-list { list-style: none; margin-top: 24px; }
+.pain-list li {
+  padding: 16px 0 16px 36px; position: relative;
+  border-bottom: 1px solid var(--line);
+  font-size: 1rem;
+}
+.pain-list li::before {
+  content: "✕"; position: absolute; left: 0; top: 16px;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: rgba(180,40,40,0.08); color: #B42828;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; font-weight: 700;
+}
+.solve-list { list-style: none; margin-top: 24px; }
+.solve-list li {
+  padding: 16px 0 16px 36px; position: relative;
+  border-bottom: 1px solid var(--line);
+  font-size: 1rem;
+}
+.solve-list li::before {
+  content: "✓"; position: absolute; left: 0; top: 16px;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: rgba(37,140,126,0.12); color: var(--green-wa-deep);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; font-weight: 700;
+}
+
+/* --- Audience --- */
+.audience-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+}
+@media (max-width: 880px) { .audience-grid { grid-template-columns: 1fr; } }
+
+.audience-card {
+  background: var(--paper); border: 1px solid var(--line);
+  padding: 32px; border-radius: 16px;
+  transition: all 0.3s ease;
+  position: relative; overflow: hidden;
+}
+.audience-card:hover {
+  transform: translateY(-4px); box-shadow: var(--shadow-md);
+  border-color: var(--gold);
+}
+.audience-card .icon-circle {
+  width: 56px; height: 56px; border-radius: 14px;
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-soft) 100%);
+  color: var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px; font-size: 1.6rem;
+}
+.audience-card h4 { margin-bottom: 8px; }
+.audience-card p { font-size: 0.94rem; color: var(--muted); line-height: 1.55; }
+.audience-card .scenario {
+  margin-top: 14px; padding-top: 14px;
+  border-top: 1px dashed var(--line);
+  font-size: 0.84rem; color: var(--navy); font-style: italic;
+}
+
+.audience-secondary {
+  margin-top: 28px; padding: 20px 24px;
+  background: var(--cream); border-radius: 12px;
+  font-size: 0.92rem; color: var(--muted);
+  border-left: 3px solid var(--gold);
+}
+
+/* --- Conversation walkthrough --- */
+.walkthrough {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+  align-items: center;
+}
+@media (max-width: 880px) {
+  .walkthrough { grid-template-columns: 1fr; gap: 32px; }
+  .walkthrough.reverse > div:first-child { order: 2; }
+}
+.walkthrough-text .step-label {
+  display: inline-block; font-family: 'Fraunces', serif;
+  font-size: 0.95rem; font-weight: 700; letter-spacing: 0.1em;
+  color: var(--gold); margin-bottom: 12px;
+}
+.walkthrough-text h3 {
+  color: var(--cream); font-size: 1.7rem; margin-bottom: 14px;
+}
+.walkthrough-text p {
+  color: rgba(250,247,242,0.85); font-size: 1rem; line-height: 1.65;
+}
+.walkthrough + .walkthrough { margin-top: 64px; }
+
+/* --- Trust / Tech --- */
+.trust-row {
+  display: flex; justify-content: center; align-items: center;
+  flex-wrap: wrap; gap: 36px;
+  padding: 24px 0;
+  margin-top: 32px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.trust-item {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 0.88rem; color: var(--muted); font-weight: 500;
+}
+.trust-item svg { width: 22px; height: 22px; color: var(--navy); }
+
+/* --- Case study placeholder --- */
+.case-card {
+  background: linear-gradient(135deg, var(--cream-warm) 0%, var(--cream) 100%);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+  position: relative;
+}
+@media (max-width: 880px) {
+  .case-card { grid-template-columns: 1fr; padding: 28px; gap: 24px; }
+}
+.case-quote-mark {
+  font-family: 'Fraunces', serif; font-size: 5rem; line-height: 0.5;
+  color: var(--gold); margin-bottom: -8px; display: block;
+}
+.case-quote {
+  font-family: 'Fraunces', serif; font-size: 1.35rem;
+  font-weight: 500; line-height: 1.4;
+  color: var(--navy); font-style: italic;
+  margin-bottom: 20px;
+}
+.case-meta { display: flex; align-items: center; gap: 14px; }
+.case-avatar {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--navy), var(--navy-soft));
+  color: var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.1rem;
+}
+.case-name { font-weight: 600; color: var(--navy); }
+.case-role { font-size: 0.88rem; color: var(--muted); }
+.case-numbers {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+.case-stat {
+  background: var(--paper); padding: 20px;
+  border-radius: 12px; border: 1px solid var(--line);
+  text-align: center;
+}
+.case-stat-num {
+  font-family: 'Fraunces', serif; font-size: 2.2rem; font-weight: 800;
+  color: var(--gold-deep); display: block; line-height: 1;
+}
+.case-stat-label {
+  font-size: 0.82rem; color: var(--muted); margin-top: 6px; display: block;
+}
+.case-disclaimer {
+  font-size: 0.78rem; color: var(--muted); font-style: italic;
+  margin-top: 24px; text-align: center;
+}
+
+/* --- Pricing --- */
+.pricing-card {
+  background: var(--paper); border: 2px solid var(--navy);
+  border-radius: 20px; max-width: 480px; margin: 0 auto;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+.pricing-header {
+  background: var(--navy); color: var(--cream);
+  padding: 28px 32px; text-align: center;
+  position: relative;
+}
+.pricing-badge {
+  position: absolute; top: 14px; right: 14px;
+  background: var(--gold); color: var(--navy);
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+  padding: 4px 10px; border-radius: 999px; text-transform: uppercase;
+}
+.pricing-price {
+  font-family: 'Fraunces', serif; font-size: 3rem; font-weight: 800;
+  color: var(--gold); display: block; line-height: 1; margin: 8px 0;
+}
+.pricing-tier-name {
+  font-size: 0.92rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(250,247,242,0.75);
+}
+.pricing-body { padding: 32px; }
+.pricing-features { list-style: none; }
+.pricing-features li {
+  padding: 12px 0 12px 28px; position: relative;
+  font-size: 0.96rem; border-bottom: 1px dashed var(--line);
+}
+.pricing-features li:last-child { border-bottom: none; }
+.pricing-features li::before {
+  content: ""; position: absolute; left: 0; top: 18px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--gold);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230F1F3A'><path d='M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/></svg>");
+  background-size: 12px; background-repeat: no-repeat; background-position: center;
+}
+.pricing-cta { margin-top: 24px; display: flex; flex-direction: column; gap: 12px; }
+.pricing-risk {
+  margin-top: 18px; padding: 14px 16px;
+  background: var(--cream-warm); border-radius: 10px;
+  font-size: 0.88rem; color: var(--navy); text-align: center;
+}
+.pricing-risk strong { color: var(--gold-deep); }
+.pricing-scarcity {
+  text-align: center; margin-top: 16px;
+  font-size: 0.86rem; color: var(--muted);
+}
+.pricing-scarcity .live-dot {
+  display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+  background: #B42828; margin-right: 6px;
+  animation: pulse-red 2s infinite;
+}
+@keyframes pulse-red {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* --- FAQ --- */
+.faq-list { max-width: 780px; margin: 0 auto; }
+.faq-item {
+  border-bottom: 1px solid var(--line);
+  padding: 4px 0;
+}
+.faq-q {
+  width: 100%; background: none; border: none;
+  text-align: left; padding: 22px 36px 22px 0;
+  font-size: 1.04rem; font-weight: 600; color: var(--navy);
+  font-family: inherit; cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center;
+  position: relative;
+}
+.faq-q::after {
+  content: "+"; position: absolute; right: 4px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.6rem; font-weight: 300; color: var(--gold-deep);
+  transition: transform 0.2s ease;
+}
+.faq-item.open .faq-q::after { content: "−"; }
+.faq-a {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+.faq-item.open .faq-a {
+  max-height: 600px; padding-bottom: 22px;
+}
+.faq-a p {
+  font-size: 0.96rem; line-height: 1.7; color: var(--muted);
+  margin-bottom: 12px;
+}
+.faq-a p:last-child { margin-bottom: 0; }
+
+/* --- Final CTA --- */
+.final-cta {
+  background:
+    radial-gradient(ellipse at center, rgba(201,169,97,0.18) 0%, transparent 60%),
+    var(--navy);
+  padding: 80px 24px;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.final-cta h2 { color: var(--cream); margin-bottom: 16px; }
+.final-cta p {
+  color: rgba(250,247,242,0.85); max-width: 520px; margin: 0 auto 28px;
+  font-size: 1.08rem;
+}
+.btn-gold {
+  background: var(--gold); color: var(--navy);
+  font-weight: 700; padding: 16px 32px;
+}
+.btn-gold:hover { background: var(--cream); color: var(--navy); transform: translateY(-1px); }
+
+/* --- Footer --- */
+footer {
+  background: var(--navy-deep); color: rgba(250,247,242,0.7);
+  padding: 48px 0 24px;
+  font-size: 0.9rem;
+}
+footer .footer-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+  margin-bottom: 32px;
+}
+@media (max-width: 760px) { footer .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+footer h5 {
+  font-family: 'Fraunces', serif;
+  color: var(--gold); font-size: 0.85rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 14px;
+}
+footer ul { list-style: none; }
+footer ul li { margin-bottom: 8px; }
+footer ul a { color: rgba(250,247,242,0.7); font-size: 0.9rem; }
+footer ul a:hover { color: var(--gold); }
+.footer-tag {
+  font-style: italic; color: var(--gold); margin-bottom: 8px;
+  font-family: 'Fraunces', serif; font-size: 0.95rem;
+}
+.footer-bottom {
+  border-top: 1px solid rgba(250,247,242,0.1);
+  padding-top: 20px; display: flex; justify-content: space-between; flex-wrap: wrap;
+  gap: 12px; font-size: 0.82rem; color: rgba(250,247,242,0.5);
+}
+
+/* --- Utility --- */
+.text-center { text-align: center; }
+.divider {
+  height: 1px; background: var(--line); margin: 48px auto;
+  max-width: 240px;
+}
+</style>
+</head>
+<body>
+
+<!-- ============== NAV ============== -->
+<nav class="topnav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">Pau <span>AI</span></a>
+    <button class="nav-mobile-toggle" aria-label="打开菜单" id="navToggle">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#how-it-works">运作方式</a></li>
+      <li><a href="#pricing">价格</a></li>
+      <li><a href="#faq">常见问题</a></li>
+      <li>
+        <a href="https://wa.me/60149207099?text=Lee%20你好%2C%20我看了%20WhatsApp%20助手页面。我是%20%7Btrade%7D%2C%20在%20%7Blocation%7D%2C%20想了解更多。"
+           class="nav-cta" target="_blank" rel="noopener">WhatsApp Lee</a>
+      </li>
+      <li class="nav-lang"><a href="landing-page-en.html">EN</a><span>·</span><a href="landing-page-bm.html">BM</a><span>·</span><a href="#" class="active">中文</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ============== HERO ============== -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> WhatsApp 服务助手</div>
+        <h1>别再丢单了。</h1>
+        <p class="hero-sub">AI 助手帮您回复 WhatsApp 询问、了解工作范围、草拟报价、预约时间 — 无论您在水槽下、屋顶上、或正在完成服务时。</p>
+
+        <div class="cta-group">
+          <a href="whatsapp-demo.html" target="_blank" class="btn btn-primary">
+            观看现场演示
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+          <a href="https://wa.me/60149207099?text=Lee%20你好%2C%20我看了%20WhatsApp%20助手页面。我是%20%7Btrade%7D%2C%20工作时%20WhatsApp%20收件箱总是堆积。我可以先试演示%2C%20然后商讨方案吗%3F"
+             class="btn-wa-text" target="_blank" rel="noopener">
+            或直接 WhatsApp Lee →
+          </a>
+        </div>
+
+        <div class="hero-trust">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+          已与马来西亚水管工、冷气技工和虫害防治团队测试。当天回复，一周 7 天。
+        </div>
+      </div>
+
+      <!-- Phone mockup with real conversation -->
+      <div class="phone-frame">
+        <div class="phone-screen">
+          <div class="phone-header">
+            <div class="phone-avatar">P</div>
+            <div>
+              <div class="phone-name">水管工 Lee · WhatsApp</div>
+              <div class="phone-status">● 在线 · 自动回复开启</div>
+            </div>
+          </div>
+          <div class="phone-body">
+            <div class="bubble bubble-them">
+              你好，我家厨房水管漏水很严重，到处都是水。今晚能来吗？
+              <span class="time">7:42 PM</span>
+            </div>
+            <div class="bubble bubble-you">
+              <span class="ai-tag">AI · 自动回复</span>
+              您好！很抱歉听到这事。先应急处理：关掉总水掣（一般在屋外水表附近）。我正在查 Lee 的时间 — 您地址在哪一区？
+              <span class="time">7:42 PM ✓✓</span>
+            </div>
+            <div class="bubble bubble-them">
+              Taman Tun。水掣我已关了。漏水停了但水管还裂着。
+              <span class="time">7:43 PM</span>
+            </div>
+            <div class="bubble bubble-you">
+              <span class="ai-tag">AI · 自动回复</span>
+              做得好 — 关总水掣是正确的 👍 Lee 今晚 9 点能到。标准厨房水管更换：<strong>RM180–250</strong>，看是铜管或 PEX。确认时段？
+              <span class="time">7:43 PM ✓✓</span>
+            </div>
+            <div class="bubble bubble-them">
+              好，确认。谢谢这么快回复！
+              <span class="time">7:44 PM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============== ROI STRIP ============== -->
+<section class="roi-strip">
+  <div class="container">
+    <div class="roi-grid">
+      <div class="roi-item">
+        <h3>RM350</h3>
+        <p>延迟回复而失去的平均订单价值。</p>
+      </div>
+      <div class="roi-item">
+        <h3>10×</h3>
+        <p>首月需挽回多少订单即可回本。</p>
+      </div>
+      <div class="roi-item">
+        <h3>RM45–140</h3>
+        <p>每月 AI 使用费</p>
+      </div>
+      <div class="roi-item">
+        <h3>2 周</h3>
+        <p>从启动到助手开始回复客户。</p>
+      </div>
+    </div>
+    <p class="roi-note">算法简单：如果助手在首月帮您挽回 10 单，系统就回本了。第二个月起，每一单挽回都是利润。</p>
+  </div>
+</section>
+
+<!-- ============== PAIN & SOLVE ============== -->
+<section class="section-light">
+  <div class="container">
+    <div style="text-align:center; margin-bottom: 48px;">
+      <span class="section-tag">真正的问题</span>
+      <h2 class="section-title" style="margin: 0 auto;">不是工作让您丢单。<br/>是讯息之间的沉默。</h2>
+    </div>
+
+    <div class="pain-grid">
+      <div>
+        <h3 style="color: #B42828; margin-bottom: 8px;">现在的情况</h3>
+        <ul class="pain-list">
+          <li>客户晚上 8:47 发讯息 — 您 11:30 才回复，他们已经预约别人了。</li>
+          <li>您在水槽下工作，午饭前错过 3 个询问。</li>
+          <li>您在 WhatsApp 上报价不一致 — 同样的活，不同的价。</li>
+          <li>服务后忘了跟进。没有评价，没有回头客。</li>
+          <li>您周日推掉的"简单"活，每单 RM200。</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="color: var(--green-wa-deep); margin-bottom: 8px;">有了助手后的改变</h3>
+        <ul class="solve-list">
+          <li>客户晚上 8:47 发讯息 — 助手 4 秒内回复带价格区间。</li>
+          <li>您完成工作。三个客户的资料和报价整齐地等着您。</li>
+          <li>报价依您设定的价目表。同样的活，同样的价，每一次。</li>
+          <li>助手在服务后 24 小时跟进并请求 Google 评价。</li>
+          <li>周日在家也能赚钱。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== WHO IT'S FOR ============== -->
+<section class="section-cream">
+  <div class="container">
+    <div style="text-align:center; margin-bottom: 48px;">
+      <span class="section-tag">为谁打造</span>
+      <h2 class="section-title" style="margin: 0 auto;">客户在分钟内决定的行业，不是几天。</h2>
+      <p class="section-lead" style="margin: 16px auto 0;">如果您不回复，客户就会打下一个号码。</p>
+    </div>
+
+    <div class="audience-grid">
+      <div class="audience-card">
+        <div class="icon-circle">🔧</div>
+        <h4>水管工</h4>
+        <p>紧急漏水、下水道堵塞、热水器故障 — 每一分钟的沉默都是一单失去的生意。</p>
+        <div class="scenario">"水管漏水，现在能来吗？" — 30 秒处理完毕。</div>
+      </div>
+      <div class="audience-card">
+        <div class="icon-circle">❄️</div>
+        <h4>冷气技工</h4>
+        <p>保养预约、加气、故障求救。吉隆坡的热不等人。您的客户也不等。</p>
+        <div class="scenario">"冷气不冷，今天有空吗？" — 报价并预约。</div>
+      </div>
+      <div class="audience-card">
+        <div class="icon-circle">🐛</div>
+        <h4>虫害防治</h4>
+        <p>白蚁、老鼠、蟑螂横行 — 这是情绪化决定，速度等于信任。</p>
+        <div class="scenario">"厨房有老鼠，紧急" — 回复治理方案。</div>
+      </div>
+    </div>
+
+    <div class="audience-secondary">
+      <strong>其他行业？</strong> 同样的系统适合电工、清洁服务、汽车美容、电脑维修 — 任何 WhatsApp 是您前台、速度赢单的生意。装修承包商和其他"长决策周期"行业也行，但策略不同 — <a href="https://wa.me/60149207099?text=Lee%20你好%2C%20我经营%20%7Btrade%7D%20生意。WhatsApp%20助手适合我的情况吗%3F" style="color: var(--gold-deep); font-weight: 600;" target="_blank">发讯息给 Lee</a> 商讨。
+    </div>
+  </div>
+</section>
+
+<!-- ============== HOW IT WORKS - WALKTHROUGH ============== -->
+<section id="how-it-works" class="section-dark">
+  <div class="container">
+    <div style="text-align:center; margin-bottom: 56px;">
+      <span class="section-tag">运作方式</span>
+      <h2 class="section-title" style="margin: 0 auto;">在关键的三个时候留住你的顾客</h2>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="walkthrough">
+      <div class="walkthrough-text">
+        <span class="step-label">时刻 01 · 首次回复</span>
+        <h3>4 秒内回复，即使在晚上 11 点。</h3>
+        <p>助手确认讯息，问对的诊断问题，并给予安心 — 视客户而定，用英文、马来文或华语。您再也不会因回复慢而丢单。</p>
+      </div>
+      <div class="phone-frame" style="max-width: 320px;">
+        <div class="phone-screen">
+          <div class="phone-header">
+            <div class="phone-avatar">A</div>
+            <div>
+              <div class="phone-name">冷气服务 · WhatsApp</div>
+              <div class="phone-status">● 在线</div>
+            </div>
+          </div>
+          <div class="phone-body" style="min-height: 280px;">
+            <div class="bubble bubble-them">冷气不冷。上次保养是 2 年前。今天还有空档吗？<span class="time">11:08 PM</span></div>
+            <div class="bubble bubble-you"><span class="ai-tag">AI · 自动回复</span>您好！听起来是加气或洗滤网。几个快速问题确认 — 机器多少 BTU，风量是弱还是只是暖？<span class="time">11:08 PM ✓✓</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="walkthrough reverse">
+      <div class="phone-frame" style="max-width: 320px;">
+        <div class="phone-screen">
+          <div class="phone-header">
+            <div class="phone-avatar">A</div>
+            <div>
+              <div class="phone-name">冷气服务 · WhatsApp</div>
+              <div class="phone-status">● 在线</div>
+            </div>
+          </div>
+          <div class="phone-body" style="min-height: 280px;">
+            <div class="bubble bubble-them">1.5HP，只是暖风，风量没问题。<span class="time">11:09 PM</span></div>
+            <div class="bubble bubble-you"><span class="ai-tag">AI · 自动回复</span>应该是加气。标准 1.5HP 加气：<strong>RM180</strong>。如果需要化学清洗：<strong>+RM120</strong>。明天上午 10 点或下午 2 点，您选。地址？<span class="time">11:09 PM ✓✓</span></div>
+            <div class="bubble bubble-them">上午 10 点 OK。SS15 Subang。<span class="time">11:10 PM</span></div>
+            <div class="bubble bubble-you"><span class="ai-tag">AI · 自动回复</span>已预约 ✅ 明天上午 10 点，SS15 Subang。Lee 会在到达前 30 分钟发讯息。请存我的号码以便提醒。<span class="time">11:10 PM ✓✓</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="walkthrough-text">
+        <span class="step-label">时刻 02 · 报价与预约</span>
+        <h3>依您的价目表报价。依您的日程表预约。</h3>
+        <p>助手使用您设定的价格和规则 — 从不即兴发挥。同样的活每次都得到同样的报价。预约直接进入您的日程，连同完整背景，让您到达时心中有数，不是猜测。</p>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="walkthrough">
+      <div class="walkthrough-text">
+        <span class="step-label">时刻 03 · 闭合循环</span>
+        <h3>替您跟进。</h3>
+        <p>工作后 24 小时，助手主动联系并请求 Google 评价。忠诚客户会收到下次保养周期的温和提醒。让您生意成长的跟进工作 — 在您睡觉时完成。</p>
+      </div>
+      <div class="phone-frame" style="max-width: 320px;">
+        <div class="phone-screen">
+          <div class="phone-header">
+            <div class="phone-avatar">A</div>
+            <div>
+              <div class="phone-name">冷气服务 · WhatsApp</div>
+              <div class="phone-status">● 在线</div>
+            </div>
+          </div>
+          <div class="phone-body" style="min-height: 280px;">
+            <div class="bubble bubble-you"><span class="ai-tag">AI · 自动跟进</span>您好！我是昨天 SS15 服务的 Lee。希望冷气现在已经凉了 🙏 如果对服务满意，一个简短的 Google 评价对我们帮助很大：<u>g.page/r/...</u><span class="time">10:32 AM ✓✓</span></div>
+            <div class="bubble bubble-them">已经做了。凉得像新的一样！5 星评价了。<span class="time">10:45 AM</span></div>
+            <div class="bubble bubble-you"><span class="ai-tag">AI · 自动回复</span>非常感谢！🌟 我们会发一个友好的提醒给您明年的保养，您不用记着。保持凉爽 😎<span class="time">10:45 AM ✓✓</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== TRUST / TECH ============== -->
+<section class="section-light">
+  <div class="container" style="text-align: center;">
+    <span class="section-tag">系统归您所有</span>
+    <h2 class="section-title" style="margin: 0 auto 16px;">没有中间商。没有绑定。没有收你月费。</h2>
+    <p class="section-lead" style="margin: 0 auto;">我们构建。您持有钥匙。您的 AI 供应商直接向您收费 — 没有加价，没有利润落在我们口袋里。如果 Pau AI 明天关闭，您的系统照常运行。</p>
+
+    <div class="trust-row">
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+        自带 Anthropic API key
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+        或自带 Google Gemini key
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+        支出上限保护您
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+        运行在您的 WhatsApp Business
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== CASE STUDY ============== -->
+<section class="section-warm">
+  <div class="container">
+    <div style="text-align:center; margin-bottom: 40px;">
+      <span class="section-tag">实例说明</span>
+      <h2 class="section-title" style="margin: 0 auto;">典型马来西亚水管工的首月情况。</h2>
+    </div>
+
+    <div class="case-card">
+      <div>
+        <span class="case-quote-mark">"</span>
+        <p class="case-quote">在用助手之前，周末的 WhatsApp 堆积如山，周一早上才发现三个客户已经预约别人了。现在助手当晚就回复 — 我只要按地址出现。</p>
+        <div class="case-meta">
+          <div class="case-avatar">AH</div>
+          <div>
+            <div class="case-name">水管工 Ah Heng（示意）</div>
+            <div class="case-role">独立水管工 · Petaling Jaya · 入行 6 年</div>
+          </div>
+        </div>
+      </div>
+      <div class="case-numbers">
+        <div class="case-stat">
+          <span class="case-stat-num">+12</span>
+          <span class="case-stat-label">首月额外订单</span>
+        </div>
+        <div class="case-stat">
+          <span class="case-stat-num">RM4,200</span>
+          <span class="case-stat-label">挽回的营业额</span>
+        </div>
+        <div class="case-stat">
+          <span class="case-stat-num">8 秒</span>
+          <span class="case-stat-label">平均首次回复</span>
+        </div>
+        <div class="case-stat">
+          <span class="case-stat-num">2 周</span>
+          <span class="case-stat-label">从启动到上线</span>
+        </div>
+      </div>
+    </div>
+    <p class="case-disclaimer">⚠️ 此为示意例子以求清晰。真实具名案例将在首批客户完成第一个月后取代（2025 年 12 月）。</p>
+  </div>
+</section>
+
+<!-- ============== PRICING ============== -->
+<section id="pricing" class="section-cream">
+  <div class="container">
+    <div style="text-align:center; margin-bottom: 40px;">
+      <span class="section-tag">价格</span>
+      <h2 class="section-title" style="margin: 0 auto;">一个价格。无月费。2 周建好。</h2>
+    </div>
+
+    <div class="pricing-card">
+      <div class="pricing-header">
+        <span class="pricing-badge">入门方案</span>
+        <div class="pricing-tier-name">标准 WhatsApp 助手</div>
+        <span class="pricing-price">RM3,500</span>
+        <div style="font-size: 0.88rem; color: rgba(250,247,242,0.7);">一次性 · 2 周构建 · 包括交接</div>
+      </div>
+      <div class="pricing-body">
+        <ul class="pricing-features">
+          <li>为您的行业配置（价目表、范围问题、调度规则）</li>
+          <li>三语：英文、马来文、华语</li>
+          <li>连接您的 WhatsApp Business 号码</li>
+          <li>自带 AI key（Anthropic 或 Google）— 您掌控成本</li>
+          <li>安装指南、演练讲解、30 天重建支援</li>
+        </ul>
+        <div class="pricing-cta">
+          <a href="https://wa.me/60149207099?text=Lee%20你好%2C%20我想商讨%20WhatsApp%20助手方案。我是%20%7Btrade%7D%2C%20在%20%7Blocation%7D。"
+             class="btn btn-primary" target="_blank" rel="noopener" style="justify-content: center;">
+            通过 WhatsApp 商讨我的方案
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+          <a href="whatsapp-demo.html" target="_blank" class="btn btn-secondary" style="justify-content: center;">
+            先试试现场演示
+          </a>
+        </div>
+        <div class="pricing-risk">
+          <strong>风险逆转：</strong> 如果 14 天后助手不适合您的工作流程，全额退款 — 不问原因，不索回投入的时间。
+        </div>
+      </div>
+    </div>
+    <div class="pricing-scarcity">
+      <span class="live-dot"></span> 本月正在构建 3 个助手 · 下一批开放 2 个构建名额
+    </div>
+  </div>
+</section>
+
+<!-- ============== FAQ ============== -->
+<section id="faq" class="section-light">
+  <div class="container">
+    <div style="text-align:center; margin-bottom: 40px;">
+      <span class="section-tag">常见问题 · 师傅版</span>
+      <h2 class="section-title" style="margin: 0 auto;">决定前的常见问题。</h2>
+    </div>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q">我在工地很忙，也不擅长打字回复。我还能用吗？</button>
+        <div class="faq-a">
+          <p>可以 — 这正是大多数师傅选择 Pau AI 的主要原因。让您丢单的不是技术活，而是客户沟通。助手处理首次回复，收集客户资料，草拟报价。您只需查看和批准。</p>
+          <p>如果草稿讯息听起来不对，您可以在发送前编辑。</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">我的 WhatsApp 收件箱已经爆满了。这怎么帮我？</button>
+        <div class="faq-a">
+          <p>助手先回复，日夜不停。对于标准问题（价格、空档、范围）它直接回答。对于它不确定的 — 或真正的紧急情况 — 它转给您。</p>
+          <p>所以您实际看到的讯息是需要您处理的。您的手机会变得更安静。</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">什么是 API key — 为什么我需要自己的？</button>
+        <div class="faq-a">
+          <p>API key 就像 AI 的 SIM 卡。您直接在 Anthropic（Claude）或 Google（Gemini）开账户拿到 key。我们把它装进您的系统。AI 账单直接来您 — 没有加价，没有中间商。</p>
+          <p>忙碌师傅的典型成本：USD 10–30/月（RM 45–140）。您可以设支出上限，永不超出预算。</p>
+          <p>为什么用自己的 key？因为它是您的。如果 Pau AI 明天关闭，您的系统照常运行，因为 key 是您的。没有绑定。</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">我可以在付款前看到针对我具体行业的助手吗？</button>
+        <div class="faq-a">
+          <p>可以 — 我们也希望如此。现场演示已用三个场景测试：水管工紧急、冷气保养预约、装修商讨。先试用，再谈。</p>
+          <p>如果演示与您的行业不太吻合，WhatsApp Lee — 我们会展示更接近的版本或商讨定制构建。无承诺压力。</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">如果 AI 给出错误的报价或信息怎么办？</button>
+        <div class="faq-a">
+          <p>助手只依据您在构建时设定的价目表和规则报价。它不即兴发挥。如果客户问规则之外的事 — 或要求折扣 — 它转给您决定。</p>
+          <p>交接后的 14 天里，我们根据真实对话调整回复，直到您满意。之后调整也很简单：发送任何不对的讯息截图，我们就调整。</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">这会取代我和客户的个人接触吗？</button>
+        <div class="faq-a">
+          <p>不会 — 它听起来像您，因为我们按您的语气调整。助手处理可预测的部分（首次回复、商讨范围、标准活报价、跟进），让您有时间处理真正需要您的部分：难缠的客户、特殊的活、加单的对话。</p>
+          <p>客户不会失去个人接触。他们得到更快的服务。</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">如果我想停用怎么办？</button>
+        <div class="faq-a">
+          <p>您停用即可。系统是您的 — 随时停用。没有给我们的月费，所以没有什么要取消。您的 AI 供应商 key 是您的；关掉它，系统就不再产生费用。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FINAL CTA ============== -->
+<section class="final-cta">
+  <div class="container">
+    <h2>准备好不再因回复慢而丢单了吗？</h2>
+    <a href="https://wa.me/60149207099?text=Lee%20你好%2C%20我是%20%7Btrade%7D%2C%20在%20%7Blocation%7D。我看了%20WhatsApp%20助手页面%2C%20想商讨方案。可以先看我场景的演示吗%3F"
+       class="btn btn-gold" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+      WhatsApp Lee · 商讨我的方案
+    </a>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="brand" style="color: var(--cream);">Pau <span style="color: var(--gold);">AI</span></div>
+        <p class="footer-tag">"我们构建系统。您持有钥匙。"</p>
+        <p style="font-size: 0.86rem; line-height: 1.6;">为马来西亚服务型企业定制的 AI 系统。LLM 无关。我们构建的一切都归您所有。</p>
+      </div>
+      <div>
+        <h5>解决方案</h5>
+        <ul>
+          <li><a href="#">WhatsApp 服务助手</a></li>
+          <li><a href="agentic-commerce.html">Agentic 商务</a></li>
+          <li><a href="data-analytics.html">对话式分析</a></li>
+          <li><a href="multi-agent-systems.html">多助手决策系统</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>公司</h5>
+        <ul>
+          <li><a href="pricing.html">价格</a></li>
+          <li><a href="#faq">常见问题</a></li>
+          <li><a href="about.html">关于</a></li>
+          <li><a href="https://www.pauanalytics.com" target="_blank">Pau Analytics ↗</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Pau AI · 马来西亚制造</span>
+      <span>API 成本、托管和域名不包含在任何方案中。</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Mobile nav toggle
+document.getElementById('navToggle').addEventListener('click', function() {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+// FAQ accordion
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    item.classList.toggle('open');
+  });
+});
+
+// Smooth-close mobile nav after click
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('navLinks').classList.remove('open');
+  });
+});
+</script>
+
+</body>
+</html>

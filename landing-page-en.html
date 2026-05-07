@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>WhatsApp Service Agent — Pau AI</title>
+<meta name="description" content="An AI agent that replies to your WhatsApp inquiries while you're on-site. Built for Malaysian plumbers, aircond techs, and pest control teams." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+:root {
+  --navy: #0F1F3A;
+  --navy-deep: #081428;
+  --navy-soft: #1B335A;
+  --gold: #C9A961;
+  --gold-deep: #A8884A;
+  --cream: #FAF7F2;
+  --cream-warm: #F2EBE0;
+  --paper: #FFFFFF;
+  --ink: #1A1A1A;
+  --muted: #5A5A5A;
+  --line: #E6DFD3;
+  --green-wa: #25D366;
+  --green-wa-deep: #128C7E;
+  --shadow-sm: 0 1px 2px rgba(15,31,58,0.06), 0 2px 8px rgba(15,31,58,0.04);
+  --shadow-md: 0 4px 12px rgba(15,31,58,0.08), 0 12px 32px rgba(15,31,58,0.06);
+  --shadow-lg: 0 12px 40px rgba(15,31,58,0.12), 0 24px 64px rgba(15,31,58,0.08);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--cream);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, .display {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  color: var(--navy);
+}
+
+h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 800; letter-spacing: -0.025em; }
+h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 700; }
+h3 { font-size: 1.3rem; font-weight: 600; }
+h4 { font-size: 1.05rem; font-weight: 600; }
+
+p { color: var(--ink); }
+.muted { color: var(--muted); }
+
+a { color: var(--navy); text-decoration: none; }
+a:hover { color: var(--gold-deep); }
+
+.container { width: 100%; max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+
+/* --- Top Nav --- */
+.topnav {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(250,247,242,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px; max-width: 1140px; margin: 0 auto; padding: 0 24px;
+}
+.brand {
+  font-family: 'Fraunces', serif; font-weight: 800; font-size: 1.4rem;
+  color: var(--navy); letter-spacing: -0.02em;
+}
+.brand span { color: var(--gold-deep); font-style: italic; }
+.nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+.nav-links a { font-size: 0.94rem; font-weight: 500; color: var(--ink); }
+.nav-links a:hover { color: var(--gold-deep); }
+.nav-cta {
+  background: var(--navy); color: var(--cream) !important;
+  padding: 9px 18px; border-radius: 999px; font-weight: 600; font-size: 0.9rem;
+}
+.nav-cta:hover { background: var(--navy-soft); color: var(--gold) !important; }
+.nav-lang { font-size: 0.82rem; color: var(--muted); }
+.nav-lang a { color: var(--muted); margin: 0 4px; }
+.nav-lang a.active { color: var(--navy); font-weight: 600; }
+.nav-mobile-toggle { display: none; background: none; border: none; cursor: pointer; }
+
+@media (max-width: 880px) {
+  .nav-links { display: none; }
+  .nav-mobile-toggle { display: block; padding: 6px; }
+  .nav-mobile-toggle svg { width: 24px; height: 24px; stroke: var(--navy); }
+  .nav-links.open {
+    display: flex; flex-direction: column; align-items: stretch;
+    position: absolute; top: 64px; left: 0; right: 0;
+    background: var(--cream); padding: 16px 24px;
+    border-bottom: 1px solid var(--line);
+    box-shadow: var(--shadow-md);
+    gap: 14px;
+  }
+  .nav-links.open li { width: 100%; }
+}
+
+/* --- Hero --- */
+.hero {
+  background:
+    radial-gradient(ellipse at top right, rgba(201,169,97,0.08), transparent 60%),
+    linear-gradient(180deg, var(--cream) 0%, var(--cream-warm) 100%);
+  padding: 64px 0 80px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: ""; position: absolute; top: -100px; left: -100px;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(15,31,58,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-grid {
+  display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px;
+  align-items: center;
+}
+@media (max-width: 880px) {
+  .hero { padding: 40px 0 48px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 32px; }
+}
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--paper); border: 1px solid var(--line);
+  padding: 6px 14px; border-radius: 999px;
+  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em;
+  color: var(--navy); text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.eyebrow .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green-wa); animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(37,211,102,0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(37,211,102,0); }
+}
+
+.hero h1 { margin-bottom: 18px; }
+.hero h1 em {
+  font-style: italic; color: var(--gold-deep);
+  font-family: 'Fraunces', serif; font-weight: 600;
+}
+.hero-sub {
+  font-size: 1.18rem; color: var(--muted); line-height: 1.55;
+  margin-bottom: 28px; max-width: 540px;
+}
+
+.cta-group {
+  display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
+  margin-bottom: 24px;
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 26px; border-radius: 999px;
+  font-weight: 600; font-size: 0.98rem; letter-spacing: -0.005em;
+  border: none; cursor: pointer; transition: all 0.2s ease;
+  text-decoration: none;
+}
+.btn-primary {
+  background: var(--navy); color: var(--cream);
+  box-shadow: var(--shadow-md);
+}
+.btn-primary:hover {
+  background: var(--navy-soft); color: var(--gold);
+  transform: translateY(-1px); box-shadow: var(--shadow-lg);
+}
+.btn-secondary {
+  background: transparent; color: var(--navy);
+  border: 1.5px solid var(--navy);
+}
+.btn-secondary:hover { background: var(--navy); color: var(--cream); }
+.btn-wa-text {
+  font-size: 0.92rem; font-weight: 500; color: var(--muted);
+  text-decoration: underline; text-underline-offset: 4px;
+  text-decoration-color: var(--line);
+}
+.btn-wa-text:hover { color: var(--green-wa-deep); text-decoration-color: var(--green-wa); }
+
+.hero-trust {
+  font-size: 0.88rem; color: var(--muted);
+  display: flex; align-items: center; gap: 8px;
+  margin-top: 8px;
+}
+.hero-trust svg { width: 16px; height: 16px; color: var(--gold-deep); }
+
+/* Phone mockup */
+.phone-frame {
+  background: var(--navy-deep);
+  border-radius: 32px;
+  padding: 12px;
+  box-shadow: var(--shadow-lg);
+  max-width: 360px; margin: 0 auto;
+  position: relative;
+}
+.phone-frame::before {
+  content: ""; position: absolute; top: 16px; left: 50%;
+  transform: translateX(-50%);
+  width: 60px; height: 5px;
+  background: rgba(255,255,255,0.1); border-radius: 999px;
+}
+.phone-screen {
+  background: #ECE5DD;
+  border-radius: 22px;
+  overflow: hidden;
+  padding-top: 28px;
+}
+.phone-header {
+  background: var(--green-wa-deep); color: white;
+  padding: 12px 16px; display: flex; align-items: center; gap: 10px;
+}
+.phone-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--gold); color: var(--navy);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.95rem;
+}
+.phone-name { font-size: 0.92rem; font-weight: 600; }
+.phone-status { font-size: 0.72rem; opacity: 0.85; }
+.phone-body {
+  padding: 16px 12px; min-height: 380px;
+  display: flex; flex-direction: column; gap: 8px;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(0,0,0,0.02) 0%, transparent 50%),
+    radial-gradient(circle at 80% 60%, rgba(0,0,0,0.02) 0%, transparent 50%),
+    #ECE5DD;
+}
+.bubble {
+  max-width: 78%; padding: 8px 12px; border-radius: 12px;
+  font-size: 0.86rem; line-height: 1.4; position: relative;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.06);
+  word-wrap: break-word;
+}
+.bubble-them {
+  align-self: flex-start; background: white;
+  border-top-left-radius: 4px;
+}
+.bubble-you {
+  align-self: flex-end; background: #DCF8C6;
+  border-top-right-radius: 4px;
+}
+.bubble .time {
+  display: block; font-size: 0.66rem; color: rgba(0,0,0,0.45);
+  margin-top: 2px; text-align: right;
+}
+.bubble .ai-tag {
+  display: inline-block; font-size: 0.62rem; font-weight: 700;
+  letter-spacing: 0.05em; color: var(--green-wa-deep);
+  background: rgba(37,211,102,0.12); padding: 1px 5px; border-radius: 3px;
+  margin-bottom: 3px;
+}
+
+/* --- Sections --- */
+section { padding: 72px 0; }
+@media (max-width: 880px) { section { padding: 48px 0; } }
+
+.section-tag {
+  display: inline-block; font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--gold-deep); margin-bottom: 12px;
+}
+.section-title { margin-bottom: 16px; max-width: 760px; }
+.section-lead {
+  font-size: 1.1rem; color: var(--muted); max-width: 720px;
+  margin-bottom: 40px;
+}
+
+.section-light { background: var(--paper); }
+.section-cream { background: var(--cream); }
+.section-warm { background: var(--cream-warm); }
+.section-dark {
+  background: var(--navy);
+  color: var(--cream);
+}
+.section-dark h2, .section-dark h3, .section-dark h4 { color: var(--cream); }
+.section-dark p { color: rgba(250,247,242,0.85); }
+.section-dark .section-tag { color: var(--gold); }
+.section-dark .muted { color: rgba(250,247,242,0.65); }
+
+/* --- ROI Strip --- */
+.roi-strip {
+  background: var(--navy);
+  color: var(--cream);
+  padding: 56px 0;
+  position: relative; overflow: hidden;
+}
+.roi-strip::before {
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 15% 50%, rgba(201,169,97,0.18) 0%, transparent 40%),
+    radial-gradient(circle at 85% 50%, rgba(201,169,97,0.10) 0%, transparent 40%);
+  pointer-events: none;
+}
+.roi-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
+  position: relative;
+}
+@media (max-width: 760px) {
+  .roi-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+}
+.roi-item h3 {
+  font-family: 'Fraunces', serif; font-size: 2.4rem; font-weight: 800;
+  color: var(--gold); margin-bottom: 4px; letter-spacing: -0.02em;
+}
+.roi-item p { font-size: 0.92rem; color: rgba(250,247,242,0.8); }
+.roi-note {
+  text-align: center; margin-top: 32px;
+  font-size: 0.88rem; color: rgba(250,247,242,0.7);
+  font-style: italic;
+}
+
+/* --- Pain & Solve --- */
+.pain-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+  align-items: start;
+}
+@media (max-width: 880px) { .pain-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+.pain-list { list-style: none; margin-top: 24px; }
+.pain-list li {
+  padding: 16px 0 16px 36px; position: relative;
+  border-bottom: 1px solid var(--line);
+  font-size: 1rem;
+}
+.pain-list li::before {
+  content: "✕"; position: absolute; left: 0; top: 16px;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: rgba(180,40,40,0.08); color: #B42828;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; font-weight: 700;
+}
+.solve-list { list-style: none; margin-top: 24px; }
+.solve-list li {
+  padding: 16px 0 16px 36px; position: relative;
+  border-bottom: 1px solid var(--line);
+  font-size: 1rem;
+}
+.solve-list li::before {
+  content: "✓"; position: absolute; left: 0; top: 16px;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: rgba(37,140,126,0.12); color: var(--green-wa-deep);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; font-weight: 700;
+}
+
+/* --- Audience --- */
+.audience-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+}
+@media (max-width: 880px) { .audience-grid { grid-template-columns: 1fr; } }
+
+.audience-card {
+  background: var(--paper); border: 1px solid var(--line);
+  padding: 32px; border-radius: 16px;
+  transition: all 0.3s ease;
+  position: relative; overflow: hidden;
+}
+.audience-card:hover {
+  transform: translateY(-4px); box-shadow: var(--shadow-md);
+  border-color: var(--gold);
+}
+.audience-card .icon-circle {
+  width: 56px; height: 56px; border-radius: 14px;
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-soft) 100%);
+  color: var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px; font-size: 1.6rem;
+}
+.audience-card h4 { margin-bottom: 8px; }
+.audience-card p { font-size: 0.94rem; color: var(--muted); line-height: 1.55; }
+.audience-card .scenario {
+  margin-top: 14px; padding-top: 14px;
+  border-top: 1px dashed var(--line);
+  font-size: 0.84rem; color: var(--navy); font-style: italic;
+}
+
+.audience-secondary {
+  margin-top: 28px; padding: 20px 24px;
+  background: var(--cream); border-radius: 12px;
+  font-size: 0.92rem; color: var(--muted);
+  border-left: 3px solid var(--gold);
+}
+
+/* --- Conversation walkthrough --- */
+.walkthrough {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+  align-items: center;
+}
+@media (max-width: 880px) {
+  .walkthrough { grid-template-columns: 1fr; gap: 32px; }
+  .walkthrough.reverse > div:first-child { order: 2; }
+}
+.walkthrough-text .step-label {
+  display: inline-block; font-family: 'Fraunces', serif;
+  font-size: 0.95rem; font-weight: 700; letter-spacing: 0.1em;
+  color: var(--gold); margin-bottom: 12px;
+}
+.walkthrough-text h3 {
+  color: var(--cream); font-size: 1.7rem; margin-bottom: 14px;
+}
+.walkthrough-text p {
+  color: rgba(250,247,242,0.85); font-size: 1rem; line-height: 1.65;
+}
+.walkthrough + .walkthrough { margin-top: 64px; }
+
+/* --- Trust / Tech --- */
+.trust-row {
+  display: flex; justify-content: center; align-items: center;
+  flex-wrap: wrap; gap: 36px;
+  padding: 24px 0;
+  margin-top: 32px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.trust-item {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 0.88rem; color: var(--muted); font-weight: 500;
+}
+.trust-item svg { width: 22px; height: 22px; color: var(--navy); }
+
+/* --- Case study placeholder --- */
+.case-card {
+  background: linear-gradient(135deg, var(--cream-warm) 0%, var(--cream) 100%);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+  position: relative;
+}
+@media (max-width: 880px) {
+  .case-card { grid-template-columns: 1fr; padding: 28px; gap: 24px; }
+}
+.case-quote-mark {
+  font-family: 'Fraunces', serif; font-size: 5rem; line-height: 0.5;
+  color: var(--gold); margin-bottom: -8px; display: block;
+}
+.case-quote {
+  font-family: 'Fraunces', serif; font-size: 1.35rem;
+  font-weight: 500; line-height: 1.4;
+  color: var(--navy); font-style: italic;
+  margin-bottom: 20px;
+}
+.case-meta { display: flex; align-items: center; gap: 14px; }
+.case-avatar {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--navy), var(--navy-soft));
+  color: var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.1rem;
+}
+.case-name { font-weight: 600; color: var(--navy); }
+.case-role { font-size: 0.88rem; color: var(--muted); }
+.case-numbers {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+.case-stat {
+  background: var(--paper); padding: 20px;
+  border-radius: 12px; border: 1px solid var(--line);
+  text-align: center;
+}
+.case-stat-num {
+  font-family: 'Fraunces', serif; font-size: 2.2rem; font-weight: 800;
+  color: var(--gold-deep); display: block; line-height: 1;
+}
+.case-stat-label {
+  font-size: 0.82rem; color: var(--muted); margin-top: 6px; display: block;
+}
+.case-disclaimer {
+  font-size: 0.78rem; color: var(--muted); font-style: italic;
+  margin-top: 24px; text-align: center;
+}
+
+/* --- Pricing --- */
+.pricing-card {
+  background: var(--paper); border: 2px solid var(--navy);
+  border-radius: 20px; max-width: 480px; margin: 0 auto;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+.pricing-header {
+  background: var(--navy); color: var(--cream);
+  padding: 28px 32px; text-align: center;
+  position: relative;
+}
+.pricing-badge {
+  position: absolute; top: 14px; right: 14px;
+  background: var(--gold); color: var(--navy);
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+  padding: 4px 10px; border-radius: 999px; text-transform: uppercase;
+}
+.pricing-price {
+  font-family: 'Fraunces', serif; font-size: 3rem; font-weight: 800;
+  color: var(--gold); display: block; line-height: 1; margin: 8px 0;
+}
+.pricing-tier-name {
+  font-size: 0.92rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(250,247,242,0.75);
+}
+.pricing-body { padding: 32px; }
+.pricing-features { list-style: none; }
+.pricing-features li {
+  padding: 12px 0 12px 28px; position: relative;
+  font-size: 0.96rem; border-bottom: 1px dashed var(--line);
+}
+.pricing-features li:last-child { border-bottom: none; }
+.pricing-features li::before {
+  content: ""; position: absolute; left: 0; top: 18px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--gold);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230F1F3A'><path d='M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/></svg>");
+  background-size: 12px; background-repeat: no-repeat; background-position: center;
+}
+.pricing-cta { margin-top: 24px; display: flex; flex-direction: column; gap: 12px; }
+.pricing-risk {
+  margin-top: 18px; padding: 14px 16px;
+  background: var(--cream-warm); border-radius: 10px;
+  font-size: 0.88rem; color: var(--navy); text-align: center;
+}
+.pricing-risk strong { color: var(--gold-deep); }
+.pricing-scarcity {
+  text-align: center; margin-top: 16px;
+  font-size: 0.86rem; color: var(--muted);
+}
+.pricing-scarcity .live-dot {
+  display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+  background: #B42828; margin-right: 6px;
+  animation: pulse-red 2s infinite;
+}
+@keyframes pulse-red {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* --- FAQ --- */
+.faq-list { max-width: 780px; margin: 0 auto; }
+.faq-item {
+  border-bottom: 1px solid var(--line);
+  padding: 4px 0;
+}
+.faq-q {
+  width: 100%; background: none; border: none;
+  text-align: left; padding: 22px 36px 22px 0;
+  font-size: 1.04rem; font-weight: 600; color: var(--navy);
+  font-family: inherit; cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center;
+  position: relative;
+}
+.faq-q::after {
+  content: "+"; position: absolute; right: 4px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.6rem; font-weight: 300; color: var(--gold-deep);
+  transition: transform 0.2s ease;
+}
+.faq-item.open .faq-q::after { content: "−"; }
+.faq-a {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+.faq-item.open .faq-a {
+  max-height: 600px; padding-bottom: 22px;
+}
+.faq-a p {
+  font-size: 0.96rem; line-height: 1.7; color: var(--muted);
+  margin-bottom: 12px;
+}
+.faq-a p:last-child { margin-bottom: 0; }
+
+/* --- Final CTA --- */
+.final-cta {
+  background:
+    radial-gradient(ellipse at center, rgba(201,169,97,0.18) 0%, transparent 60%),
+    var(--navy);
+  padding: 80px 24px;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.final-cta h2 { color: var(--cream); margin-bottom: 16px; }
+.final-cta p {
+  color: rgba(250,247,242,0.85); max-width: 520px; margin: 0 auto 28px;
+  font-size: 1.08rem;
+}
+.btn-gold {
+  background: var(--gold); color: var(--navy);
+  font-weight: 700; padding: 16px 32px;
+}
+.btn-gold:hover { background: var(--cream); color: var(--navy); transform: translateY(-1px); }
+
+/* --- Footer --- */
+footer {
+  background: var(--navy-deep); color: rgba(250,247,242,0.7);
+  padding: 48px 0 24px;
+  font-size: 0.9rem;
+}
+footer .footer-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+  margin-bottom: 32px;
+}
+@media (max-width: 760px) { footer .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+footer h5 {
+  font-family: 'Fraunces', serif;
+  color: var(--gold); font-size: 0.85rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 14px;
+}
+footer ul { list-style: none; }
+footer ul li { margin-bottom: 8px; }
+footer ul a { color: rgba(250,247,242,0.7); font-size: 0.9rem; }
+footer ul a:hover { color: var(--gold); }
+.footer-tag {
+  font-style: italic; color: var(--gold); margin-bottom: 8px;
+  font-family: 'Fraunces', serif; font-size: 0.95rem;
+}
+.footer-bottom {
+  border-top: 1px solid rgba(250,247,242,0.1);
+  padding-top: 20px; display: flex; justify-content: space-between; flex-wrap: wrap;
+  gap: 12px; font-size: 0.82rem; color: rgba(250,247,242,0.5);
+}
+
+/* --- Utility --- */
+.text-center { text-align: center; }
+.divider {
+  height: 1px; background: var(--line); margin: 48px auto;
+  max-width: 240px;
+}
+</style>
+</head>
+<body>
+
+<!-- ============== NAV ============== -->
+<nav class="topnav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">Pau <span>AI</span></a>
+    <button class="nav-mobile-toggle" aria-label="Open menu" id="navToggle">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li>
+        <a href="https://wa.me/60149207099?text=Hi%20Lee%2C%20saw%20the%20WhatsApp%20Agent%20page.%20I%27m%20a%20%7Btrade%7D%20in%20%7Blocation%7D%20and%20want%20to%20know%20more."
+           class="nav-cta" target="_blank" rel="noopener">WhatsApp Lee</a>
+      </li>
+      <li class="nav-lang"><a href="#" class="active">EN</a><span>·</span><a href="landing-page-bm.html">BM</a><span>·</span><a href="landing-page-cn.html">中文</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ============== HERO ============== -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> WhatsApp Service Agent</div>
+        <h1>Stop losing jobs every time your <em>phone is in your pocket.</em></h1>
+        <p class="hero-sub">An AI agent that replies to WhatsApp inquiries, scopes the job, drafts the quote, and books the appointment — while you're under the sink, on the roof, or finishing a service call.</p>
+
+        <div class="cta-group">
+          <a href="whatsapp-demo.html" target="_blank" class="btn btn-primary">
+            See the live demo
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+          <a href="https://wa.me/60149207099?text=Hi%20Lee%2C%20I%20saw%20the%20WhatsApp%20Agent%20page.%20I%27m%20a%20%7Btrade%7D%20and%20my%20WhatsApp%20inbox%20piles%20up%20while%20I%27m%20on-site.%20Can%20I%20try%20the%20demo%20first%2C%20then%20scope%20a%20build%3F"
+             class="btn-wa-text" target="_blank" rel="noopener">
+            or WhatsApp Lee directly →
+          </a>
+        </div>
+
+        <div class="hero-trust">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+          Tested with Malaysian plumbers, aircond techs, and pest control teams. Same-day reply, 7 days a week.
+        </div>
+      </div>
+
+      <!-- Phone mockup with real conversation -->
+      <div class="phone-frame">
+        <div class="phone-screen">
+          <div class="phone-header">
+            <div class="phone-avatar">P</div>
+            <div>
+              <div class="phone-name">Plumber Lee · WhatsApp</div>
+              <div class="phone-status">● online · auto-reply on</div>
+            </div>
+          </div>
+          <div class="phone-body">
+            <div class="bubble bubble-them">
+              Hello, my kitchen pipe leaking very bad. Water everywhere. Can come tonight?
+              <span class="time">7:42 PM</span>
+            </div>
+            <div class="bubble bubble-you">
+              <span class="ai-tag">AI · auto-reply</span>
+              Hi! Sorry to hear that. Quick first-aid: turn off the main water valve (usually near the meter outside). I'm checking Lee's schedule now — what's your address area?
+              <span class="time">7:42 PM ✓✓</span>
+            </div>
+            <div class="bubble bubble-them">
+              Taman Tun. The valve I already off. So leak stop liao but the pipe still cracked.
+              <span class="time">7:43 PM</span>
+            </div>
+            <div class="bubble bubble-you">
+              <span class="ai-tag">AI · auto-reply</span>
+              Good — main valve off is the right move 👍 Lee can come tonight 9:00 PM. Standard kitchen pipe replacement: <strong>RM180–250</strong> depending on copper or PEX. Confirm slot?
+              <span class="time">7:43 PM ✓✓</span>
+            </div>
+            <div class="bubble bubble-them">
+              Yes confirm. Thank you so fast reply!
+              <span class="time">7:44 PM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============== ROI STRIP ============== -->
+<section class="roi-strip">
+  <div class="container">
+    <div class="roi-grid">
+      <div class="roi-item">
+        <h3>RM350</h3>
+        <p>Average job a Malaysian plumber loses to a 2-hour delayed reply.</p>
+      </div>
+      <div class="roi-item">
+        <h3>10×</h3>
+        <p>Saved jobs needed to pay back the system in month one.</p>
+      </div>
+      <div class="roi-item">
+        <h3>RM45–140</h3>
+        <p>Monthly AI usage cost, billed directly to you (no markup).</p>
+      </div>
+      <div class="roi-item">
+        <h3>2 weeks</h3>
+        <p>From kickoff to your agent answering customers.</p>
+      </div>
+    </div>
+    <p class="roi-note">Math is simple: if the agent saves you 10 jobs in the first month, the system pays for itself. From month two, every recovered job is profit.</p>
+  </div>
+</section>
+
+<!-- ============== PAIN & SOLVE ============== -->
+<section class="section-light">
+  <div class="container">
+    <div style="text-align:center; margin-bottom: 48px;">
+      <span class="section-tag">The Real Problem</span>
+      <h2 class="section-title" style="margin: 0 auto;">It's not the work that loses you jobs.<br/>It's the silence between messages.</h2>
+    </div>
+
+    <div class="pain-grid">
+      <div>
+        <h3 style="color: #B42828; margin-bottom: 8px;">What's happening now</h3>
+        <ul class="pain-list">
+          <li>Customer messages at 8:47 PM — you reply at 11:30 PM, they've already booked someone else.</li>
+          <li>You're under a sink and miss 3 inquiries before lunch.</li>
+          <li>You quote prices over WhatsApp inconsistently — same job, different numbers.</li>
+          <li>You forget to follow up after the visit. No review, no repeat call.</li>
+          <li>The "easy" jobs you turned down on Sunday were RM200 each.</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="color: var(--green-wa-deep); margin-bottom: 8px;">What changes with the agent</h3>
+        <ul class="solve-list">
+          <li>Customer messages at 8:47 PM — agent replies in 4 seconds with a quote range.</li>
+          <li>You finish the job. Three customer details and quotes are waiting in a tidy summary.</li>
+          <li>Quotes come from the price list you set. Same job, same number, every time.</li>
+          <li>Agent follows up 24 hours after the visit and asks for a Google review.</li>
+          <li>Sundays earn money even when you're at home.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== WHO IT'S FOR ============== -->
+<section class="section-cream">
+  <div class="container">
+    <div style="text-align:center; margin-bottom: 48px;">
+      <span class="section-tag">Built For</span>
+      <h2 class="section-title" style="margin: 0 auto;">Trades where customers decide in minutes, not days.</h2>
+      <p class="section-lead" style="margin: 16px auto 0;">If your customer will call the next number on Google when you don't reply, this is for you.</p>
+    </div>
+
+    <div class="audience-grid">
+      <div class="audience-card">
+        <div class="icon-circle">🔧</div>
+        <h4>Plumbers</h4>
+        <p>Emergency leaks, blocked drains, water heater failures — every minute of silence is a lost job.</p>
+        <div class="scenario">"Pipe leaking, can come now?" — handled in 30 seconds.</div>
+      </div>
+      <div class="audience-card">
+        <div class="icon-circle">❄️</div>
+        <h4>Aircond Technicians</h4>
+        <p>Service bookings, gas top-up, breakdown calls. KL heat doesn't wait. Neither do your customers.</p>
+        <div class="scenario">"Aircond tak sejuk, today free?" — quoted and booked.</div>
+      </div>
+      <div class="audience-card">
+        <div class="icon-circle">🐛</div>
+        <h4>Pest Control</h4>
+        <p>Termites, rats, cockroach infestations — emotional decisions where speed equals trust.</p>
+        <div class="scenario">"Saw rats in the kitchen, urgent" — responded with treatment options.</div>
+      </div>
+    </div>
+
+    <div class="audience-secondary">
+      <strong>Other trades?</strong> The same system fits electricians, cleaning services, car detailers, computer repair — any business where WhatsApp is your front desk and speed wins jobs. Renovation contractors and other "long shopping cycle" trades work too, but the playbook is different — <a href="https://wa.me/60149207099?text=Hi%20Lee%2C%20I%20run%20a%20%7Btrade%7D%20business.%20Does%20the%20WhatsApp%20Agent%20fit%20my%20use%20case%3F" style="color: var(--gold-deep); font-weight: 600;" target="_blank">message Lee</a> to scope it.
+    </div>
+  </div>
+</section>
+
+<!-- ============== HOW IT WORKS - WALKTHROUGH ============== -->
+<section id="how-it-works" class="section-dark">
+  <div class="container">
+    <div style="text-align:center; margin-bottom: 56px;">
+      <span class="section-tag">How It Works</span>
+      <h2 class="section-title" style="margin: 0 auto;">A real conversation. Three moments where the agent earns its keep.</h2>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="walkthrough">
+      <div class="walkthrough-text">
+        <span class="step-label">MOMENT 01 · INITIAL REPLY</span>
+        <h3>Replies in 4 seconds, even at 11 PM.</h3>
+        <p>The agent acknowledges the message, asks the right diagnostic questions, and gives reassurance — in English, Bahasa Malaysia, or Mandarin, depending on the customer. You'll never lose a job to slow reply again.</p>
+      </div>
+      <div class="phone-frame" style="max-width: 320px;">
+        <div class="phone-screen">
+          <div class="phone-header">
+            <div class="phone-avatar">A</div>
+            <div>
+              <div class="phone-name">Aircond Service · WhatsApp</div>
+              <div class="phone-status">● online</div>
+            </div>
+          </div>
+          <div class="phone-body" style="min-height: 280px;">
+            <div class="bubble bubble-them">Aircond not cold leh. Last service 2 years ago. Today still got slot ah?<span class="time">11:08 PM</span></div>
+            <div class="bubble bubble-you"><span class="ai-tag">AI · auto-reply</span>Hi! Sounds like gas top-up or filter cleaning. A few quick Qs to confirm — how many BTU is the unit, and is the airflow weak or just warm?<span class="time">11:08 PM ✓✓</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="walkthrough reverse">
+      <div class="phone-frame" style="max-width: 320px;">
+        <div class="phone-screen">
+          <div class="phone-header">
+            <div class="phone-avatar">A</div>
+            <div>
+              <div class="phone-name">Aircond Service · WhatsApp</div>
+              <div class="phone-status">● online</div>
+            </div>
+          </div>
+          <div class="phone-body" style="min-height: 280px;">
+            <div class="bubble bubble-them">1.5HP, just warm air, no airflow problem.<span class="time">11:09 PM</span></div>
+            <div class="bubble bubble-you"><span class="ai-tag">AI · auto-reply</span>Likely gas top-up. Standard 1.5HP gas top-up: <strong>RM180</strong>. If chemical wash needed: <strong>+RM120</strong>. Slot tomorrow 10 AM or 2 PM, your choice. Address please?<span class="time">11:09 PM ✓✓</span></div>
+            <div class="bubble bubble-them">10am ok. SS15 Subang.<span class="time">11:10 PM</span></div>
+            <div class="bubble bubble-you"><span class="ai-tag">AI · auto-reply</span>Booked ✅ Tomorrow 10 AM, SS15 Subang. Lee will message 30 min before arrival. Save my number for the reminder.<span class="time">11:10 PM ✓✓</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="walkthrough-text">
+        <span class="step-label">MOMENT 02 · QUOTE & BOOK</span>
+        <h3>Quotes from your price list. Books from your calendar.</h3>
+        <p>The agent uses the prices and rules you set — never improvises. Same job gets the same quote every time. The booking lands directly in your schedule with full context, so you arrive informed, not guessing.</p>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="walkthrough">
+      <div class="walkthrough-text">
+        <span class="step-label">MOMENT 03 · CLOSE THE LOOP</span>
+        <h3>Follows up so you don't have to.</h3>
+        <p>24 hours after the job, the agent checks in and asks for a Google review. Loyal customers get gentle reminders for the next service cycle. The follow-up work that grows your business — done while you sleep.</p>
+      </div>
+      <div class="phone-frame" style="max-width: 320px;">
+        <div class="phone-screen">
+          <div class="phone-header">
+            <div class="phone-avatar">A</div>
+            <div>
+              <div class="phone-name">Aircond Service · WhatsApp</div>
+              <div class="phone-status">● online</div>
+            </div>
+          </div>
+          <div class="phone-body" style="min-height: 280px;">
+            <div class="bubble bubble-you"><span class="ai-tag">AI · auto-follow-up</span>Hi! Lee here from yesterday's service in SS15. Hope the cooling is good now 🙏 If happy with the service, a quick Google review really helps us out: <u>g.page/r/...</u><span class="time">10:32 AM ✓✓</span></div>
+            <div class="bubble bubble-them">Done already. Cold like new! 5 stars given.<span class="time">10:45 AM</span></div>
+            <div class="bubble bubble-you"><span class="ai-tag">AI · auto-reply</span>Thank you so much! 🌟 We'll send a friendly reminder for next year's service so you don't have to remember. Stay cool 😎<span class="time">10:45 AM ✓✓</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== TRUST / TECH ============== -->
+<section class="section-light">
+  <div class="container" style="text-align: center;">
+    <span class="section-tag">You Own The System</span>
+    <h2 class="section-title" style="margin: 0 auto 16px;">No middleman. No lock-in. No monthly subscription to us.</h2>
+    <p class="section-lead" style="margin: 0 auto;">We build it. You hold the keys. Your AI provider bills you direct — no markup, no margin sitting in our pocket. If Pau AI shut down tomorrow, your system keeps running.</p>
+
+    <div class="trust-row">
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+        Bring your own Anthropic API key
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+        Or your own Google Gemini key
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+        Spending cap protects you
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+        Runs on your WhatsApp Business
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== CASE STUDY ============== -->
+<section class="section-warm">
+  <div class="container">
+    <div style="text-align:center; margin-bottom: 40px;">
+      <span class="section-tag">A Worked Example</span>
+      <h2 class="section-title" style="margin: 0 auto;">What a typical Malaysian plumber's first month looks like.</h2>
+    </div>
+
+    <div class="case-card">
+      <div>
+        <span class="case-quote-mark">"</span>
+        <p class="case-quote">Before the agent, weekend WhatsApp piled up and I'd find Monday morning that three customers had booked someone else. Now the agent answers the same evening — I just turn up at the address.</p>
+        <div class="case-meta">
+          <div class="case-avatar">AH</div>
+          <div>
+            <div class="case-name">Plumber Ah Heng (illustrative)</div>
+            <div class="case-role">Solo plumber · Petaling Jaya · 6 years in business</div>
+          </div>
+        </div>
+      </div>
+      <div class="case-numbers">
+        <div class="case-stat">
+          <span class="case-stat-num">+12</span>
+          <span class="case-stat-label">Extra jobs in month one</span>
+        </div>
+        <div class="case-stat">
+          <span class="case-stat-num">RM4,200</span>
+          <span class="case-stat-label">Recovered revenue</span>
+        </div>
+        <div class="case-stat">
+          <span class="case-stat-num">8 sec</span>
+          <span class="case-stat-label">Average first reply</span>
+        </div>
+        <div class="case-stat">
+          <span class="case-stat-num">2 wks</span>
+          <span class="case-stat-label">From kickoff to live</span>
+        </div>
+      </div>
+    </div>
+    <p class="case-disclaimer">⚠️ Illustrative example shown for clarity. Real named case studies will replace this once first cohort completes month one (Dec 2025).</p>
+  </div>
+</section>
+
+<!-- ============== PRICING ============== -->
+<section id="pricing" class="section-cream">
+  <div class="container">
+    <div style="text-align:center; margin-bottom: 40px;">
+      <span class="section-tag">Pricing</span>
+      <h2 class="section-title" style="margin: 0 auto;">One price. No subscription to us. Built in 2 weeks.</h2>
+    </div>
+
+    <div class="pricing-card">
+      <div class="pricing-header">
+        <span class="pricing-badge">Starter Build</span>
+        <div class="pricing-tier-name">Standard WhatsApp Agent</div>
+        <span class="pricing-price">RM3,500</span>
+        <div style="font-size: 0.88rem; color: rgba(250,247,242,0.7);">one-time · 2-week build · handover included</div>
+      </div>
+      <div class="pricing-body">
+        <ul class="pricing-features">
+          <li>Configured for your trade (price list, scope questions, scheduling rules)</li>
+          <li>Tri-lingual: English, Bahasa Malaysia, Mandarin</li>
+          <li>Connects to your WhatsApp Business number</li>
+          <li>Bring-your-own AI key (Anthropic or Google) — you control costs</li>
+          <li>Setup guide, walkthrough, and 30-day rebuild support</li>
+        </ul>
+        <div class="pricing-cta">
+          <a href="https://wa.me/60149207099?text=Hi%20Lee%2C%20I%20want%20to%20scope%20a%20WhatsApp%20Agent%20build.%20I%27m%20a%20%7Btrade%7D%20in%20%7Blocation%7D."
+             class="btn btn-primary" target="_blank" rel="noopener" style="justify-content: center;">
+            Scope my build via WhatsApp
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+          <a href="whatsapp-demo.html" target="_blank" class="btn btn-secondary" style="justify-content: center;">
+            Try the live demo first
+          </a>
+        </div>
+        <div class="pricing-risk">
+          <strong>Risk reversal:</strong> If after 14 days the agent doesn't fit your workflow, full refund — no questions, no clawback on time spent.
+        </div>
+      </div>
+    </div>
+    <div class="pricing-scarcity">
+      <span class="live-dot"></span> Currently building 3 agents this month · 2 build slots open for next batch
+    </div>
+  </div>
+</section>
+
+<!-- ============== FAQ ============== -->
+<section id="faq" class="section-light">
+  <div class="container">
+    <div style="text-align:center; margin-bottom: 40px;">
+      <span class="section-tag">FAQ · Tradesman Edition</span>
+      <h2 class="section-title" style="margin: 0 auto;">Common questions before you commit.</h2>
+    </div>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q">I'm busy on-site and not great at typing replies. Can I still use this?</button>
+        <div class="faq-a">
+          <p>Yes — this is the main reason most tradesmen pick Pau AI. The thing losing you jobs isn't the technical work; it's the customer communication. The agent handles the first reply, captures customer details, and drafts the quote. You just review and approve.</p>
+          <p>If a draft message doesn't sound right to you, edit it before it sends.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">My WhatsApp inbox is overflowing. How does this help?</button>
+        <div class="faq-a">
+          <p>The agent replies first, day and night. For standard questions (prices, availability, scope) it answers directly. For anything it isn't sure about — or genuine emergencies — it forwards to you.</p>
+          <p>So the messages you actually see are the ones that need you. Your phone gets quieter.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What's an API key — and why do I need my own?</button>
+        <div class="faq-a">
+          <p>An API key is like a SIM card for the AI. You open an account directly with Anthropic (Claude) or Google (Gemini) and get a key. We set it up in your system. The AI bill comes to you direct — no markup, no middleman.</p>
+          <p>Typical cost for a busy tradesman: USD 10–30/month (RM 45–140). You can set a spending cap so you never blow past your budget.</p>
+          <p>Why your own key? Because you own it. If Pau AI shut down tomorrow, your system keeps running because the key is yours. No lock-in.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Can I see the agent for my specific trade before paying?</button>
+        <div class="faq-a">
+          <p>Yes — and we prefer it. The live demo is tested with three scenarios: plumber emergency, aircond service booking, and renovation scoping. Try it first, then talk.</p>
+          <p>If the demo doesn't quite match your trade, WhatsApp Lee — we'll show you a closer match or scope a custom build. No pressure to commit.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What if the AI gives a wrong quote or wrong info?</button>
+        <div class="faq-a">
+          <p>The agent only quotes from the price list and rules you set during build. It doesn't improvise. If a customer asks something outside the rules — or asks for a discount — it forwards to you for the call.</p>
+          <p>For 14 days after handover, we tune the responses based on real conversations until you're satisfied. After that, we make tuning easy: send a screenshot of any message that wasn't right, and we adjust.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Will this replace the personal touch with my customers?</button>
+        <div class="faq-a">
+          <p>No — it sounds like you because we tune it to your tone. The agent handles the predictable parts (first reply, scoping, quoting standard jobs, follow-up) so you have time for the parts that actually need you: the difficult customer, the unusual job, the upsell conversation.</p>
+          <p>Customers don't lose the personal touch. They get faster service.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What if I want to stop using it?</button>
+        <div class="faq-a">
+          <p>You stop. The system is yours — disable it any time. There's no monthly fee to us, so there's nothing to cancel. Your AI provider key is yours; turn it off and the system stops costing you.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FINAL CTA ============== -->
+<section class="final-cta">
+  <div class="container">
+    <h2>Ready to stop losing jobs to slow replies?</h2>
+    <p>Tell Lee your trade and where you're based. He'll show you the demo for your scenario and scope a build. No sales pitch.</p>
+    <a href="https://wa.me/60149207099?text=Hi%20Lee%2C%20I%27m%20a%20%7Btrade%7D%20in%20%7Blocation%7D.%20I%20saw%20the%20WhatsApp%20Agent%20page%20and%20want%20to%20scope%20a%20build.%20Can%20you%20show%20me%20the%20demo%20for%20my%20scenario%20first%3F"
+       class="btn btn-gold" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+      WhatsApp Lee · scope my build
+    </a>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="brand" style="color: var(--cream);">Pau <span style="color: var(--gold);">AI</span></div>
+        <p class="footer-tag">"We build the system. You hold the keys."</p>
+        <p style="font-size: 0.86rem; line-height: 1.6;">Custom AI systems for Malaysian service businesses. LLM-agnostic. You own everything we build.</p>
+      </div>
+      <div>
+        <h5>Solutions</h5>
+        <ul>
+          <li><a href="#">WhatsApp Service Agent</a></li>
+          <li><a href="agentic-commerce.html">Agentic Commerce</a></li>
+          <li><a href="data-analytics.html">Conversational Analytics</a></li>
+          <li><a href="multi-agent-systems.html">Multi-Agent Decision Systems</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <ul>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="https://www.pauanalytics.com" target="_blank">Pau Analytics ↗</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Pau AI · Built in Malaysia</span>
+      <span>API costs, hosting, and domain not included in any package.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Mobile nav toggle
+document.getElementById('navToggle').addEventListener('click', function() {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+// FAQ accordion
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    item.classList.toggle('open');
+  });
+});
+
+// Smooth-close mobile nav after click
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('navLinks').classList.remove('open');
+  });
+});
+</script>
+
+</body>
+</html>
